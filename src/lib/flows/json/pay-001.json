@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "flow_uid": "pay-reminder-001",
+  "entry_node_id": "n_9000_1",
+  "meta": {
+    "name": "Payment Reminder Flow",
+    "description": "Send payment reminders"
+  },
+  "nodes": [
+    {
+      "id": "n_9000_1",
+      "type": "trigger.inbound_message",
+      "position": { "x": 100, "y": 50 },
+      "data": {
+        "label": "Inbound Message",
+        "config": {
+          "match_mode": "keyword",
+          "keywords": ["pay", "payment", "invoice"],
+          "case_sensitive": false
+        },
+        "outputs": [{ "key": "out", "label": "Match" }]
+      }
+    },
+    {
+      "id": "n_9000_2",
+      "type": "message.compose",
+      "position": { "x": 100, "y": 200 },
+      "data": {
+        "label": "Payment Options",
+        "config": {
+          "body_text": "You have an outstanding balance of INR 5,000. How would you like to proceed?",
+          "header_text": "Payment Due",
+          "footer_text": "Select option",
+          "interactive_type": "button",
+          "buttons": [
+            { "id": "btn_pay_now", "title": "Pay Now" },
+            { "id": "btn_details", "title": "View Details" },
+            { "id": "btn_help", "title": "Get Help" }
+          ],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [
+          { "key": "btn_pay_now", "label": "Pay Now" },
+          { "key": "btn_details", "label": "Details" },
+          { "key": "btn_help", "label": "Help" }
+        ]
+      }
+    },
+    {
+      "id": "n_9000_3",
+      "type": "message.compose",
+      "position": { "x": 50, "y": 400 },
+      "data": {
+        "label": "Payment Link",
+        "config": {
+          "body_text": "Click here to pay: https://pay.whats91.com/inv123\nAmount: INR 5,000\nInvoice: INV-2024-001\nDue Date: 15 Jan 2024",
+          "header_text": "Payment Link",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_9000_4",
+      "type": "message.compose",
+      "position": { "x": 200, "y": 400 },
+      "data": {
+        "label": "Invoice Details",
+        "config": {
+          "body_text": "Invoice: INV-2024-001\nDate: 01 Jan 2024\nItems: 3\nSubtotal: INR 4,500\nGST: INR 500\nTotal: INR 5,000",
+          "header_text": "Invoice Details",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_9000_5",
+      "type": "message.compose",
+      "position": { "x": 350, "y": 400 },
+      "data": {
+        "label": "Help Response",
+        "config": {
+          "body_text": "For payment assistance, contact our support team:\nPhone: +91-XXXXXXXXXX\nEmail: billing@whats91.com\nHours: Mon-Sat, 9 AM - 6 PM",
+          "header_text": "Need Help?",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_9000_6",
+      "type": "control.end",
+      "position": { "x": 200, "y": 580 },
+      "data": {
+        "label": "End",
+        "config": { "result": "completed" },
+        "outputs": []
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e_10000_1", "source": "n_9000_1", "target": "n_9000_2", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_10000_2", "source": "n_9000_2", "target": "n_9000_3", "sourceHandle": "btn_pay_now", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_10000_3", "source": "n_9000_2", "target": "n_9000_4", "sourceHandle": "btn_details", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_10000_4", "source": "n_9000_2", "target": "n_9000_5", "sourceHandle": "btn_help", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_10000_5", "source": "n_9000_3", "target": "n_9000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_10000_6", "source": "n_9000_4", "target": "n_9000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_10000_7", "source": "n_9000_5", "target": "n_9000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 }
+  ],
+  "variables": {},
+  "settings": {
+    "max_hops_per_message": 20,
+    "fallback_behavior": "legacy_advance_bot",
+    "timezone": "Asia/Kolkata"
+  },
+  "ui": {
+    "viewport": { "x": 0, "y": 0, "zoom": 1 }
+  }
+}

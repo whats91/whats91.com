@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "flow_uid": "welcome-simple-001",
+  "entry_node_id": "n_1000_1",
+  "meta": {
+    "name": "Simple Welcome Flow",
+    "description": "Basic greeting with menu options"
+  },
+  "nodes": [
+    {
+      "id": "n_1000_1",
+      "type": "trigger.inbound_message",
+      "position": { "x": 100, "y": 50 },
+      "data": {
+        "label": "Inbound Message",
+        "config": {
+          "match_mode": "keyword",
+          "keywords": ["hi", "hello", "hey", "start"],
+          "case_sensitive": false
+        },
+        "outputs": [{ "key": "out", "label": "Match" }]
+      }
+    },
+    {
+      "id": "n_1000_2",
+      "type": "message.compose",
+      "position": { "x": 100, "y": 200 },
+      "data": {
+        "label": "Welcome Message",
+        "config": {
+          "body_text": "Welcome to our WhatsApp service! How can we help you today?",
+          "header_text": "Hello!",
+          "footer_text": "Select an option",
+          "interactive_type": "button",
+          "buttons": [
+            { "id": "btn_sales", "title": "Sales" },
+            { "id": "btn_support", "title": "Support" },
+            { "id": "btn_info", "title": "Info" }
+          ],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [
+          { "key": "btn_sales", "label": "Sales" },
+          { "key": "btn_support", "label": "Support" },
+          { "key": "btn_info", "label": "Info" }
+        ]
+      }
+    },
+    {
+      "id": "n_1000_3",
+      "type": "message.compose",
+      "position": { "x": 50, "y": 400 },
+      "data": {
+        "label": "Sales Response",
+        "config": {
+          "body_text": "Great! Our sales team is here to help. Please share your requirements and we'll get back to you shortly.",
+          "header_text": "",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_1000_4",
+      "type": "message.compose",
+      "position": { "x": 200, "y": 400 },
+      "data": {
+        "label": "Support Response",
+        "config": {
+          "body_text": "We're here to help! Please describe your issue and our support team will assist you.",
+          "header_text": "",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_1000_5",
+      "type": "message.compose",
+      "position": { "x": 350, "y": 400 },
+      "data": {
+        "label": "Info Response",
+        "config": {
+          "body_text": "Here's information about our services. Visit our website or ask any specific question!",
+          "header_text": "",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_1000_6",
+      "type": "control.end",
+      "position": { "x": 200, "y": 600 },
+      "data": {
+        "label": "End",
+        "config": { "result": "completed" },
+        "outputs": []
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e_2000_1", "source": "n_1000_1", "target": "n_1000_2", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_2000_2", "source": "n_1000_2", "target": "n_1000_3", "sourceHandle": "btn_sales", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_2000_3", "source": "n_1000_2", "target": "n_1000_4", "sourceHandle": "btn_support", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_2000_4", "source": "n_1000_2", "target": "n_1000_5", "sourceHandle": "btn_info", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_2000_5", "source": "n_1000_3", "target": "n_1000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_2000_6", "source": "n_1000_4", "target": "n_1000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_2000_7", "source": "n_1000_5", "target": "n_1000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 }
+  ],
+  "variables": {},
+  "settings": {
+    "max_hops_per_message": 20,
+    "fallback_behavior": "legacy_advance_bot",
+    "timezone": "Asia/Kolkata"
+  },
+  "ui": {
+    "viewport": { "x": 0, "y": 0, "zoom": 1 }
+  }
+}

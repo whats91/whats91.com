@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "flow_uid": "sales-demo-002",
+  "entry_node_id": "n_4000_1",
+  "meta": {
+    "name": "Demo Request Flow",
+    "description": "Schedule product demos"
+  },
+  "nodes": [
+    {
+      "id": "n_4000_1",
+      "type": "trigger.inbound_message",
+      "position": { "x": 100, "y": 50 },
+      "data": {
+        "label": "Inbound Message",
+        "config": {
+          "match_mode": "keyword",
+          "keywords": ["demo", "trial", "test", "try"],
+          "case_sensitive": false
+        },
+        "outputs": [{ "key": "out", "label": "Match" }]
+      }
+    },
+    {
+      "id": "n_4000_2",
+      "type": "message.compose",
+      "position": { "x": 100, "y": 200 },
+      "data": {
+        "label": "Demo Options",
+        "config": {
+          "body_text": "Book a personalized demo with our team. Choose your preferred time slot:",
+          "header_text": "Schedule Demo",
+          "footer_text": "Select time",
+          "interactive_type": "button",
+          "buttons": [
+            { "id": "btn_morning", "title": "Morning 10AM" },
+            { "id": "btn_afternoon", "title": "Afternoon 2PM" },
+            { "id": "btn_evening", "title": "Evening 5PM" }
+          ],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [
+          { "key": "btn_morning", "label": "Morning" },
+          { "key": "btn_afternoon", "label": "Afternoon" },
+          { "key": "btn_evening", "label": "Evening" }
+        ]
+      }
+    },
+    {
+      "id": "n_4000_3",
+      "type": "message.compose",
+      "position": { "x": 100, "y": 400 },
+      "data": {
+        "label": "Confirmation",
+        "config": {
+          "body_text": "Your demo has been scheduled! You'll receive a calendar invite shortly. We'll contact you on the provided number.",
+          "header_text": "Demo Booked!",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_4000_4",
+      "type": "action.tag_contact",
+      "position": { "x": 100, "y": 580 },
+      "data": {
+        "label": "Tag Demo Scheduled",
+        "config": { "tag": "demo-scheduled" },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_4000_5",
+      "type": "control.end",
+      "position": { "x": 100, "y": 720 },
+      "data": {
+        "label": "End",
+        "config": { "result": "completed" },
+        "outputs": []
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e_5000_1", "source": "n_4000_1", "target": "n_4000_2", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_5000_2", "source": "n_4000_2", "target": "n_4000_3", "sourceHandle": "btn_morning", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_5000_3", "source": "n_4000_2", "target": "n_4000_3", "sourceHandle": "btn_afternoon", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_5000_4", "source": "n_4000_2", "target": "n_4000_3", "sourceHandle": "btn_evening", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_5000_5", "source": "n_4000_3", "target": "n_4000_4", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_5000_6", "source": "n_4000_4", "target": "n_4000_5", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 }
+  ],
+  "variables": {},
+  "settings": {
+    "max_hops_per_message": 20,
+    "fallback_behavior": "legacy_advance_bot",
+    "timezone": "Asia/Kolkata"
+  },
+  "ui": {
+    "viewport": { "x": 0, "y": 0, "zoom": 1 }
+  }
+}

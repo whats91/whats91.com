@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "flow_uid": "welcome-hours-002",
+  "entry_node_id": "n_2000_1",
+  "meta": {
+    "name": "Business Hours Welcome",
+    "description": "Time-aware greeting flow"
+  },
+  "nodes": [
+    {
+      "id": "n_2000_1",
+      "type": "trigger.inbound_message",
+      "position": { "x": 100, "y": 50 },
+      "data": {
+        "label": "Inbound Message",
+        "config": {
+          "match_mode": "any",
+          "keywords": [],
+          "case_sensitive": false
+        },
+        "outputs": [{ "key": "out", "label": "Match" }]
+      }
+    },
+    {
+      "id": "n_2000_2",
+      "type": "message.compose",
+      "position": { "x": 100, "y": 200 },
+      "data": {
+        "label": "Welcome Message",
+        "config": {
+          "body_text": "Thank you for contacting us! Our team will respond shortly. Meanwhile, how can we assist you?",
+          "header_text": "Welcome!",
+          "footer_text": "Choose an option",
+          "interactive_type": "button",
+          "buttons": [
+            { "id": "btn_products", "title": "Products" },
+            { "id": "btn_support", "title": "Support" },
+            { "id": "btn_callback", "title": "Call Back" }
+          ],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [
+          { "key": "btn_products", "label": "Products" },
+          { "key": "btn_support", "label": "Support" },
+          { "key": "btn_callback", "label": "Call Back" }
+        ]
+      }
+    },
+    {
+      "id": "n_2000_3",
+      "type": "action.tag_contact",
+      "position": { "x": 100, "y": 380 },
+      "data": {
+        "label": "Tag as New Contact",
+        "config": { "tag": "new-conversation" },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_2000_4",
+      "type": "control.end",
+      "position": { "x": 100, "y": 520 },
+      "data": {
+        "label": "End",
+        "config": { "result": "completed" },
+        "outputs": []
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e_3000_1", "source": "n_2000_1", "target": "n_2000_2", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_3000_2", "source": "n_2000_2", "target": "n_2000_3", "sourceHandle": "btn_products", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_3000_3", "source": "n_2000_2", "target": "n_2000_3", "sourceHandle": "btn_support", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_3000_4", "source": "n_2000_2", "target": "n_2000_3", "sourceHandle": "btn_callback", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_3000_5", "source": "n_2000_3", "target": "n_2000_4", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 }
+  ],
+  "variables": {},
+  "settings": {
+    "max_hops_per_message": 20,
+    "fallback_behavior": "legacy_advance_bot",
+    "timezone": "Asia/Kolkata"
+  },
+  "ui": {
+    "viewport": { "x": 0, "y": 0, "zoom": 1 }
+  }
+}

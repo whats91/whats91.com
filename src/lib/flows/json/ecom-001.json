@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "flow_uid": "ecom-order-001",
+  "entry_node_id": "n_7000_1",
+  "meta": {
+    "name": "Order Confirmation Flow",
+    "description": "Send order confirmation"
+  },
+  "nodes": [
+    {
+      "id": "n_7000_1",
+      "type": "trigger.inbound_message",
+      "position": { "x": 100, "y": 50 },
+      "data": {
+        "label": "Inbound Message",
+        "config": {
+          "match_mode": "keyword",
+          "keywords": ["order", "track", "my order"],
+          "case_sensitive": false
+        },
+        "outputs": [{ "key": "out", "label": "Match" }]
+      }
+    },
+    {
+      "id": "n_7000_2",
+      "type": "message.compose",
+      "position": { "x": 100, "y": 200 },
+      "data": {
+        "label": "Order Options",
+        "config": {
+          "body_text": "How can we help with your order?",
+          "header_text": "Order Support",
+          "footer_text": "Select option",
+          "interactive_type": "button",
+          "buttons": [
+            { "id": "btn_track", "title": "Track Order" },
+            { "id": "btn_cancel", "title": "Cancel" },
+            { "id": "btn_modify", "title": "Modify" }
+          ],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [
+          { "key": "btn_track", "label": "Track" },
+          { "key": "btn_cancel", "label": "Cancel" },
+          { "key": "btn_modify", "label": "Modify" }
+        ]
+      }
+    },
+    {
+      "id": "n_7000_3",
+      "type": "message.compose",
+      "position": { "x": 50, "y": 400 },
+      "data": {
+        "label": "Track Order",
+        "config": {
+          "body_text": "Your order #ORD12345 is out for delivery and will arrive by 5 PM today. Track live: bit.ly/track123",
+          "header_text": "Order Status",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_7000_4",
+      "type": "message.compose",
+      "position": { "x": 200, "y": 400 },
+      "data": {
+        "label": "Cancel Info",
+        "config": {
+          "body_text": "To cancel your order, please provide your order number. Cancellation is free within 1 hour of placing the order.",
+          "header_text": "Cancellation",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_7000_5",
+      "type": "message.compose",
+      "position": { "x": 350, "y": 400 },
+      "data": {
+        "label": "Modify Info",
+        "config": {
+          "body_text": "To modify your order (address/quantity), please share your order number and the changes needed.",
+          "header_text": "Modification",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_7000_6",
+      "type": "control.end",
+      "position": { "x": 200, "y": 580 },
+      "data": {
+        "label": "End",
+        "config": { "result": "completed" },
+        "outputs": []
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e_8000_1", "source": "n_7000_1", "target": "n_7000_2", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_8000_2", "source": "n_7000_2", "target": "n_7000_3", "sourceHandle": "btn_track", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_8000_3", "source": "n_7000_2", "target": "n_7000_4", "sourceHandle": "btn_cancel", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_8000_4", "source": "n_7000_2", "target": "n_7000_5", "sourceHandle": "btn_modify", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_8000_5", "source": "n_7000_3", "target": "n_7000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_8000_6", "source": "n_7000_4", "target": "n_7000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_8000_7", "source": "n_7000_5", "target": "n_7000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 }
+  ],
+  "variables": {},
+  "settings": {
+    "max_hops_per_message": 20,
+    "fallback_behavior": "legacy_advance_bot",
+    "timezone": "Asia/Kolkata"
+  },
+  "ui": {
+    "viewport": { "x": 0, "y": 0, "zoom": 1 }
+  }
+}

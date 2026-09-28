@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0.0",
+  "flow_uid": "ecom-cod-002",
+  "entry_node_id": "n_8000_1",
+  "meta": {
+    "name": "COD Verification Flow",
+    "description": "Verify COD orders"
+  },
+  "nodes": [
+    {
+      "id": "n_8000_1",
+      "type": "trigger.inbound_message",
+      "position": { "x": 100, "y": 50 },
+      "data": {
+        "label": "Inbound Message",
+        "config": {
+          "match_mode": "keyword",
+          "keywords": ["cod", "confirm", "verify"],
+          "case_sensitive": false
+        },
+        "outputs": [{ "key": "out", "label": "Match" }]
+      }
+    },
+    {
+      "id": "n_8000_2",
+      "type": "message.compose",
+      "position": { "x": 100, "y": 200 },
+      "data": {
+        "label": "COD Confirmation",
+        "config": {
+          "body_text": "You have a Cash on Delivery order of INR 1,499. Please confirm to proceed with shipping.",
+          "header_text": "Order Confirmation",
+          "footer_text": "Please respond",
+          "interactive_type": "button",
+          "buttons": [
+            { "id": "btn_confirm", "title": "Confirm" },
+            { "id": "btn_cancel", "title": "Cancel" }
+          ],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [
+          { "key": "btn_confirm", "label": "Confirm" },
+          { "key": "btn_cancel", "label": "Cancel" }
+        ]
+      }
+    },
+    {
+      "id": "n_8000_3",
+      "type": "message.compose",
+      "position": { "x": 50, "y": 400 },
+      "data": {
+        "label": "Confirmed",
+        "config": {
+          "body_text": "Thank you for confirming! Your order will be shipped within 24 hours. You'll receive tracking details via SMS.",
+          "header_text": "Confirmed!",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_8000_4",
+      "type": "message.compose",
+      "position": { "x": 250, "y": 400 },
+      "data": {
+        "label": "Cancelled",
+        "config": {
+          "body_text": "Your order has been cancelled as requested. To place a new order, visit our website.",
+          "header_text": "Cancelled",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_8000_5",
+      "type": "action.tag_contact",
+      "position": { "x": 50, "y": 580 },
+      "data": {
+        "label": "Tag Confirmed",
+        "config": { "tag": "cod-confirmed" },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_8000_6",
+      "type": "action.tag_contact",
+      "position": { "x": 250, "y": 580 },
+      "data": {
+        "label": "Tag Cancelled",
+        "config": { "tag": "cod-cancelled" },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_8000_7",
+      "type": "control.end",
+      "position": { "x": 150, "y": 750 },
+      "data": {
+        "label": "End",
+        "config": { "result": "completed" },
+        "outputs": []
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e_9000_1", "source": "n_8000_1", "target": "n_8000_2", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_9000_2", "source": "n_8000_2", "target": "n_8000_3", "sourceHandle": "btn_confirm", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_9000_3", "source": "n_8000_2", "target": "n_8000_4", "sourceHandle": "btn_cancel", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_9000_4", "source": "n_8000_3", "target": "n_8000_5", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_9000_5", "source": "n_8000_4", "target": "n_8000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_9000_6", "source": "n_8000_5", "target": "n_8000_7", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_9000_7", "source": "n_8000_6", "target": "n_8000_7", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 }
+  ],
+  "variables": {},
+  "settings": {
+    "max_hops_per_message": 20,
+    "fallback_behavior": "legacy_advance_bot",
+    "timezone": "Asia/Kolkata"
+  },
+  "ui": {
+    "viewport": { "x": 0, "y": 0, "zoom": 1 }
+  }
+}

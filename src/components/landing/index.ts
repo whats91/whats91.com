@@ -1,0 +1,12 @@
+export { Header } from "./Header";
+export { Footer } from "./Footer";
+export { ContactCard, contactInfo } from "./ContactCard";
+export { HomeHero } from "./home/HomeHero";
+export { ProofBar } from "./home/ProofBar";
+export { PlatformPillars } from "./home/PlatformPillars";
+export { HowItWorks } from "./home/HowItWorks";
+export { DeveloperBand } from "./home/DeveloperBand";
+export { FreeToolsBand } from "./home/FreeToolsBand";
+export { TrustBand } from "./home/TrustBand";
+export { ResultsBand } from "./home/ResultsBand";
+export { HomeFinalCTA } from "./home/HomeFinalCTA";

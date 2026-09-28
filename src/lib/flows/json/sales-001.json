@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0.0",
+  "flow_uid": "sales-qualify-001",
+  "entry_node_id": "n_3000_1",
+  "meta": {
+    "name": "Lead Qualification Flow",
+    "description": "Automated lead scoring and qualification"
+  },
+  "nodes": [
+    {
+      "id": "n_3000_1",
+      "type": "trigger.inbound_message",
+      "position": { "x": 100, "y": 50 },
+      "data": {
+        "label": "Inbound Message",
+        "config": {
+          "match_mode": "keyword",
+          "keywords": ["quote", "pricing", "price", "buy", "purchase"],
+          "case_sensitive": false
+        },
+        "outputs": [{ "key": "out", "label": "Match" }]
+      }
+    },
+    {
+      "id": "n_3000_2",
+      "type": "message.compose",
+      "position": { "x": 100, "y": 200 },
+      "data": {
+        "label": "Ask Product Interest",
+        "config": {
+          "body_text": "Great! I'd love to help you find the right solution. What are you looking for?",
+          "header_text": "Product Inquiry",
+          "footer_text": "Select category",
+          "interactive_type": "button",
+          "buttons": [
+            { "id": "btn_enterprise", "title": "Enterprise" },
+            { "id": "btn_smb", "title": "Business" },
+            { "id": "btn_individual", "title": "Individual" }
+          ],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [
+          { "key": "btn_enterprise", "label": "Enterprise" },
+          { "key": "btn_smb", "label": "Business" },
+          { "key": "btn_individual", "label": "Individual" }
+        ]
+      }
+    },
+    {
+      "id": "n_3000_3",
+      "type": "action.set_variable",
+      "position": { "x": 50, "y": 400 },
+      "data": {
+        "label": "Set Lead Type",
+        "config": { "key": "lead_type", "value": "enterprise" },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_3000_4",
+      "type": "action.set_variable",
+      "position": { "x": 200, "y": 400 },
+      "data": {
+        "label": "Set Lead Type",
+        "config": { "key": "lead_type", "value": "smb" },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_3000_5",
+      "type": "action.set_variable",
+      "position": { "x": 350, "y": 400 },
+      "data": {
+        "label": "Set Lead Type",
+        "config": { "key": "lead_type", "value": "individual" },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_3000_6",
+      "type": "action.tag_contact",
+      "position": { "x": 200, "y": 550 },
+      "data": {
+        "label": "Tag as Lead",
+        "config": { "tag": "qualified-lead" },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_3000_7",
+      "type": "message.compose",
+      "position": { "x": 200, "y": 700 },
+      "data": {
+        "label": "Thank You Message",
+        "config": {
+          "body_text": "Thank you for your interest! Our sales team will contact you within 24 hours with personalized recommendations.",
+          "header_text": "",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_3000_8",
+      "type": "control.end",
+      "position": { "x": 200, "y": 850 },
+      "data": {
+        "label": "End",
+        "config": { "result": "completed" },
+        "outputs": []
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e_4000_1", "source": "n_3000_1", "target": "n_3000_2", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_4000_2", "source": "n_3000_2", "target": "n_3000_3", "sourceHandle": "btn_enterprise", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_4000_3", "source": "n_3000_2", "target": "n_3000_4", "sourceHandle": "btn_smb", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_4000_4", "source": "n_3000_2", "target": "n_3000_5", "sourceHandle": "btn_individual", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_4000_5", "source": "n_3000_3", "target": "n_3000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_4000_6", "source": "n_3000_4", "target": "n_3000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_4000_7", "source": "n_3000_5", "target": "n_3000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_4000_8", "source": "n_3000_6", "target": "n_3000_7", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_4000_9", "source": "n_3000_7", "target": "n_3000_8", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 }
+  ],
+  "variables": {},
+  "settings": {
+    "max_hops_per_message": 20,
+    "fallback_behavior": "legacy_advance_bot",
+    "timezone": "Asia/Kolkata"
+  },
+  "ui": {
+    "viewport": { "x": 0, "y": 0, "zoom": 1 }
+  }
+}

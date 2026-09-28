@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "flow_uid": "pay-confirm-002",
+  "entry_node_id": "n_10000_1",
+  "meta": {
+    "name": "Payment Confirmation Flow",
+    "description": "Confirm payment receipt"
+  },
+  "nodes": [
+    {
+      "id": "n_10000_1",
+      "type": "trigger.inbound_message",
+      "position": { "x": 100, "y": 50 },
+      "data": {
+        "label": "Inbound Message",
+        "config": {
+          "match_mode": "keyword",
+          "keywords": ["receipt", "paid", "done"],
+          "case_sensitive": false
+        },
+        "outputs": [{ "key": "out", "label": "Match" }]
+      }
+    },
+    {
+      "id": "n_10000_2",
+      "type": "message.compose",
+      "position": { "x": 100, "y": 200 },
+      "data": {
+        "label": "Payment Receipt",
+        "config": {
+          "body_text": "Payment Received!\nAmount: INR 5,000\nTransaction ID: TXN123456\nDate: 10 Jan 2024, 3:30 PM\nMethod: UPI\n\nThank you for your payment!",
+          "header_text": "Payment Confirmed",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_10000_3",
+      "type": "action.tag_contact",
+      "position": { "x": 100, "y": 380 },
+      "data": {
+        "label": "Tag as Paid",
+        "config": { "tag": "payment-received" },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_10000_4",
+      "type": "control.end",
+      "position": { "x": 100, "y": 520 },
+      "data": {
+        "label": "End",
+        "config": { "result": "completed" },
+        "outputs": []
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e_11000_1", "source": "n_10000_1", "target": "n_10000_2", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_11000_2", "source": "n_10000_2", "target": "n_10000_3", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_11000_3", "source": "n_10000_3", "target": "n_10000_4", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 }
+  ],
+  "variables": {},
+  "settings": {
+    "max_hops_per_message": 20,
+    "fallback_behavior": "legacy_advance_bot",
+    "timezone": "Asia/Kolkata"
+  },
+  "ui": {
+    "viewport": { "x": 0, "y": 0, "zoom": 1 }
+  }
+}

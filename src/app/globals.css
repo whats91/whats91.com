@@ -1,0 +1,1151 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@media print {
+  @page {
+    margin: 18mm;
+  }
+
+  header,
+  footer,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #111827 !important;
+  }
+
+  main,
+  article {
+    max-width: none !important;
+  }
+
+  section {
+    break-inside: avoid;
+  }
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+  
+  /* Custom semantic colors */
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border-subtle: var(--border-subtle);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-hover: var(--brand-primary-hover);
+  --color-brand-primary-light: var(--brand-primary-light);
+  --color-brand-primary-foreground: var(--brand-primary-foreground);
+  --color-brand-accent: var(--brand-accent);
+
+  /* Brand ramp — use for tints, fills, charts, hover states */
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+  --color-brand-950: var(--brand-950);
+
+  /* Status colors — semantic, not decorative */
+  --color-success: var(--status-success);
+  --color-success-soft: var(--status-success-soft);
+  --color-success-border: var(--status-success-border);
+  --color-warning: var(--status-warning);
+  --color-warning-soft: var(--status-warning-soft);
+  --color-warning-border: var(--status-warning-border);
+  --color-error: var(--status-error);
+  --color-error-soft: var(--status-error-soft);
+  --color-error-border: var(--status-error-border);
+  --color-info: var(--status-info);
+  --color-info-soft: var(--status-info-soft);
+  --color-info-border: var(--status-info-border);
+
+  /* Ink — the single approved dark surface family (code panels, dark mockups) */
+  --color-ink: var(--ink);
+  --color-ink-elevated: var(--ink-elevated);
+  --color-ink-border: var(--ink-border);
+  --color-ink-text: var(--ink-text);
+  --color-ink-text-muted: var(--ink-text-muted);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.75rem;
+  
+  /* Base colors */
+  --background: #FFFFFF;
+  --foreground: #0F172A;
+  
+  /* Surface colors - slightly warmer */
+  --surface: #F8FAF9;
+  --surface-subtle: #F1F5F4;
+  
+  /* Text colors - refined contrast */
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  
+  /* Border colors */
+  --border: #E2E8F0;
+  --border-subtle: #F1F5F4;
+  
+  /* Brand colors - #448C74 */
+  --brand-primary: #448C74;
+  --brand-primary-hover: #3A7A64;
+  --brand-primary-light: rgba(68, 140, 116, 0.08);
+  --brand-primary-foreground: #FFFFFF;
+  --brand-accent: #54a084;
+
+  /* Brand ramp derived from #448C74 (brand-500) */
+  --brand-50: #F2F8F5;
+  --brand-100: #E1EFE9;
+  --brand-200: #C3DFD3;
+  --brand-300: #9CC9B7;
+  --brand-400: #6FAC96;
+  --brand-500: #448C74;
+  --brand-600: #3A7A64;
+  --brand-700: #316653;
+  --brand-800: #295345;
+  --brand-900: #224439;
+  --brand-950: #122720;
+
+  /* Status colors — one hue per meaning; soft = tinted background, border = tinted border */
+  --status-success: #15803D;
+  --status-success-soft: #F0FDF4;
+  --status-success-border: #BBF7D0;
+  --status-warning: #B45309;
+  --status-warning-soft: #FFFBEB;
+  --status-warning-border: #FDE68A;
+  --status-error: #DC2626;
+  --status-error-soft: #FEF2F2;
+  --status-error-border: #FECACA;
+  --status-info: #0369A1;
+  --status-info-soft: #F0F9FF;
+  --status-info-border: #BAE6FD;
+
+  /* Ink — dark developer/code surfaces (matches existing #0F172A panels) */
+  --ink: #0F172A;
+  --ink-elevated: #1E293B;
+  --ink-border: #334155;
+  --ink-text: #CBD5E1;
+  --ink-text-muted: #94A3B8;
+
+  /* Layout widths */
+  --container-max: 75rem;      /* 1200px — default page container */
+  --container-wide: 80rem;     /* 1280px — full-bleed grids, tables */
+  --container-narrow: 56rem;   /* 896px — forms, focused content (max-w-4xl) */
+  --container-reading: 45rem;  /* 720px — long-form article prose */
+
+  /* Vertical section rhythm (fluid) */
+  --section-y-sm: clamp(2.5rem, 5vw, 4rem);
+  --section-y: clamp(3.5rem, 7vw, 6rem);
+  --section-y-lg: clamp(4.5rem, 9vw, 7.5rem);
+
+  /* Z-index scale */
+  --z-raised: 10;
+  --z-sticky: 30;
+  --z-dropdown: 40;
+  --z-header: 50;
+  --z-overlay: 80;
+  --z-modal: 90;
+  --z-toast: 100;
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Card colors */
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  
+  /* Popover colors */
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  
+  /* Primary colors — CTA background. Uses brand-600, NOT brand-primary:
+     white text on #448C74 measures 4.0:1 (fails WCAG AA 4.5:1 for normal
+     text); #3A7A64 (brand-600) measures 5.06:1. brand-primary (#448C74)
+     remains the identity color for icons, borders, badges and large text. */
+  --primary: #3A7A64;
+  --primary-foreground: #FFFFFF;
+
+  /* Secondary colors */
+  --secondary: #F8FAF9;
+  --secondary-foreground: #0F172A;
+  
+  /* Muted colors */
+  --muted: #F8FAF9;
+  --muted-foreground: #64748B;
+  
+  /* Accent colors */
+  --accent: #F8FAF9;
+  --accent-foreground: #0F172A;
+  
+  /* Destructive colors */
+  --destructive: #EF4444;
+  
+  /* Input and ring */
+  --input: #E2E8F0;
+  --ring: #448C74;
+  
+  /* Modern Shadow System - softer, more layered */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 8px -2px rgba(15, 23, 42, 0.06), 0 2px 4px -1px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 12px 24px -4px rgba(15, 23, 42, 0.08), 0 4px 8px -2px rgba(15, 23, 42, 0.04);
+  --shadow-xl: 0 20px 40px -8px rgba(15, 23, 42, 0.10), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
+  --shadow-2xl: 0 32px 64px -12px rgba(15, 23, 42, 0.14);
+  
+  /* Brand shadow */
+  --shadow-brand: 0 8px 24px -4px rgba(68, 140, 116, 0.20);
+  --shadow-brand-sm: 0 4px 12px -2px rgba(68, 140, 116, 0.15);
+  
+  /* Chart colors */
+  --chart-1: #448C74;
+  --chart-2: #54a084;
+  --chart-3: #64b094;
+  --chart-4: #74c0a4;
+  --chart-5: #94d0b4;
+  
+  /* Sidebar colors */
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #0F172A;
+  --sidebar-primary: #448C74;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F8FAF9;
+  --sidebar-accent-foreground: #0F172A;
+  --sidebar-border: #E2E8F0;
+  --sidebar-ring: #448C74;
+}
+
+.dark {
+  --background: #0F172A;
+  --foreground: #F8FAFC;
+  
+  --surface: #1E293B;
+  --surface-subtle: #334155;
+  
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  
+  --border: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  
+  --brand-primary: #54a084;
+  --brand-primary-hover: #64b094;
+  --brand-primary-light: rgba(84, 160, 132, 0.15);
+  --brand-primary-foreground: #0F172A;
+  --brand-accent: #64b094;
+
+  /* Status colors — brightened for dark surfaces */
+  --status-success: #4ADE80;
+  --status-success-soft: rgba(74, 222, 128, 0.10);
+  --status-success-border: rgba(74, 222, 128, 0.25);
+  --status-warning: #FBBF24;
+  --status-warning-soft: rgba(251, 191, 36, 0.10);
+  --status-warning-border: rgba(251, 191, 36, 0.25);
+  --status-error: #F87171;
+  --status-error-soft: rgba(248, 113, 113, 0.10);
+  --status-error-border: rgba(248, 113, 113, 0.25);
+  --status-info: #38BDF8;
+  --status-info-soft: rgba(56, 189, 248, 0.10);
+  --status-info-border: rgba(56, 189, 248, 0.25);
+
+  /* Ink panels sit on an already-dark page: use elevated values */
+  --ink: #020617;
+  --ink-elevated: #0F172A;
+  --ink-border: #1E293B;
+  --ink-text: #CBD5E1;
+  --ink-text-muted: #94A3B8;
+  
+  --card: #1E293B;
+  --card-foreground: #F8FAFC;
+  
+  --popover: #1E293B;
+  --popover-foreground: #F8FAFC;
+  
+  --primary: #54a084;
+  --primary-foreground: #0F172A;
+  
+  --secondary: #334155;
+  --secondary-foreground: #F8FAFC;
+  
+  --muted: #334155;
+  --muted-foreground: #94A3B8;
+  
+  --accent: #334155;
+  --accent-foreground: #F8FAFC;
+  
+  --destructive: #EF4444;
+  
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #54a084;
+  
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.35);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.4);
+  
+  --chart-1: #54a084;
+  --chart-2: #64b094;
+  --chart-3: #74c0a4;
+  --chart-4: #94d0b4;
+  --chart-5: #a4e0c4;
+  
+  --sidebar: #1E293B;
+  --sidebar-foreground: #F8FAFC;
+  --sidebar-primary: #54a084;
+  --sidebar-primary-foreground: #0F172A;
+  --sidebar-accent: #334155;
+  --sidebar-accent-foreground: #F8FAFC;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: #54a084;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Visible keyboard focus everywhere, consistent with the brand ring */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Brand-tinted text selection */
+  ::selection {
+    background: var(--brand-200);
+    color: var(--brand-950);
+  }
+
+  .dark ::selection {
+    background: var(--brand-800);
+    color: var(--brand-50);
+  }
+
+  /* Balanced multi-line headings */
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ============================================================
+   Layout primitives
+   Prefer the <Container> and <Section> components in
+   src/components/shared; these classes exist for plain-markup use.
+   ============================================================ */
+@layer components {
+  .container-page,
+  .container-wide,
+  .container-narrow,
+  .container-reading {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  .container-page    { max-width: var(--container-max); }
+  .container-wide    { max-width: var(--container-wide); }
+  .container-narrow  { max-width: var(--container-narrow); }
+  .container-reading { max-width: var(--container-reading); }
+
+  @media (min-width: 640px) {
+    .container-page, .container-wide, .container-narrow, .container-reading {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-page, .container-wide, .container-narrow, .container-reading {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Fluid vertical section rhythm — replaces ad-hoc py-12 sm:py-16 md:py-20 */
+  .section-pad     { padding-block: var(--section-y); }
+  .section-pad-sm  { padding-block: var(--section-y-sm); }
+  .section-pad-lg  { padding-block: var(--section-y-lg); }
+
+  /* ============================================================
+     Typography scale (fluid). Use these instead of re-composing
+     text-3xl sm:text-4xl md:text-5xl on every page.
+     ============================================================ */
+  .heading-display {
+    font-size: clamp(2.5rem, 1.6rem + 3.4vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .heading-1 {
+    font-size: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .heading-2 {
+    font-size: clamp(1.625rem, 1.3rem + 1.4vw, 2.375rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .heading-3 {
+    font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .heading-4 {
+    font-size: 1.125rem;
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .text-lead {
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .text-body {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+  .text-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .text-caption {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  .text-overline {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brand-primary);
+  }
+
+  /* Keep prose measure readable */
+  .measure-prose { max-width: 65ch; }
+
+  /* ============================================================
+     Recurring surfaces
+     ============================================================ */
+
+  /* Standard content card — the single default card recipe */
+  .surface-card {
+    background: var(--card);
+    border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-xs);
+    transition: border-color var(--duration-base) var(--ease-standard),
+                box-shadow var(--duration-base) var(--ease-standard);
+  }
+
+  .surface-card-hover:hover {
+    border-color: color-mix(in srgb, var(--brand-primary) 25%, transparent);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Brand icon tile used at the top of feature cards */
+  .icon-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    background: var(--brand-primary-light);
+    color: var(--brand-primary);
+    flex-shrink: 0;
+  }
+
+  /* Checkmark trust pill used under hero CTAs */
+  .trust-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  /* Dark developer/code panel — the only approved dark surface */
+  .ink-panel {
+    background: var(--ink);
+    border: 1px solid var(--ink-border);
+    border-radius: 0.75rem;
+    color: var(--ink-text);
+    overflow: hidden;
+  }
+
+  /* Keyboard-only skip-to-content link. Hidden until focused; sits above
+     the sticky header (z-toast) so it is never obscured when it appears. */
+  .skip-link {
+    position: fixed;
+    top: -3rem;
+    left: 1rem;
+    z-index: var(--z-toast);
+    background: var(--brand-600);
+    color: #FFFFFF;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
+    transition: top var(--duration-base) var(--ease-standard);
+  }
+
+  .skip-link:focus-visible {
+    top: 1rem;
+  }
+
+  /* ============================================================
+     Scroll-reveal system (used via the <Reveal> island).
+     The hidden state only applies when scripting is enabled, so
+     users without JS always see content. Reduced motion forces
+     everything visible instantly.
+     ============================================================ */
+  @media (scripting: enabled) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition:
+        opacity var(--duration-slower) var(--ease-out-soft),
+        transform var(--duration-slower) var(--ease-out-soft);
+    }
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-d1 { transition-delay: 90ms; }
+  .reveal-d2 { transition-delay: 180ms; }
+  .reveal-d3 { transition-delay: 270ms; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* Gentle vertical float for hero composition chips */
+  @keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .animate-float {
+    animation: float-y 7s ease-in-out infinite;
+  }
+
+  /* ============================================================
+     Product animation scenes (homepage storytelling).
+     Each scene is one shared-duration loop; every element's
+     keyframes encode its own timing window so the whole scene
+     resets together. Base styles are ALWAYS the completed state —
+     the global prefers-reduced-motion rule collapses each
+     animation to a single instant run, leaving the finished scene
+     visible. Transient props (.scene-transient: typing dots,
+     travelling pulses) are hidden at rest so they simply never
+     appear without motion.
+     ============================================================ */
+
+  .scene-transient { opacity: 0; }
+
+  /* --- Hero chat scene (12s) --- */
+  @keyframes hs-msg-1 {
+    0%, 4% { opacity: 0; transform: translateY(10px); }
+    8%, 91% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; }
+  }
+  @keyframes hs-typing {
+    0%, 10% { opacity: 0; }
+    13%, 22% { opacity: 1; }
+    25%, 100% { opacity: 0; }
+  }
+  @keyframes hs-msg-2 {
+    0%, 25% { opacity: 0; transform: translateY(10px); }
+    29%, 91% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; }
+  }
+  @keyframes hs-tick-sent {
+    0%, 31% { opacity: 0; }
+    33%, 44% { opacity: 1; }
+    46%, 100% { opacity: 0; }
+  }
+  @keyframes hs-tick-read {
+    0%, 46% { opacity: 0; }
+    48%, 91% { opacity: 1; }
+    97%, 100% { opacity: 0; }
+  }
+  @keyframes hs-toast {
+    0%, 55% { opacity: 0; transform: translateY(8px) scale(0.96); }
+    60%, 88% { opacity: 1; transform: none; }
+    93%, 100% { opacity: 0; }
+  }
+  @keyframes dot-bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-3px); }
+  }
+
+  /* cs-bar-read is retained — the hero composition also uses it. */
+  @keyframes cs-bar-read {
+    0%, 30% { width: 0%; }
+    58%, 100% { width: 98%; }
+  }
+
+  /* --- Campaign report scene. Each metric bar rests at its target width
+     (always legible; reduced-motion simply freezes the sweep and leaves a
+     solid, complete funnel). A soft highlight sweeps across the fill for
+     continuous, non-resetting motion — the bar's own bg-* colour shows
+     through as the base. --- */
+  .camp-bar-flow {
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.5) 50%,
+      transparent 100%
+    );
+    background-size: 45% 100%;
+    background-repeat: no-repeat;
+    background-position: -60% 0;
+    animation: camp-sweep 2.6s linear infinite;
+  }
+  @keyframes camp-sweep {
+    to { background-position: 160% 0; }
+  }
+
+  /* --- Automation flow scene. Connectors flow toward the next node and the
+     node tiles pulse in sequence — all continuous, so nothing blinks out or
+     resets. Frozen (reduced motion) leaves a static, legible flow diagram:
+     the dashes rest as a solid dashed link and the tile rings collapse to
+     nothing. --- */
+  .flow-link-h {
+    background-image: repeating-linear-gradient(90deg, rgba(68, 140, 116, 0.6) 0 5px, transparent 5px 11px);
+    background-size: 11px 100%;
+    background-repeat: repeat-x;
+    background-position: 0 0;
+    animation: flow-move-x 0.8s linear infinite;
+  }
+  @keyframes flow-move-x {
+    to { background-position-x: 11px; }
+  }
+  .flow-link-v {
+    background-image: repeating-linear-gradient(180deg, rgba(68, 140, 116, 0.6) 0 5px, transparent 5px 11px);
+    background-size: 100% 11px;
+    background-repeat: repeat-y;
+    background-position: 0 0;
+    animation: flow-move-y 0.8s linear infinite;
+  }
+  @keyframes flow-move-y {
+    to { background-position-y: 11px; }
+  }
+  .flow-tile {
+    animation: flow-tile-pulse 3.2s ease-in-out infinite;
+  }
+  @keyframes flow-tile-pulse {
+    0%, 12%, 100% { box-shadow: 0 0 0 0 rgba(68, 140, 116, 0); }
+    22% { box-shadow: 0 0 0 4px rgba(68, 140, 116, 0.16); }
+    34% { box-shadow: 0 0 0 0 rgba(68, 140, 116, 0); }
+  }
+
+  /* --- Sync pipeline scene. Two dashed lanes flow in opposite directions
+     (ERP data out, customer queries back) for a continuous two-way sync
+     signal. Frozen (reduced motion) leaves two static, legible dashed
+     lanes; the reused flow-move-x drives the outbound lane. --- */
+  .sync-out,
+  .sync-in {
+    background-image: repeating-linear-gradient(90deg, rgba(68, 140, 116, 0.55) 0 5px, transparent 5px 11px);
+    background-size: 11px 100%;
+    background-repeat: repeat-x;
+    background-position: 0 0;
+  }
+  .sync-out {
+    animation: flow-move-x 0.85s linear infinite;
+  }
+  .sync-in {
+    opacity: 0.55;
+    animation: flow-move-x-rev 1.15s linear infinite;
+  }
+  @keyframes flow-move-x-rev {
+    to { background-position-x: -11px; }
+  }
+
+  /* --- Webhook event stream (10s) --- */
+  @keyframes es-line-1 { 0%, 4% { opacity: 0; } 8%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
+  @keyframes es-line-2 { 0%, 18% { opacity: 0; } 22%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
+  @keyframes es-line-3 { 0%, 34% { opacity: 0; } 38%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
+  @keyframes es-line-4 { 0%, 50% { opacity: 0; } 54%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
+  @keyframes es-line-5 { 0%, 66% { opacity: 0; } 70%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
+  @keyframes caret-blink { 0%, 45% { opacity: 1; } 50%, 95% { opacity: 0; } 100% { opacity: 1; } }
+
+  /* --- Bento micro-visuals --- */
+  @keyframes wave-bar {
+    0%, 100% { transform: scaleY(0.35); }
+    50% { transform: scaleY(1); }
+  }
+  @keyframes mini-bar-grow {
+    0%, 8% { transform: scaleY(0.1); }
+    35%, 88% { transform: scaleY(1); }
+    96%, 100% { transform: scaleY(0.1); }
+  }
+  @keyframes bell-ring {
+    0%, 82%, 100% { transform: rotate(0deg); }
+    86% { transform: rotate(12deg); }
+    90% { transform: rotate(-10deg); }
+    94% { transform: rotate(6deg); }
+    98% { transform: rotate(-3deg); }
+  }
+  @keyframes chip-type {
+    0%, 8% { width: 1ch; }
+    40%, 82% { width: 9ch; }
+    94%, 100% { width: 1ch; }
+  }
+  @keyframes swap-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.12); opacity: 1; }
+  }
+
+  /* Inline text link */
+  .link-inline {
+    color: var(--brand-primary);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--brand-primary) 35%, transparent);
+    transition: text-decoration-color var(--duration-fast) var(--ease-standard);
+  }
+
+  .link-inline:hover {
+    text-decoration-color: var(--brand-primary);
+  }
+}
+
+/* Custom container for landing page */
+.container-landing {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-landing {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-landing {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Modern Card Styles */
+.card-modern {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-modern:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(68, 140, 116, 0.2);
+  transform: translateY(-2px);
+}
+
+.card-elevated {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-md);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-elevated:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-4px);
+}
+
+/* Glass effect for special elements */
+.glass-subtle {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass-subtle {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Modern Button Base */
+.btn-modern {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-modern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn-modern:hover::before {
+  opacity: 1;
+}
+
+/* Subtle gradient backgrounds */
+.gradient-subtle {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
+}
+
+.gradient-brand-subtle {
+  background: linear-gradient(135deg, rgba(68, 140, 116, 0.04) 0%, rgba(84, 160, 132, 0.02) 100%);
+}
+
+/* Modern text gradient */
+.text-gradient {
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Modern border gradient */
+.border-gradient {
+  position: relative;
+}
+
+.border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(68, 140, 116, 0.3), rgba(68, 140, 116, 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Smooth animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+/* Modern focus states */
+.focus-modern:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(68, 140, 116, 0.25);
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Badge styles */
+.badge-modern {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  background: var(--brand-primary-light);
+  color: var(--brand-primary);
+  transition: all 0.2s;
+}
+
+.badge-modern:hover {
+  background: rgba(68, 140, 116, 0.12);
+}
+
+/* ============================================================
+   Integrations band — SVG connector scene.
+   Curved SVG paths fan out from the central hub to each
+   integration node. A faint base stroke is ALWAYS drawn (the
+   legible diagram), and a brighter "comet" dash travels along
+   each path toward the hub to signal data flowing in. Because
+   the comet is a real static dash pattern on the path, the
+   global prefers-reduced-motion rule (which freezes animation)
+   leaves a clean dotted connector. Hub rings + the mobile spine
+   start transparent, so without motion they simply never appear.
+   pathLength="100" normalises every path so one keyframe set
+   drives comets of any length at identical speed.
+   ============================================================ */
+
+@keyframes conn-comet {
+  to { stroke-dashoffset: -100; }
+}
+
+@keyframes hub-ring {
+  0% { transform: scale(0.62); opacity: 0.5; }
+  70%, 100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes spine-flow {
+  to { background-position-y: 14px; }
+}
+
+.conn-base {
+  fill: none;
+  stroke: rgba(69, 188, 150, 0.22);
+  stroke-width: 1.5;
+}
+
+.conn-comet {
+  fill: none;
+  stroke: #45bc96;
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-dasharray: 12 88;
+  stroke-dashoffset: 0;
+  animation: conn-comet 2.6s linear infinite;
+}
+
+.hub-ring {
+  opacity: 0;
+  transform-origin: center;
+  animation: hub-ring 3s ease-out infinite;
+}
+
+.hub-ring-late {
+  animation-delay: 1.5s;
+}
+
+/* Mobile: a single vertical connector spine below the hub */
+.conn-spine {
+  width: 2px;
+  height: 2.25rem;
+  background-image: repeating-linear-gradient(
+    180deg,
+    rgba(69, 188, 150, 0.6) 0 6px,
+    transparent 6px 14px
+  );
+  background-size: 2px 14px;
+  animation: spine-flow 0.9s linear infinite;
+}
+
+/* ============================================================
+   /mcp hero scene — the "approved scope" lock badge gets a slow,
+   subtle pulse to draw the eye to the consent checkpoint. The
+   global prefers-reduced-motion rule above freezes it to its
+   resting (fully legible) frame, same as every other animation
+   on the site.
+   ============================================================ */
+@keyframes mcp-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(68, 140, 116, 0.25); }
+  50% { box-shadow: 0 0 0 6px rgba(68, 140, 116, 0); }
+}
+
+.mcp-pulse {
+  animation: mcp-pulse 2.4s ease-in-out infinite;
+}
+
+/* ============================================================
+   /mcp architecture diagram (dark `ink` band) — a slow light sweep
+   crosses the panel and each pipeline node/arrow glows in sequence,
+   left to right, so the diagram reads as data actively flowing
+   through the connection rather than a static graphic. Every effect
+   is opacity/box-shadow/background-position/transform on a wrapper
+   that carries no other transform, so nothing fights the arrow
+   rotation utility used on mobile. Frozen to a legible resting frame
+   by the global prefers-reduced-motion rule above.
+   ============================================================ */
+@keyframes mcp-node-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(84, 160, 132, 0); }
+  50% { box-shadow: 0 0 0 5px rgba(84, 160, 132, 0.16), 0 0 16px 2px rgba(84, 160, 132, 0.28); }
+}
+
+.mcp-node-badge {
+  animation: mcp-node-glow 3.2s ease-in-out infinite;
+}
+
+@keyframes mcp-arrow-flow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.mcp-arrow-flow {
+  animation: mcp-arrow-flow 2.6s ease-in-out infinite;
+}
+
+@keyframes mcp-scan {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(320%); }
+}
+
+.mcp-scan-line {
+  animation: mcp-scan 5.5s linear infinite;
+}

@@ -1,0 +1,149 @@
+# Robots.txt for Whats91.com - SEO 2.0 Optimized
+# https://whats91.com
+# Optimized for both traditional search engines and AI agents
+
+# ============================================
+# SITEMAP LOCATION (Google Search Console)
+# ============================================
+Sitemap: https://whats91.com/sitemap.xml
+
+# RSS/Atom Feed for content syndication
+# Google Search Console: Add this as a feed for blog updates
+Sitemap: https://whats91.com/feed.xml
+
+# ============================================
+# AI TRAINING CRAWLERS
+# ============================================
+
+# GPTBot (OpenAI) - Trains future GPT models
+# Allow public content for broad brand inclusion in model knowledge
+# /api/md/ (markdown twins) and /api/mcp (MCP discovery) are intentionally
+# open to AI agents; the rest of /api/ stays blocked
+User-agent: GPTBot
+Allow: /
+Allow: /api/md/
+Allow: /api/mcp
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+
+# ChatGPT-User - Real-time ChatGPT browsing
+User-agent: ChatGPT-User
+Allow: /
+
+# Google-Extended - Trains Gemini and AI Overviews
+# CRITICAL: Must be allowed for AI Overview visibility
+User-agent: Google-Extended
+Allow: /
+
+# ClaudeBot (Anthropic) - Trains Claude models
+User-agent: ClaudeBot
+Allow: /
+
+# Claude-Web - Real-time Claude browsing
+User-agent: Claude-Web
+Allow: /
+
+# PerplexityBot - Real-time cited answers
+# Highly encouraged for immediate, cited answers
+User-agent: PerplexityBot
+Allow: /
+
+# Perplexity-User - Perplexity AI search
+User-agent: Perplexity-User
+Allow: /
+
+# Anthropic-AI - Anthropic's general crawler
+User-agent: anthropic-ai
+Allow: /
+
+# ============================================
+# TRADITIONAL SEARCH ENGINES
+# ============================================
+
+# Google - Primary search indexing
+User-agent: Googlebot
+Allow: /
+
+# Googlebot News
+User-agent: Googlebot-News
+Allow: /blog/
+
+# Googlebot Images
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /og-image.png
+
+# Bing - Secondary search
+User-agent: Bingbot
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+# ============================================
+# SOCIAL MEDIA CRAWLERS
+# ============================================
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+# ============================================
+# AI SEARCH & DISCOVERY
+# ============================================
+
+# You.com AI
+User-agent: YouBot
+Allow: /
+
+# Neeva AI
+User-agent: Neevabot
+Allow: /
+
+# ============================================
+# GENERAL ACCESS CONTROL
+# ============================================
+
+User-agent: *
+Allow: /
+
+# Agent-readable endpoints (markdown twins + MCP discovery) stay open;
+# they carry canonical/noindex headers so they never compete with HTML pages
+Allow: /api/md/
+Allow: /api/mcp
+
+# Protected routes - never allow public crawling
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /_next/
+Disallow: /private/
+Disallow: /services/
+Disallow: /projects/
+
+# ============================================
+# CRAWL SETTINGS
+# ============================================
+
+# Respectful crawl delay (1 second between requests)
+Crawl-delay: 1
+
+# Host directive
+Host: https://whats91.com

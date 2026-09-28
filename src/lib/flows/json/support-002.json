@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "flow_uid": "support-faq-002",
+  "entry_node_id": "n_6000_1",
+  "meta": {
+    "name": "FAQ Bot Flow",
+    "description": "Automated FAQ responses"
+  },
+  "nodes": [
+    {
+      "id": "n_6000_1",
+      "type": "trigger.inbound_message",
+      "position": { "x": 100, "y": 50 },
+      "data": {
+        "label": "Inbound Message",
+        "config": {
+          "match_mode": "keyword",
+          "keywords": ["faq", "question", "how to", "info"],
+          "case_sensitive": false
+        },
+        "outputs": [{ "key": "out", "label": "Match" }]
+      }
+    },
+    {
+      "id": "n_6000_2",
+      "type": "message.compose",
+      "position": { "x": 100, "y": 200 },
+      "data": {
+        "label": "FAQ Categories",
+        "config": {
+          "body_text": "Here are our most common topics. Select one to learn more:",
+          "header_text": "FAQ",
+          "footer_text": "Select topic",
+          "interactive_type": "button",
+          "buttons": [
+            { "id": "btn_pricing", "title": "Pricing" },
+            { "id": "btn_features", "title": "Features" },
+            { "id": "btn_contact", "title": "Contact" }
+          ],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [
+          { "key": "btn_pricing", "label": "Pricing" },
+          { "key": "btn_features", "label": "Features" },
+          { "key": "btn_contact", "label": "Contact" }
+        ]
+      }
+    },
+    {
+      "id": "n_6000_3",
+      "type": "message.compose",
+      "position": { "x": 50, "y": 400 },
+      "data": {
+        "label": "Pricing Info",
+        "config": {
+          "body_text": "Our pricing starts at INR 999/month. Visit whats91.com/pricing for detailed plans. All plans include 24/7 support!",
+          "header_text": "Pricing",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_6000_4",
+      "type": "message.compose",
+      "position": { "x": 200, "y": 400 },
+      "data": {
+        "label": "Features Info",
+        "config": {
+          "body_text": "Key features: Flow Builder, WhatsApp API, Team Inbox, Analytics, and more! Visit whats91.com/features for details.",
+          "header_text": "Features",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_6000_5",
+      "type": "message.compose",
+      "position": { "x": 350, "y": 400 },
+      "data": {
+        "label": "Contact Info",
+        "config": {
+          "body_text": "Contact us at support@whats91.com or call +91-XXXXXXXXXX. Our team is available Mon-Sat, 9 AM - 6 PM IST.",
+          "header_text": "Contact",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_6000_6",
+      "type": "control.end",
+      "position": { "x": 200, "y": 580 },
+      "data": {
+        "label": "End",
+        "config": { "result": "completed" },
+        "outputs": []
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e_7000_1", "source": "n_6000_1", "target": "n_6000_2", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_7000_2", "source": "n_6000_2", "target": "n_6000_3", "sourceHandle": "btn_pricing", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_7000_3", "source": "n_6000_2", "target": "n_6000_4", "sourceHandle": "btn_features", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_7000_4", "source": "n_6000_2", "target": "n_6000_5", "sourceHandle": "btn_contact", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_7000_5", "source": "n_6000_3", "target": "n_6000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_7000_6", "source": "n_6000_4", "target": "n_6000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_7000_7", "source": "n_6000_5", "target": "n_6000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 }
+  ],
+  "variables": {},
+  "settings": {
+    "max_hops_per_message": 20,
+    "fallback_behavior": "legacy_advance_bot",
+    "timezone": "Asia/Kolkata"
+  },
+  "ui": {
+    "viewport": { "x": 0, "y": 0, "zoom": 1 }
+  }
+}

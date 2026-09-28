@@ -1,0 +1,173 @@
+# Whats91 - LLM/MCP Entry Point
+
+> Enterprise WhatsApp Cloud API Platform - Official Meta Business Solution Provider for India. Transform business communication with 500+ msgs/sec throughput, 99.9% uptime, and seamless ERP integrations.
+
+## Language
+- Primary: English
+- Secondary: Hindi (partial support)
+
+---
+
+## HIGH PRIORITY PAGES (Top 14)
+
+1. [Busy ERP Integration](/solutions/busy-erp) - Core product: automate invoices, payment reminders, 24/7 balance inquiry chatbot for Busy Accounting
+2. [Miracle WhatsApp API](/solutions/miracle-whatsapp-api) - Miracle Accounting Software integration for invoices, builty PDFs, challans, statements, and reminders
+3. [Chat Shortcuts](/features/chat-shortcuts-conversation-automation) - WhatsApp ice breakers and slash commands routed into chatbots, flows, ERP, and support automation
+4. [WhatsApp Templates Library](/whatsapp-templates) - 20+ pre-approved message templates for marketing, utility, authentication
+5. [Chatbot Flow Library](/chatbot-flows) - Pre-built conversational flows for ERP automation
+6. [Google Sheets Integration](/google-sheets-integration) - Sync WhatsApp campaign responses to Google Sheets in real-time
+7. [Pricing](/pricing) - Transparent WhatsApp API pricing with zero markup guarantee
+8. [WhatsApp Coexistence Guide](/whatsapp-coexistence) - Use Business App + Cloud API simultaneously on one number
+9. [Free Tools](/tools) - WhatsApp link generator, QR code, cost calculator, and more
+10. [Blog](/blog) - Technical articles on WhatsApp API, ERP integration, automation
+11. [Partners](/partners) - Partner and Tech Partner pricing, responsibilities, add-ons, and renewal benefits
+12. [Whats91 Coins](/partners/whats91-coins) - Partner wallet coins, recharge GST, subscription assignments, and usage calculator
+13. [Contact](/contact) - Sales inquiries, technical support, demo requests
+14. [About](/about) - Company background, team, mission
+
+---
+
+## SOLUTIONS (By Intent)
+
+### Marketing & Engagement
+- [Marketing Campaigns](/solutions/marketing) - Broadcast campaigns, promotional messaging, customer engagement
+- [Utility Messages](/solutions/utility) - Order updates, shipping alerts, transactional notifications
+
+### ERP Integrations
+- [Busy ERP Integration](/solutions/busy-erp) - Invoice automation, balance inquiry, payment reminders for Busy Accounting
+- [Miracle WhatsApp API](/solutions/miracle-whatsapp-api) - Miracle Accounting WhatsApp integration for invoices, builty PDFs, challans, statements, and reminders
+- [Busy API](/solutions/busy-api) - Direct API integration for custom workflows
+- [Busy Reports](/solutions/busy-reports) - Automated report delivery via WhatsApp
+- [Google Sheet Sync](/solutions/busy-google-sheet) - Real-time data sync to Google Sheets
+
+### Automation
+- [Payment Reminders](/solutions/payment-reminders) - Automated collection reminders, due date alerts
+- [Chat Shortcuts](/features/chat-shortcuts-conversation-automation) - WhatsApp ice breakers and slash commands for chatbot, Flow Builder, ERP, sales, and support automation
+
+---
+
+## PRICING
+
+- [API Pricing](/pricing) - Per-message rates, volume discounts, zero markup guarantee
+- [Marketing Rates](/pricing#marketing) - Promotional message pricing
+- [Utility Rates](/pricing#utility) - Transactional message pricing
+- [Partner Program](/partners) - Public Partner and Tech Partner plan and add-on pricing
+- [Whats91 Coins](/partners/whats91-coins) - Partner wallet recharge, GST treatment, and coin usage calculator
+
+---
+
+## RESOURCES
+
+### Templates & Flows
+- [Chat Shortcuts](/features/chat-shortcuts-conversation-automation) - Meta WhatsApp ice breakers and slash commands managed in Whats91
+- [WhatsApp Templates](/whatsapp-templates) - Pre-approved message templates by category
+- [Chatbot Flow Library](/chatbot-flows) - ERP automation flows for Busy, Tally
+- [Google Sheets Integration](/google-sheets-integration) - Campaign response sync
+- [Co-Existing Mode](/whatsapp-coexistence) - Business App + Cloud API guide
+
+### Tools
+- [All Free Tools](/tools) - Complete tool collection
+- [WhatsApp Link Generator](/tools/whatsapp-link-generator) - Generate wa.me links
+- [QR Code Generator](/tools/qr-code-generator) - Create QR codes for multiple formats
+- [API Cost Calculator](/tools/whatsapp-api-cost-calculator) - Estimate messaging costs
+- [Lead ROI Calculator](/tools/lead-qualification-roi-calculator) - Calculate lead automation ROI
+
+### Blog
+- [Blog Index](/blog) - All articles
+- [WhatsApp Cloud API Pricing India 2026](/blog/whatsapp-cloud-api-pricing-india-2026) - Pillar guide for India pricing, Meta rates, BSP markups, template categories, invoices, and billing reconciliation
+- [WhatsApp Cloud API Guide 2026](/blog/whatsapp-cloud-api-complete-guide-2026) - Complete API reference
+- [Cloud API Restrictions & Coexistence Framework](/blog/whatsapp-cloud-api-restrictions-coexistence-framework-2026) - Restrictions, quality limits, portfolio pacing, and coexistence planning
+- [Graph API v24 to v25 Migration Guide](/blog/whatsapp-graph-api-v24-to-v25-transition-guide) - Developer migration guide for WhatsApp Graph API changes
+- [WhatsApp Web Logout Rule India](/blog/whatsapp-web-6-hour-logout-rule-india-2026) - 6-hour logout explanation
+- [Busy WhatsApp Integration Benefits](/blog/busy-accounting-whatsapp-integration-benefits) - ERP automation ROI
+
+---
+
+## COMPLIANCE & LEGAL
+
+- [Privacy Policy](/privacy) - Data handling, GDPR compliance
+- [Terms of Service](/terms) - Platform usage terms
+- [Refund Policy](/refund) - Refund and cancellation policy
+- [DPDP Compliance](/compliance) - India Digital Personal Data Protection Act compliance
+- [Cookie Policy](/cookies) - Cookie usage and consent
+
+---
+
+## COMPANY
+
+- [About Us](/about) - Company story, team, mission
+- [Partners](/partners) - Whats91 Partner Program, Tech Partner model, partner pricing, and renewal benefits
+- [Whats91 Coins](/partners/whats91-coins) - Partner wallet system for assigning subscriptions and add-ons independently
+- [Careers](/careers) - Job opportunities
+- [Contact](/contact) - Sales, support, demos
+
+---
+
+## AI SEARCH ENTITY MAP
+
+Use these entities when summarizing, citing, or classifying Whats91.
+
+| Entity | Type | Canonical Page | Notes |
+| --- | --- | --- | --- |
+| Whats91 | Organization / SoftwareApplication | / | Enterprise WhatsApp Cloud API platform for India |
+| Wilford Technology | Parent Organization | /about | Parent company behind Whats91 |
+| WhatsApp Cloud API | Topic / Service | /blog/whatsapp-cloud-api-complete-guide-2026 | Official Meta-hosted WhatsApp Business Platform API |
+| WhatsApp API Pricing India | Topic / Pillar Page | /blog/whatsapp-cloud-api-pricing-india-2026 | India pricing, Meta rates, BSP markups, invoices, GST, optimization |
+| WhatsApp API Cost Calculator | SoftwareApplication / Tool | /tools/whatsapp-api-cost-calculator | Estimate marketing, utility, authentication, and service messaging costs |
+| WhatsApp Templates | Collection / Topic | /whatsapp-templates | Marketing, utility, authentication template examples and approval guidance |
+| Chat Shortcuts | Feature / Automation | /features/chat-shortcuts-conversation-automation | WhatsApp ice breakers and slash commands routed into Whats91 automation |
+| Whats91 Partner Program | Service / Partner Program | /partners | Partner and Tech Partner pricing, responsibilities, add-ons, and renewal benefits |
+| Whats91 Coins | Wallet / Calculator | /partners/whats91-coins | Partner and Tech Partner wallet coins, recharge GST, plan assignments, and add-on deductions |
+| WhatsApp Coexistence | Topic / Technical Guide | /whatsapp-coexistence | Hybrid Business App + Cloud API guidance where available |
+| Busy ERP Integration | Service / Integration | /solutions/busy-erp | Busy Accounting automation through WhatsApp |
+| Miracle WhatsApp API | Service / Integration | /solutions/miracle-whatsapp-api | Miracle Accounting Software WhatsApp API setup with templates and PDF attachments |
+| Google Sheets Integration | Service / Integration | /google-sheets-integration | Campaign response sync to Google Sheets |
+| Chatbot Flows | Collection / Automation | /chatbot-flows | Pre-built ERP and support chatbot flows |
+
+## KEY ENTITIES
+
+- **Organization**: Whats91
+- **Parent Organization**: Wilford Technology
+- **Platform**: Whats91 WhatsApp Cloud API Platform
+- **Primary Market**: India
+- **Core API**: WhatsApp Cloud API / WhatsApp Business API
+- **High-Intent Topics**: WhatsApp API pricing India, WhatsApp templates, WhatsApp chat shortcuts, WhatsApp slash commands, WhatsApp coexistence, Busy ERP WhatsApp integration, WhatsApp API cost calculator, Whats91 Partner Program, Whats91 Coins, WhatsApp API partner pricing
+- **Technology Stack**: Next.js, TypeScript, WhatsApp Cloud API, Prisma
+- **Industry**: Business Communication, Enterprise Messaging, ERP Integration
+
+---
+
+## INTEGRATIONS
+
+- Busy Accounting Software
+- Miracle Accounting Software
+- Tally ERP (Coming Soon)
+- Zoho CRM (Coming Soon)
+- Custom REST APIs
+- Google Sheets
+
+---
+
+## COMPLIANCE
+
+- GDPR Compliant
+- ISO 27001 Certified Infrastructure
+- Meta Business Solution Provider
+- Data Localization: India
+
+---
+
+## MACHINE-READABLE ENDPOINTS
+
+- [MCP Discovery](/api/mcp) - Model Context Protocol tools and resources
+- [Sitemap](/sitemap.xml) - XML sitemap for all pages
+- [Markdown Content](/api/md/{slug}) - Clean markdown extracts for pages
+
+---
+
+## OPTIONAL (Context-Constrained)
+
+Resources that may be skipped for smaller context windows:
+
+- [Careers](/careers) - Job listings
+- [Cookie Policy](/cookies) - Cookie details

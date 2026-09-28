@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0.0",
+  "flow_uid": "support-triage-001",
+  "entry_node_id": "n_5000_1",
+  "meta": {
+    "name": "Support Triage Flow",
+    "description": "Route support requests to teams"
+  },
+  "nodes": [
+    {
+      "id": "n_5000_1",
+      "type": "trigger.inbound_message",
+      "position": { "x": 100, "y": 50 },
+      "data": {
+        "label": "Inbound Message",
+        "config": {
+          "match_mode": "keyword",
+          "keywords": ["help", "support", "issue", "problem"],
+          "case_sensitive": false
+        },
+        "outputs": [{ "key": "out", "label": "Match" }]
+      }
+    },
+    {
+      "id": "n_5000_2",
+      "type": "message.compose",
+      "position": { "x": 100, "y": 200 },
+      "data": {
+        "label": "Support Category",
+        "config": {
+          "body_text": "We're here to help! Please select the type of issue you're facing:",
+          "header_text": "Support",
+          "footer_text": "Select category",
+          "interactive_type": "button",
+          "buttons": [
+            { "id": "btn_technical", "title": "Technical" },
+            { "id": "btn_billing", "title": "Billing" },
+            { "id": "btn_account", "title": "Account" }
+          ],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [
+          { "key": "btn_technical", "label": "Technical" },
+          { "key": "btn_billing", "label": "Billing" },
+          { "key": "btn_account", "label": "Account" }
+        ]
+      }
+    },
+    {
+      "id": "n_5000_3",
+      "type": "action.set_variable",
+      "position": { "x": 50, "y": 400 },
+      "data": {
+        "label": "Set Ticket Type",
+        "config": { "key": "ticket_type", "value": "technical" },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_5000_4",
+      "type": "action.set_variable",
+      "position": { "x": 200, "y": 400 },
+      "data": {
+        "label": "Set Ticket Type",
+        "config": { "key": "ticket_type", "value": "billing" },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_5000_5",
+      "type": "action.set_variable",
+      "position": { "x": 350, "y": 400 },
+      "data": {
+        "label": "Set Ticket Type",
+        "config": { "key": "ticket_type", "value": "account" },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_5000_6",
+      "type": "message.compose",
+      "position": { "x": 200, "y": 580 },
+      "data": {
+        "label": "Acknowledge",
+        "config": {
+          "body_text": "Your support ticket has been created. Our team will respond within 2 hours. Ticket ID: #TKT{timestamp}",
+          "header_text": "",
+          "footer_text": "",
+          "interactive_type": "none",
+          "buttons": [],
+          "list_data": null,
+          "media_url": "",
+          "media_type": "",
+          "media_filename": ""
+        },
+        "outputs": [{ "key": "out", "label": "Next" }]
+      }
+    },
+    {
+      "id": "n_5000_7",
+      "type": "control.end",
+      "position": { "x": 200, "y": 750 },
+      "data": {
+        "label": "End",
+        "config": { "result": "completed" },
+        "outputs": []
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e_6000_1", "source": "n_5000_1", "target": "n_5000_2", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_6000_2", "source": "n_5000_2", "target": "n_5000_3", "sourceHandle": "btn_technical", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_6000_3", "source": "n_5000_2", "target": "n_5000_4", "sourceHandle": "btn_billing", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_6000_4", "source": "n_5000_2", "target": "n_5000_5", "sourceHandle": "btn_account", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_6000_5", "source": "n_5000_3", "target": "n_5000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_6000_6", "source": "n_5000_4", "target": "n_5000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_6000_7", "source": "n_5000_5", "target": "n_5000_6", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 },
+    { "id": "e_6000_8", "source": "n_5000_6", "target": "n_5000_7", "sourceHandle": "out", "targetHandle": "in", "condition": { "type": "always" }, "priority": 0 }
+  ],
+  "variables": {},
+  "settings": {
+    "max_hops_per_message": 20,
+    "fallback_behavior": "legacy_advance_bot",
+    "timezone": "Asia/Kolkata"
+  },
+  "ui": {
+    "viewport": { "x": 0, "y": 0, "zoom": 1 }
+  }
+}
