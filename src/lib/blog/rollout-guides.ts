@@ -6,7 +6,7 @@ export interface RolloutGuide extends ERPGuide { indexHold: boolean; sections: (
 export const rolloutGuides: RolloutGuide[] = [
   {
     "slug": "whatsapp-cloud-api-restrictions-coexistence-framework-2026",
-    "cover": { "src": "/images/blog/whatsapp-cloud-api-restrictions-coexistence-framework-2026/cover.webp", "width": 1200, "height": 630, "alt": "Blank phone and server blocks connected by separate paths through an eligibility gate", "caption": "Illustration: assess the account-specific app and API paths before changing a working number." },
+    "cover": { "src": "/images/blog/whatsapp-cloud-api-restrictions-coexistence-framework-2026/cover-refined-2026-10-watermarked.webp", "width": 1200, "height": 630, "alt": "Blank business phone, amber caution card and cloud API blocks beside a closed decision gate", "caption": "Illustration: assess the account-specific app and API paths before changing a working number." },
     "title": "WhatsApp Cloud API Restrictions and Coexistence: Diagnosis and Planning",
     "description": "Diagnose account restrictions, distinguish limits from pacing, and compare standard and hybrid setup with eligibility, history and recovery checks.",
     "intro": "A failed send, a held message and a disconnected Business App are different problems. Start with the actual account notice and delivery evidence, then choose the permitted response. Coexistence can be worth assessing when a team wants to retain app work alongside API automation, but the hybrid label does not confirm eligibility, capacity or recovery.",
@@ -92,7 +92,7 @@ export const rolloutGuides: RolloutGuide[] = [
       },
       {
         "id": "restrictions-conditions",
-        "image": { "src": "/images/blog/whatsapp-cloud-api-restrictions-coexistence-framework-2026/coexistence-checks.webp", "width": 1440, "height": 810, "alt": "Phone and cloud shapes separated by a gate with check cards and a reversible path", "caption": "Illustration: check permissions, history scope and recovery before choosing a coexistence path." },
+        "image": { "src": "/images/blog/whatsapp-cloud-api-restrictions-coexistence-framework-2026/coexistence-refined-2026-10-watermarked.webp", "width": 1440, "height": 810, "alt": "Blank business phone and cloud API blocks separated by a closed gate with unlabeled evidence cards", "caption": "Illustration: check permissions, history scope and recovery before choosing a coexistence path." },
         "heading": "Compare standard Cloud API and hybrid coexistence",
         "paragraphs": [
           compatibilityQualification,
@@ -236,7 +236,7 @@ export const rolloutGuides: RolloutGuide[] = [
   },
   {
     "slug": "whatsapp-graph-api-v24-to-v25-transition-guide",
-    "cover": { "src": "/images/blog/whatsapp-graph-api-v24-to-v25-transition-guide/cover.webp", "width": 1200, "height": 630, "alt": "Separate technical document stacks, magnifier and reversible path marker on a desk", "caption": "Illustration: compare documented version contracts and retain a recovery path before migration." },
+    "cover": { "src": "/images/blog/whatsapp-graph-api-v24-to-v25-transition-guide/cover-refined-2026-10-watermarked.webp", "width": 1200, "height": 630, "alt": "Separate technical document stacks, magnifier and reversible path marker on a desk", "caption": "Illustration: compare documented version contracts and retain a recovery path before migration." },
     "title": "WhatsApp Graph API v24 to v25: An Evidence-Based Migration Checklist",
     "description": "Plan a Graph API version migration with changelog checks, scoped identity mapping, token expiry and revocation checks, delivery reconciliation and rollback.",
     "intro": "A version change should begin with a documented difference and a reversible test plan. This guide preserves the v24-to-v25 migration question, but the current v25 changelog could not be retrieved on 29 September 2026. Exact lifecycle dates, feature changes and account rollout remain unconfirmed; use the checklist to gather evidence before scheduling a production change.",
@@ -449,7 +449,7 @@ export const rolloutGuides: RolloutGuide[] = [
       {
         "id": "migration-pilot",
         "heading": "Use evidence gates and a reversible pilot",
-        "image": { "src": "/images/blog/whatsapp-graph-api-v24-to-v25-transition-guide/migration-gates.webp", "width": 1440, "height": 810, "alt": "Abstract document, test, pilot and recovery checkpoints connected by a return path", "caption": "Illustration: a limited pilot follows documented changes and synthetic checks, with recovery criteria set in advance." },
+        "image": { "src": "/images/blog/whatsapp-graph-api-v24-to-v25-transition-guide/migration-gates-refined-2026-10-watermarked.webp", "width": 1440, "height": 810, "alt": "Abstract document, test, pilot and recovery checkpoints connected by a return path", "caption": "Illustration: a limited pilot follows documented changes and synthetic checks, with recovery criteria set in advance." },
         "paragraphs": [
           "Choose one permitted workflow and a small approved cohort once the target contract is documented. Compare expected and observed requests/events, operator outcomes, failures and billing evidence. Keep a rollback/recovery owner and a clear stop criterion; account/provider changes may need forward recovery rather than a simple code rollback.",
           "Discuss the existing integration and specific evidence gaps with the team. An enquiry does not migrate your version, connect a sender or verify BSUID support. No complete migration capability or approval is promised by this article."
@@ -491,7 +491,7 @@ export const rolloutGuides: RolloutGuide[] = [
   },
   {
     "slug": "whatsapp-plus-launch-2026-premium-subscription-guide",
-    "cover": { "src": "/images/blog/whatsapp-plus-launch-2026-premium-subscription-guide/cover.webp", "width": 1200, "height": 630, "alt": "Blank phone, muted color swatches and sealed offer envelope on a desk", "caption": "Illustration: check the actual account offer before choosing a consumer personalization plan." },
+    "cover": { "src": "/images/blog/whatsapp-plus-launch-2026-premium-subscription-guide/cover-refined-2026-10-watermarked.webp", "width": 1200, "height": 630, "alt": "Blank phone, muted color swatches and sealed offer envelope on a desk", "caption": "Illustration: check the actual account offer before choosing a consumer personalization plan." },
     "title": "WhatsApp Plus in 2026: Official Announcement and Subscription Checks",
     "description": "Separate Meta’s WhatsApp Plus announcement from account availability, plan benefits and prices, and distinguish the consumer subscription from Cloud API.",
     "intro": "WhatsApp Plus is discussed in Meta’s September 2026 Meta One announcement. A public announcement is useful context, but a purchase decision needs the offer actually available to your account. Check the included features, local price, renewal and cancellation terms before subscribing; consumer personalization does not establish business API access or better campaign results.",
@@ -523,7 +523,7 @@ export const rolloutGuides: RolloutGuide[] = [
       {
         "id": "price-and-plan",
         "heading": "Read the local offer and renewal terms",
-        "image": { "src": "/images/blog/whatsapp-plus-launch-2026-premium-subscription-guide/offer-check.webp", "width": 1440, "height": 810, "alt": "Blank offer card, calendar, receipt and magnifier arranged for purchase review", "caption": "Illustration: verify availability, included terms, billing period and renewal before subscribing." },
+        "image": { "src": "/images/blog/whatsapp-plus-launch-2026-premium-subscription-guide/offer-check-refined-2026-10-watermarked.webp", "width": 1440, "height": 810, "alt": "Blank offer card, calendar, receipt and magnifier arranged for purchase review", "caption": "Illustration: verify availability, included terms, billing period and renewal before subscribing." },
         "paragraphs": [
           "This guide does not quote an INR price, tax amount, trial, discount or fixed plan band. The old expected ₹99–₹199 range and Meta Verified comparisons were not verified buying terms. Do not convert a foreign price into an India quote or assume an annual offer has the same cancellation/refund rules as monthly billing.",
           "Before purchase, check currency, taxes, billing period, trial end, renewal amount, cancellation timing, refund conditions and the account/app-store provider. Record what is included at that price. Compare the total expected spend over your intended period rather than only an introductory amount."
@@ -697,7 +697,7 @@ export const rolloutGuides: RolloutGuide[] = [
   },
   {
     "slug": "whatsapp-username-system-2026-complete-guide",
-    "cover": { "src": "/images/blog/whatsapp-username-system-2026-complete-guide/cover.webp", "width": 1200, "height": 630, "alt": "Blank phone and handle tag separated from a sealed customer record folder", "caption": "Illustration: a public contact handle and verified customer identity are separate questions." },
+    "cover": { "src": "/images/blog/whatsapp-username-system-2026-complete-guide/cover-refined-2026-10-watermarked.webp", "width": 1200, "height": 630, "alt": "Blank phone and handle tag separated from a sealed customer record folder", "caption": "Illustration: a public contact handle and verified customer identity are separate questions." },
     "title": "WhatsApp Usernames in 2026: Reservations, Privacy and API Readiness",
     "description": "Understand Meta’s dated username reservation announcement, account rollout checks and cautious CRM identity planning without assuming universal BSUID support.",
     "intro": "A username can make an introduction less dependent on sharing a phone number. For a business, that also raises practical questions about contact permission and matching a conversation to the correct customer. Separate the consumer announcement, actual account availability and documented Cloud API fields before changing a CRM or campaign plan.",
@@ -751,7 +751,7 @@ export const rolloutGuides: RolloutGuide[] = [
       {
         "id": "identity-mapping",
         "heading": "Prepare CRM mappings without inventing an API contract",
-        "image": { "src": "/images/blog/whatsapp-username-system-2026-complete-guide/identity-mapping.webp", "width": 1440, "height": 810, "alt": "Abstract identity tokens linked through a review checkpoint with one unmatched token", "caption": "Illustration: associate external and internal identifiers only with documented scope and review ambiguous matches." },
+        "image": { "src": "/images/blog/whatsapp-username-system-2026-complete-guide/identity-mapping-refined-2026-10-watermarked.webp", "width": 1440, "height": 810, "alt": "Abstract identity tokens linked through a review checkpoint with one unmatched token", "caption": "Illustration: associate external and internal identifiers only with documented scope and review ambiguous matches." },
         "paragraphs": [
           "The current BSUID documentation could not be retrieved on 29 September 2026. Universal phone-number replacement, exact BSUID format/length, mandatory ExternalUserId and a 30-day visibility window remain unconfirmed here. The consumer announcement does not define webhook payloads or the identifier your business account will receive.",
           "Keep external identifiers as opaque strings with their documented source and scope. Store a separate internal customer ID and the evidence used to associate each external value. Do not parse a supposed prefix, trim an identifier into a phone number or copy an ID from one business scope into another. Retain the original event reference for investigation without unnecessarily retaining customer content.",
@@ -895,7 +895,7 @@ export const rolloutGuides: RolloutGuide[] = [
   },
   {
     "slug": "whatsapp-web-6-hour-logout-rule-india-2026",
-    "cover": { "src": "/images/blog/whatsapp-web-6-hour-logout-rule-india-2026/cover.webp", "width": 1200, "height": 630, "alt": "Separate archival paper stack and open current evidence checklist beside a closed laptop", "caption": "Illustration: a historical announcement and today’s legal or account status require separate evidence." },
+    "cover": { "src": "/images/blog/whatsapp-web-6-hour-logout-rule-india-2026/cover-refined-2026-10-watermarked.webp", "width": 1200, "height": 630, "alt": "Separate archival paper stack and open current evidence checklist beside a closed laptop", "caption": "Illustration: a historical announcement and today’s legal or account status require separate evidence." },
     "title": "WhatsApp Web Logout in India: Historical Direction and Current Checks",
     "description": "Separate the December 2025 SIM-binding announcement from current legal applicability and account behavior, with a practical session-continuity plan.",
     "intro": "The six-hour logout question has a real historical government announcement behind it, but this guide has not obtained the actual direction and current amendment set. It cannot confirm today’s deadline, exceptions, desktop scope or every account’s behavior. Use the history below to understand the question and a continuity checklist to investigate your own approved workflow.",
@@ -963,7 +963,7 @@ export const rolloutGuides: RolloutGuide[] = [
       {
         "id": "session-recovery",
         "heading": "Investigate a session interruption safely",
-        "image": { "src": "/images/blog/whatsapp-web-6-hour-logout-rule-india-2026/session-investigation.webp", "width": 1440, "height": 810, "alt": "Blank laptop and separate observation cards for possible session interruption causes", "caption": "Illustration: investigate the actual connection, device and client state without assuming a fixed timer or cause." },
+        "image": { "src": "/images/blog/whatsapp-web-6-hour-logout-rule-india-2026/session-investigation-refined-2026-10-watermarked.webp", "width": 1440, "height": 810, "alt": "Blank laptop and separate observation cards for possible session interruption causes", "caption": "Illustration: investigate the actual connection, device and client state without assuming a fixed timer or cause." },
         "paragraphs": [
           "If an authorized web session logs out, record the client/app version, time, notice and permitted recent device/account changes. Distinguish a logout from a network failure, expired login, revoked device, app update or local browser problem. A single incident does not establish a fixed timer or a country-wide cause.",
           "Follow the genuine app’s supported re-link/recovery process with the account owner. Do not share verification codes or authorize an unexpected device to keep a session alive. Keep customer drafts and case references in an approved work system where appropriate; avoid copying sensitive chat content into a public note or unapproved document.",

@@ -23,9 +23,9 @@ export const octoberPricingExamples = {
 };
 const imgBase = "/images/blog/meta-whatsapp-pricing-october-2026";
 export const octoberPricingImages = {
-  cover: { src: `${imgBase}/meta-pricing-cover.webp`, width: 1200, height: 630, alt: "Abstract message, category and planning layers beside a phone and blank budget sheet", caption: "Planning Meta delivery charges by category is separate from choosing a Whats91 subscription." },
-  windows: { src: `${imgBase}/service-and-free-entry-windows.webp`, width: 1440, height: 810, alt: "Two small-business colleagues reviewing a phone beside visual clock and entry-window motifs", caption: "A reply window permits some messages; the applicable allowance and free-entry conditions still determine their charge." },
-  tiers: { src: `${imgBase}/marginal-tiers-and-platform-fees.webp`, width: 1440, height: 810, alt: "Unnumbered message tokens climbing separate paper tiers beside a closed subscription folder", caption: "Paid Utility and Authentication deliveries move through their own marginal tiers; platform fees are a separate line." },
+  cover: { src: `${imgBase}/cover-refined-2026-10-watermarked.webp`, width: 1200, height: 630, alt: "Abstract message, category and planning layers beside a phone and blank budget sheet", caption: "Planning Meta delivery charges by category is separate from choosing a Whats91 subscription." },
+  windows: { src: `${imgBase}/service-and-free-entry-windows-refined-2026-10-watermarked.webp`, width: 1440, height: 810, alt: "Two small-business colleagues reviewing a phone beside visual clock and entry-window motifs", caption: "A reply window permits some messages; the applicable allowance and free-entry conditions still determine their charge." },
+  tiers: { src: `${imgBase}/marginal-tiers-and-platform-fees-refined-2026-10-watermarked.webp`, width: 1440, height: 810, alt: "Unnumbered message tokens climbing separate paper tiers beside a closed subscription folder", caption: "Paid Utility and Authentication deliveries move through their own marginal tiers; platform fees are a separate line." },
 } as const;
 const mainSource = { label: "Meta: pricing update and rate cards effective 1 October 2026", href: metaPricingSchedule.source };
 const nonTemplateSource = { label: "Meta: non-template Service pricing", href: metaPricingSchedule.nonTemplateSource };

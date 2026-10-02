@@ -1,6 +1,7 @@
-import { RolloutGuideArticle } from "@/components/blog/RolloutGuideArticle";
+import { EditorialGuideArticle } from "@/components/blog/EditorialGuideArticle";
 import { rolloutGuides } from "@/lib/blog/rollout-guides";
+import { plusVisual } from "@/lib/blog/editorial-visuals";
 
 export default function Page() {
-  return <RolloutGuideArticle guide={rolloutGuides[2]} />;
+  return <EditorialGuideArticle guide={rolloutGuides[2]} visual={plusVisual} />;
 }

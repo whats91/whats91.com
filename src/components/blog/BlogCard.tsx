@@ -16,6 +16,7 @@ interface BlogCardProps {
 
 export function BlogCard({ post, showAuthor = true, variant = "default" }: BlogCardProps) {
   const author = getAuthorLink(post.authorId);
+  const cardImage = post.thumbnailImage ?? post.coverImage;
   
   const categoryStyles: Record<string, { bg: string; text: string; border: string }> = {
     "WhatsApp API": { bg: "bg-green-50", text: "text-green-700", border: "border-green-200" },
@@ -53,16 +54,16 @@ export function BlogCard({ post, showAuthor = true, variant = "default" }: BlogC
 
           {/* Hero Image Placeholder with Icon */}
           <div className="relative h-36 sm:h-40 bg-gradient-to-br from-surface via-surface/50 to-brand-primary/5 flex items-center justify-center overflow-hidden">
-            {post.coverImage && <Image src={post.coverImage} alt="" fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover" />}
+            {cardImage && <Image src={cardImage} alt="" fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" unoptimized={Boolean(post.thumbnailImage)} className="object-cover" />}
             {/* Animated Background Pattern */}
-            {!post.coverImage && <div className="absolute inset-0 opacity-5">
+            {!cardImage && <div className="absolute inset-0 opacity-5">
               <div className="absolute inset-0" style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Ccircle cx='1' cy='1' r='1'/%3E%3C/g%3E%3C/svg%3E")`
               }} />
             </div>}
             
             {/* Reading Icon */}
-            {!post.coverImage && <div className="relative h-14 w-14 rounded-2xl bg-white/80 backdrop-blur-sm border border-border/30 flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all duration-300">
+            {!cardImage && <div className="relative h-14 w-14 rounded-2xl bg-white/80 backdrop-blur-sm border border-border/30 flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all duration-300">
               <BookOpen className="h-6 w-6 text-brand-primary" />
             </div>}
             

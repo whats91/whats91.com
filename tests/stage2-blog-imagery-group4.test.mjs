@@ -13,11 +13,12 @@ const registry=load('src/lib/blog/registry.ts');mocks.set('@/lib/blog',registry)
 const {guideMarkdown}=load('src/lib/blog/erp-guides.ts');
 const {generateBlogPostMetadata,generateBlogArticleSchema}=load('src/lib/blog/metadata.ts');
 const source=[
- {slug:'whatsapp-cloud-api-complete-guide-2026',id:'1',guide:load('src/lib/blog/billing-guides.ts').cloudGuide,component:'PlatformGuideArticle',section:'cloud-operating-model',published:'2026-01-15',indexHold:undefined},
- {slug:'busy-accounting-whatsapp-integration-benefits',id:'2',guide:load('src/lib/blog/erp-guides.ts').benefitsGuide,component:'ERPGuideArticle',section:'invoice-delivery',published:'2026-01-10',indexHold:undefined},
+ {slug:'whatsapp-cloud-api-complete-guide-2026',id:'1',guide:load('src/lib/blog/billing-guides.ts').cloudGuide,component:'CloudGuideArticle',section:'cloud-operating-model',published:'2026-01-15',indexHold:undefined},
+ {slug:'busy-accounting-whatsapp-integration-benefits',id:'2',guide:load('src/lib/blog/erp-guides.ts').benefitsGuide,component:'EditorialGuideArticle',section:'invoice-delivery',published:'2026-01-10',indexHold:undefined},
 ];
 const empty=()=>null;
-const componentLoad=projectLoader(new Map([['@/components/landing/Header',{Header:empty}],['@/components/landing/Footer',{Footer:empty}],['./ArticleAttribution',{ArticleAttribution:empty}],['./CopyArticleLink',{CopyArticleLink:empty}]]),transform);
+const editorialVisuals=load('src/lib/blog/editorial-visuals.ts');
+const componentLoad=projectLoader(new Map([['@/components/landing/Header',{Header:empty}],['@/components/landing/Footer',{Footer:empty}],['@/components/shared/Container',{Container:({children})=>createElement('div',null,children)}],['./ArticleAttribution',{ArticleAttribution:empty}],['./CopyArticleLink',{CopyArticleLink:empty}]]),transform);
 
 test('two selected posts each use two distinct optimized images in the rendered article and reader body',async()=>{
  const allPaths=[];
@@ -27,8 +28,19 @@ test('two selected posts each use two distinct optimized images in the rendered 
   const images=[guide.cover,inBody];assert.equal(new Set(images.map(image=>image.src)).size,2);
   assert.equal(post.coverImage,guide.cover.src);assert.equal(post.coverAlt,guide.cover.alt);assert.equal(post.coverCaption,guide.cover.caption);
   const markdown=guideMarkdown(guide);assert.equal(post.content,markdown);
-  const html=renderToStaticMarkup(createElement(componentLoad(`src/components/blog/${entry.component}.tsx`)[entry.component],{guide}));
-  assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.equal((html.match(/<img\b/g)||[]).length,2);
+  const html=renderToStaticMarkup(createElement(componentLoad(`src/components/blog/${entry.component}.tsx`)[entry.component],{guide,visual:slug==='busy-accounting-whatsapp-integration-benefits'?editorialVisuals.busyBenefitsVisual:undefined}));
+  assert.equal((html.match(/<h1\b/g)||[]).length,1);
+  assert.equal([...html.matchAll(/<img\b[^>]*>/g)].filter(match=>!match[0].includes('alt=""')).length,2);
+  if(slug==='whatsapp-cloud-api-complete-guide-2026'){
+   const mobile='/images/blog/whatsapp-cloud-api-complete-guide-2026/operating-model-mobile-refined-2026-10-watermarked.webp';
+   const hero='/images/blog/whatsapp-cloud-api-complete-guide-2026/cover-hero-square-refined-2026-10-watermarked.webp';
+   const meta=await sharp(`public${mobile}`).metadata();
+   const heroMeta=await sharp(`public${hero}`).metadata();
+   assert.equal(meta.format,'webp');assert.equal(meta.width,900);assert.equal(meta.height,1125);
+   assert.equal(heroMeta.format,'webp');assert.equal(heroMeta.width,1000);assert.equal(heroMeta.height,1000);
+   assert.ok(html.includes(`<source media="(max-width: 640px)" srcSet="${mobile}"`));
+   assert.ok(html.includes(`<source media="(min-width: 640px)" srcSet="${hero}"`));
+  }
   assert.ok(html.includes(`href="#${section}"`));
   for(const image of images){
    allPaths.push(image.src);const path=`public${image.src}`;const meta=await sharp(path).metadata();

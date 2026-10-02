@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { sourceFiles } from '../scripts/release/candidate.mjs';
+import { inheritedRetiredSourcePaths, sourceFiles } from '../scripts/release/candidate.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const retired = [
@@ -18,7 +18,8 @@ test('form storage, forwarding, Redis and Git updater are absent from the releas
   const snapshot = sourceFiles(root);
   for (const rel of retired) {
     assert.equal(fs.existsSync(path.join(root, rel)), false, rel);
-    assert.ok(snapshot.deletedSources.includes(rel), rel);
+    assert.equal(Object.hasOwn(snapshot.files, rel), false, rel);
+    assert.ok(inheritedRetiredSourcePaths.includes(rel), rel);
   }
   const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
   assert.equal(pkg.dependencies.ioredis, undefined);

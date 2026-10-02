@@ -12,13 +12,15 @@ const mocks=new Map(),load=projectLoader(mocks,transform);
 const registry=load('src/lib/blog/registry.ts');mocks.set('@/lib/blog',registry);
 const {guideMarkdown}=load('src/lib/blog/erp-guides.ts');
 const {generateBlogPostMetadata,generateBlogArticleSchema}=load('src/lib/blog/metadata.ts');
+const editorialVisuals=load('src/lib/blog/editorial-visuals.ts');
+const visualBySlug={'whatsapp-graph-api-v24-to-v25-transition-guide':editorialVisuals.graphMigrationVisual,'whatsapp-username-system-2026-complete-guide':editorialVisuals.usernameVisual,'whatsapp-plus-launch-2026-premium-subscription-guide':editorialVisuals.plusVisual};
 const source=[
- {slug:'whatsapp-graph-api-v24-to-v25-transition-guide',id:'7',guide:load('src/lib/blog/rollout-guides.ts').rolloutGuides[1],component:'RolloutGuideArticle',section:'migration-pilot',published:'2026-03-13',indexHold:true},
- {slug:'whatsapp-username-system-2026-complete-guide',id:'6',guide:load('src/lib/blog/rollout-guides.ts').rolloutGuides[3],component:'RolloutGuideArticle',section:'identity-mapping',published:'2026-03-06',indexHold:false},
- {slug:'whatsapp-plus-launch-2026-premium-subscription-guide',id:'5',guide:load('src/lib/blog/rollout-guides.ts').rolloutGuides[2],component:'RolloutGuideArticle',section:'price-and-plan',published:'2026-03-06',indexHold:false},
+ {slug:'whatsapp-graph-api-v24-to-v25-transition-guide',id:'7',guide:load('src/lib/blog/rollout-guides.ts').rolloutGuides[1],component:'EditorialGuideArticle',section:'migration-pilot',published:'2026-03-13',indexHold:true},
+ {slug:'whatsapp-username-system-2026-complete-guide',id:'6',guide:load('src/lib/blog/rollout-guides.ts').rolloutGuides[3],component:'EditorialGuideArticle',section:'identity-mapping',published:'2026-03-06',indexHold:false},
+ {slug:'whatsapp-plus-launch-2026-premium-subscription-guide',id:'5',guide:load('src/lib/blog/rollout-guides.ts').rolloutGuides[2],component:'EditorialGuideArticle',section:'price-and-plan',published:'2026-03-06',indexHold:false},
 ];
 const empty=()=>null;
-const componentLoad=projectLoader(new Map([['@/components/landing/Header',{Header:empty}],['@/components/landing/Footer',{Footer:empty}],['./ArticleAttribution',{ArticleAttribution:empty}],['./CopyArticleLink',{CopyArticleLink:empty}]]),transform);
+const componentLoad=projectLoader(new Map([['@/components/landing/Header',{Header:empty}],['@/components/landing/Footer',{Footer:empty}],['@/components/shared/Container',{Container:({children})=>createElement('div',null,children)}],['./ArticleAttribution',{ArticleAttribution:empty}],['./CopyArticleLink',{CopyArticleLink:empty}]]),transform);
 
 test('three selected posts each use two distinct optimized images in the rendered article and reader body',async()=>{
  const allPaths=[];
@@ -28,8 +30,8 @@ test('three selected posts each use two distinct optimized images in the rendere
   const images=[guide.cover,inBody];assert.equal(new Set(images.map(image=>image.src)).size,2);
   assert.equal(post.coverImage,guide.cover.src);assert.equal(post.coverAlt,guide.cover.alt);assert.equal(post.coverCaption,guide.cover.caption);
   const markdown=guideMarkdown(guide);assert.equal(post.content,markdown);
-  const html=renderToStaticMarkup(createElement(componentLoad(`src/components/blog/${entry.component}.tsx`)[entry.component],{guide}));
-  assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.equal((html.match(/<img\b/g)||[]).length,2);
+  const html=renderToStaticMarkup(createElement(componentLoad(`src/components/blog/${entry.component}.tsx`)[entry.component],{guide,visual:visualBySlug[slug]}));
+  assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.equal([...html.matchAll(/<img\b[^>]*>/g)].filter(match=>!match[0].includes('alt=""')).length,2);
   assert.ok(html.includes(`href="#${section}"`));
   for(const image of images){
    allPaths.push(image.src);const path=`public${image.src}`;const meta=await sharp(path).metadata();

@@ -1,6 +1,7 @@
-import { ERPGuideArticle } from "@/components/blog/ERPGuideArticle";
+import { EditorialGuideArticle } from "@/components/blog/EditorialGuideArticle";
 import { sheetsGuide } from "@/lib/blog/erp-guides";
+import { sheetsVisual } from "@/lib/blog/editorial-visuals";
 
 export default function Page() {
-  return <ERPGuideArticle guide={sheetsGuide} />;
+  return <EditorialGuideArticle guide={sheetsGuide} visual={sheetsVisual} />;
 }

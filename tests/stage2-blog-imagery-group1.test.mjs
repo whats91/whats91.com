@@ -11,14 +11,15 @@ const transform=(filename,source)=>ts.transpileModule(source,{fileName:filename,
 const mocks=new Map(),load=projectLoader(mocks,transform);
 const registry=load('src/lib/blog/registry.ts');mocks.set('@/lib/blog',registry);
 const {guideMarkdown}=load('src/lib/blog/erp-guides.ts');
+const visualBySlug={"busy-erp-google-sheets-integration-complete-guide":load('src/lib/blog/editorial-visuals.ts').sheetsVisual};
 const {generateBlogPostMetadata,generateBlogArticleSchema}=load('src/lib/blog/metadata.ts');
 const source=[
- {slug:'whatsapp-cloud-api-pricing-india-2026',id:'10',guide:load('src/lib/blog/billing-guides.ts').indiaPricingGuide,component:'PlatformGuideArticle',section:'guide-reconciliation',published:'2026-05-22',updated:'2026-05-22'},
- {slug:'whatsapp-cloud-api-restrictions-coexistence-framework-2026',id:'9',guide:load('src/lib/blog/rollout-guides.ts').rolloutGuides[0],component:'RolloutGuideArticle',section:'restrictions-conditions',published:'2026-03-20'},
- {slug:'busy-erp-google-sheets-integration-complete-guide',id:'8',guide:load('src/lib/blog/erp-guides.ts').sheetsGuide,component:'ERPGuideArticle',section:'validate-data',published:'2026-03-15'},
+ {slug:'whatsapp-cloud-api-pricing-india-2026',id:'10',guide:load('src/lib/blog/billing-guides.ts').indiaPricingGuide,component:'IndiaPricingGuideArticle',section:'guide-reconciliation',published:'2026-05-22',updated:'2026-05-22'},
+ {slug:'whatsapp-cloud-api-restrictions-coexistence-framework-2026',id:'9',guide:load('src/lib/blog/rollout-guides.ts').rolloutGuides[0],component:'RestrictionsGuideArticle',section:'restrictions-conditions',published:'2026-03-20'},
+ {slug:'busy-erp-google-sheets-integration-complete-guide',id:'8',guide:load('src/lib/blog/erp-guides.ts').sheetsGuide,component:'EditorialGuideArticle',section:'validate-data',published:'2026-03-15'},
 ];
 const empty=()=>null;
-const componentLoad=projectLoader(new Map([['@/components/landing/Header',{Header:empty}],['@/components/landing/Footer',{Footer:empty}],['./ArticleAttribution',{ArticleAttribution:empty}],['./CopyArticleLink',{CopyArticleLink:empty}]]),transform);
+const componentLoad=projectLoader(new Map([['@/components/landing/Header',{Header:empty}],['@/components/landing/Footer',{Footer:empty}],['@/components/shared/Container',{Container:({children})=>createElement('div',null,children)}],['./ArticleAttribution',{ArticleAttribution:empty}],['./CopyArticleLink',{CopyArticleLink:empty}]]),transform);
 
 test('three selected posts each use two distinct optimized images in the rendered article and reader body',async()=>{
  const allPaths=[];
@@ -28,8 +29,8 @@ test('three selected posts each use two distinct optimized images in the rendere
   const images=[guide.cover,inBody];assert.equal(new Set(images.map(image=>image.src)).size,2);
   assert.equal(post.coverImage,guide.cover.src);assert.equal(post.coverAlt,guide.cover.alt);assert.equal(post.coverCaption,guide.cover.caption);
   const markdown=guideMarkdown(guide);assert.equal(post.content,markdown);
-  const html=renderToStaticMarkup(createElement(componentLoad(`src/components/blog/${entry.component}.tsx`)[entry.component],{guide}));
-  assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.equal((html.match(/<img\b/g)||[]).length,2);
+  const html=renderToStaticMarkup(createElement(componentLoad(`src/components/blog/${entry.component}.tsx`)[entry.component],{guide,visual:visualBySlug[slug]}));
+  assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.equal([...html.matchAll(/<img\b[^>]*>/g)].filter(match=>!match[0].includes('alt=""')).length,2);
   assert.ok(html.includes(`href="#${section}"`));
   for(const image of images){
    allPaths.push(image.src);const path=`public${image.src}`;const meta=await sharp(path).metadata();

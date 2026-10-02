@@ -1,6 +1,6 @@
-import { PlatformGuideArticle } from "@/components/blog/PlatformGuideArticle";
+import { CloudGuideArticle } from "@/components/blog/CloudGuideArticle";
 import { cloudGuide } from "@/lib/blog/billing-guides";
 
 export default function Page() {
-  return <PlatformGuideArticle guide={cloudGuide} />;
+  return <CloudGuideArticle guide={cloudGuide} />;
 }

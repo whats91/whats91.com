@@ -29,6 +29,7 @@ export interface BlogPostMeta {
   updatedAt?: string;
   readingTime: number;
   coverImage?: string;
+  thumbnailImage?: string;
   coverAlt?: string;
   coverCaption?: string;
   isFeatured: boolean;
@@ -57,6 +58,7 @@ export const blogPosts: BlogPostMeta[] = [
     readingTime: 11,
     isFeatured: true,
     coverImage: octoberPricingImages.cover.src,
+    thumbnailImage: "/images/blog/meta-whatsapp-pricing-october-2026/listing-thumbnail-v3-2026-10.webp",
     coverAlt: octoberPricingImages.cover.alt,
     coverCaption: octoberPricingImages.cover.caption,
     content: guideMarkdown(octoberPricingGuide),
@@ -73,6 +75,7 @@ export const blogPosts: BlogPostMeta[] = [
     title: indiaPricingGuide.title,
     excerpt: indiaPricingGuide.description,
     coverImage: indiaPricingGuide.cover?.src,
+    thumbnailImage: "/images/blog/whatsapp-cloud-api-pricing-india-2026/listing-thumbnail-v3-2026-10.webp",
     coverAlt: indiaPricingGuide.cover?.alt,
     coverCaption: indiaPricingGuide.cover?.caption,
     category: "WhatsApp API",
@@ -96,6 +99,7 @@ export const blogPosts: BlogPostMeta[] = [
     title: rolloutGuides[0].title,
     excerpt: rolloutGuides[0].description,
     coverImage: rolloutGuides[0].cover?.src,
+    thumbnailImage: "/images/blog/whatsapp-cloud-api-restrictions-coexistence-framework-2026/listing-thumbnail-v3-2026-10.webp",
     coverAlt: rolloutGuides[0].cover?.alt,
     coverCaption: rolloutGuides[0].cover?.caption,
     category: "WhatsApp API",
@@ -119,6 +123,7 @@ export const blogPosts: BlogPostMeta[] = [
     title: sheetsGuide.title,
     excerpt: sheetsGuide.description,
     coverImage: sheetsGuide.cover?.src,
+    thumbnailImage: "/images/blog/busy-erp-google-sheets-integration-complete-guide/listing-thumbnail-v3-2026-10.webp",
     coverAlt: sheetsGuide.cover?.alt,
     coverCaption: sheetsGuide.cover?.caption,
     content: guideMarkdown(sheetsGuide),
@@ -141,6 +146,7 @@ export const blogPosts: BlogPostMeta[] = [
     title: rolloutGuides[1].title,
     excerpt: rolloutGuides[1].description,
     coverImage: rolloutGuides[1].cover?.src,
+    thumbnailImage: "/images/blog/whatsapp-graph-api-v24-to-v25-transition-guide/listing-thumbnail-v3-2026-10.webp",
     coverAlt: rolloutGuides[1].cover?.alt,
     coverCaption: rolloutGuides[1].cover?.caption,
     category: "WhatsApp API",
@@ -164,6 +170,7 @@ export const blogPosts: BlogPostMeta[] = [
     title: rolloutGuides[3].title,
     excerpt: rolloutGuides[3].description,
     coverImage: rolloutGuides[3].cover?.src,
+    thumbnailImage: "/images/blog/whatsapp-username-system-2026-complete-guide/listing-thumbnail-v3-2026-10.webp",
     coverAlt: rolloutGuides[3].cover?.alt,
     coverCaption: rolloutGuides[3].cover?.caption,
     category: "WhatsApp API",
@@ -187,6 +194,7 @@ export const blogPosts: BlogPostMeta[] = [
     title: rolloutGuides[2].title,
     excerpt: rolloutGuides[2].description,
     coverImage: rolloutGuides[2].cover?.src,
+    thumbnailImage: "/images/blog/whatsapp-plus-launch-2026-premium-subscription-guide/listing-thumbnail-v3-2026-10.webp",
     coverAlt: rolloutGuides[2].cover?.alt,
     coverCaption: rolloutGuides[2].cover?.caption,
     category: "Industry Insights",
@@ -211,6 +219,7 @@ export const blogPosts: BlogPostMeta[] = [
     title: migrationGuide.title,
     excerpt: migrationGuide.description,
     coverImage: migrationGuide.cover?.src,
+    thumbnailImage: "/images/blog/whatsapp-web-6-hour-logout-unofficial-api-migration-guide/listing-thumbnail-v3-2026-10.webp",
     coverAlt: migrationGuide.cover?.alt,
     coverCaption: migrationGuide.cover?.caption,
     category: "WhatsApp API",
@@ -232,6 +241,7 @@ export const blogPosts: BlogPostMeta[] = [
     title: rolloutGuides[4].title,
     excerpt: rolloutGuides[4].description,
     coverImage: rolloutGuides[4].cover?.src,
+    thumbnailImage: "/images/blog/whatsapp-web-6-hour-logout-rule-india-2026/listing-thumbnail-v3-2026-10.webp",
     coverAlt: rolloutGuides[4].cover?.alt,
     coverCaption: rolloutGuides[4].cover?.caption,
     category: "Industry Insights",
@@ -256,6 +266,7 @@ export const blogPosts: BlogPostMeta[] = [
     title: cloudGuide.title,
     excerpt: cloudGuide.description,
     coverImage: cloudGuide.cover?.src,
+    thumbnailImage: "/images/blog/whatsapp-cloud-api-complete-guide-2026/listing-thumbnail-v3-2026-10.webp",
     coverAlt: cloudGuide.cover?.alt,
     coverCaption: cloudGuide.cover?.caption,
     category: "WhatsApp API",
@@ -277,6 +288,7 @@ export const blogPosts: BlogPostMeta[] = [
     title: benefitsGuide.title,
     excerpt: benefitsGuide.description,
     coverImage: benefitsGuide.cover?.src,
+    thumbnailImage: "/images/blog/busy-accounting-whatsapp-integration-benefits/listing-thumbnail-v3-2026-10.webp",
     coverAlt: benefitsGuide.cover?.alt,
     coverCaption: benefitsGuide.cover?.caption,
     content: guideMarkdown(benefitsGuide),

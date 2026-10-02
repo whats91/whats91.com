@@ -13,11 +13,12 @@ const registry=load('src/lib/blog/registry.ts');mocks.set('@/lib/blog',registry)
 const {guideMarkdown}=load('src/lib/blog/erp-guides.ts');
 const {generateBlogPostMetadata,generateBlogArticleSchema}=load('src/lib/blog/metadata.ts');
 const source=[
- {slug:'whatsapp-web-6-hour-logout-unofficial-api-migration-guide',id:'4',guide:load('src/lib/blog/billing-guides.ts').migrationGuide,component:'PlatformGuideArticle',section:'migration-cutover',published:'2026-02-28',indexHold:undefined},
- {slug:'whatsapp-web-6-hour-logout-rule-india-2026',id:'3',guide:load('src/lib/blog/rollout-guides.ts').rolloutGuides[4],component:'RolloutGuideArticle',section:'session-recovery',published:'2026-02-26',indexHold:true},
+ {slug:'whatsapp-web-6-hour-logout-unofficial-api-migration-guide',id:'4',guide:load('src/lib/blog/billing-guides.ts').migrationGuide,component:'EditorialGuideArticle',section:'migration-cutover',published:'2026-02-28',indexHold:undefined},
+ {slug:'whatsapp-web-6-hour-logout-rule-india-2026',id:'3',guide:load('src/lib/blog/rollout-guides.ts').rolloutGuides[4],component:'EditorialGuideArticle',section:'session-recovery',published:'2026-02-26',indexHold:true},
 ];
 const empty=()=>null;
-const componentLoad=projectLoader(new Map([['@/components/landing/Header',{Header:empty}],['@/components/landing/Footer',{Footer:empty}],['./ArticleAttribution',{ArticleAttribution:empty}],['./CopyArticleLink',{CopyArticleLink:empty}]]),transform);
+const editorialVisuals=load('src/lib/blog/editorial-visuals.ts');
+const componentLoad=projectLoader(new Map([['@/components/landing/Header',{Header:empty}],['@/components/landing/Footer',{Footer:empty}],['@/components/shared/Container',{Container:({children})=>createElement('div',null,children)}],['./ArticleAttribution',{ArticleAttribution:empty}],['./CopyArticleLink',{CopyArticleLink:empty}]]),transform);
 
 test('two selected posts each use two distinct optimized images in the rendered article and reader body',async()=>{
  const allPaths=[];
@@ -27,8 +28,8 @@ test('two selected posts each use two distinct optimized images in the rendered 
   const images=[guide.cover,inBody];assert.equal(new Set(images.map(image=>image.src)).size,2);
   assert.equal(post.coverImage,guide.cover.src);assert.equal(post.coverAlt,guide.cover.alt);assert.equal(post.coverCaption,guide.cover.caption);
   const markdown=guideMarkdown(guide);assert.equal(post.content,markdown);
-  const html=renderToStaticMarkup(createElement(componentLoad(`src/components/blog/${entry.component}.tsx`)[entry.component],{guide}));
-  assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.equal((html.match(/<img\b/g)||[]).length,2);
+  const html=renderToStaticMarkup(createElement(componentLoad(`src/components/blog/${entry.component}.tsx`)[entry.component],{guide,visual:slug==='whatsapp-web-6-hour-logout-unofficial-api-migration-guide'?editorialVisuals.webMigrationVisual:editorialVisuals.logoutRuleVisual}));
+  assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.equal([...html.matchAll(/<img\b[^>]*>/g)].filter(match=>!match[0].includes('alt=""')).length,2);
   assert.ok(html.includes(`href="#${section}"`));
   for(const image of images){
    allPaths.push(image.src);const path=`public${image.src}`;const meta=await sharp(path).metadata();

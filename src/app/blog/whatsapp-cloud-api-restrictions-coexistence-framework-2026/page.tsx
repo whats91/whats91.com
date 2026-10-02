@@ -1,6 +1,6 @@
-import { RolloutGuideArticle } from "@/components/blog/RolloutGuideArticle";
+import { RestrictionsGuideArticle } from "@/components/blog/RestrictionsGuideArticle";
 import { rolloutGuides } from "@/lib/blog/rollout-guides";
 
 export default function Page() {
-  return <RolloutGuideArticle guide={rolloutGuides[0]} />;
+  return <RestrictionsGuideArticle guide={rolloutGuides[0]} />;
 }
