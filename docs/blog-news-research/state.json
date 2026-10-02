@@ -1,0 +1,20 @@
+{
+  "timezone": "Asia/Kolkata",
+  "nextDueDate": "2026-10-05",
+  "status": "pending",
+  "attempts": [],
+  "lastCycle": {
+    "dueDate": "2026-10-02",
+    "finishedAt": "2026-10-02T13:46:45.374Z",
+    "status": "completed",
+    "log": "docs/blog-news-research/2026-10-02.md",
+    "slug": "whatsapp-business-tools-mcp-onboarding-2026"
+  },
+  "coverage": [
+    {
+      "slug": "whatsapp-business-tools-mcp-onboarding-2026",
+      "dueDate": "2026-10-02",
+      "log": "docs/blog-news-research/2026-10-02.md"
+    }
+  ]
+}

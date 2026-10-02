@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { statSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import ts from 'typescript';
 import sharp from 'sharp';
 import { createElement } from 'react';
@@ -12,12 +12,13 @@ const mocks=new Map(),load=projectLoader(mocks,transform);
 const registry=load('src/lib/blog/registry.ts');mocks.set('@/lib/blog',registry);
 const {guideMarkdown}=load('src/lib/blog/erp-guides.ts');
 const {generateBlogPostMetadata,generateBlogArticleSchema}=load('src/lib/blog/metadata.ts');
-const billing=load('src/lib/blog/billing-guides.ts'),erp=load('src/lib/blog/erp-guides.ts'),rollout=load('src/lib/blog/rollout-guides.ts'),october=load('src/lib/blog/october-pricing-guide.ts');
+const billing=load('src/lib/blog/billing-guides.ts'),erp=load('src/lib/blog/erp-guides.ts'),rollout=load('src/lib/blog/rollout-guides.ts'),october=load('src/lib/blog/october-pricing-guide.ts'),mcpNews=load('src/lib/blog/mcp-news-guide.ts');
 const editorialVisuals=load('src/lib/blog/editorial-visuals.ts');
-const visualBySlug={"busy-erp-google-sheets-integration-complete-guide":editorialVisuals.sheetsVisual,"whatsapp-graph-api-v24-to-v25-transition-guide":editorialVisuals.graphMigrationVisual,"whatsapp-username-system-2026-complete-guide":editorialVisuals.usernameVisual,"whatsapp-plus-launch-2026-premium-subscription-guide":editorialVisuals.plusVisual,"whatsapp-web-6-hour-logout-unofficial-api-migration-guide":editorialVisuals.webMigrationVisual,"whatsapp-web-6-hour-logout-rule-india-2026":editorialVisuals.logoutRuleVisual,"busy-accounting-whatsapp-integration-benefits":editorialVisuals.busyBenefitsVisual,"meta-whatsapp-pricing-october-2026-india":editorialVisuals.octoberPricingVisual};
+const visualBySlug={"whatsapp-business-tools-mcp-onboarding-2026":editorialVisuals.mcpNewsVisual,"busy-erp-google-sheets-integration-complete-guide":editorialVisuals.sheetsVisual,"whatsapp-graph-api-v24-to-v25-transition-guide":editorialVisuals.graphMigrationVisual,"whatsapp-username-system-2026-complete-guide":editorialVisuals.usernameVisual,"whatsapp-plus-launch-2026-premium-subscription-guide":editorialVisuals.plusVisual,"whatsapp-web-6-hour-logout-unofficial-api-migration-guide":editorialVisuals.webMigrationVisual,"whatsapp-web-6-hour-logout-rule-india-2026":editorialVisuals.logoutRuleVisual,"busy-accounting-whatsapp-integration-benefits":editorialVisuals.busyBenefitsVisual,"meta-whatsapp-pricing-october-2026-india":editorialVisuals.octoberPricingVisual};
 const empty=()=>null;
 const componentLoad=projectLoader(new Map([['@/components/landing/Header',{Header:empty}],['@/components/landing/Footer',{Footer:empty}],['@/components/shared/Container',{Container:({children})=>createElement('div',null,children)}],['./ArticleAttribution',{ArticleAttribution:empty}],['./CopyArticleLink',{CopyArticleLink:empty}]]),transform);
 const guides=new Map([
+ ['12',[mcpNews.mcpNewsGuide,'EditorialGuideArticle']],
  ['11',[october.octoberPricingGuide,'EditorialGuideArticle']],
  ['10',[billing.indiaPricingGuide,'IndiaPricingGuideArticle']],
  ['9',[rollout.rolloutGuides[0],'RestrictionsGuideArticle']],
@@ -30,11 +31,19 @@ const guides=new Map([
  ['1',[billing.cloudGuide,'CloudGuideArticle']],
  ['2',[erp.benefitsGuide,'EditorialGuideArticle']],
 ]);
-const historicalDates={10:['2026-05-22','2026-05-22'],9:['2026-03-20',undefined],8:['2026-03-15',undefined],7:['2026-03-13',undefined],6:['2026-03-06',undefined],5:['2026-03-06',undefined],4:['2026-02-28',undefined],3:['2026-02-26',undefined],1:['2026-01-15',undefined],2:['2026-01-10',undefined]};
+const historicalDates={12:['2026-10-02',undefined],10:['2026-05-22','2026-05-22'],9:['2026-03-20',undefined],8:['2026-03-15',undefined],7:['2026-03-13',undefined],6:['2026-03-06',undefined],5:['2026-03-06',undefined],4:['2026-02-28',undefined],3:['2026-02-26',undefined],1:['2026-01-15',undefined],2:['2026-01-10',undefined]};
 const held=new Set(['7','3']);
 
+test('the new MCP article uses the established editorial layout and responsive illustrations',()=>{
+ const route=readFileSync('src/app/blog/whatsapp-business-tools-mcp-onboarding-2026/page.tsx','utf8');
+ assert.match(route,/EditorialGuideArticle guide=\{mcpNewsGuide\} visual=\{mcpNewsVisual\}/);
+ assert.ok(!route.includes('PlatformGuideArticle'));
+ assert.deepEqual(editorialVisuals.mcpNewsVisual.quickLinks,['announcement-and-availability','before-connecting','pilot-and-proof']);
+ assert.equal(editorialVisuals.mcpNewsVisual.focusSectionId,'before-connecting');
+});
+
 test('redesigned posts have separate, compact listing thumbnails',async()=>{
- for(const slug of ['whatsapp-cloud-api-complete-guide-2026','whatsapp-cloud-api-pricing-india-2026','whatsapp-cloud-api-restrictions-coexistence-framework-2026','busy-erp-google-sheets-integration-complete-guide','whatsapp-graph-api-v24-to-v25-transition-guide','whatsapp-username-system-2026-complete-guide','whatsapp-plus-launch-2026-premium-subscription-guide','whatsapp-web-6-hour-logout-unofficial-api-migration-guide','whatsapp-web-6-hour-logout-rule-india-2026','busy-accounting-whatsapp-integration-benefits','meta-whatsapp-pricing-october-2026-india']){
+ for(const slug of ['whatsapp-cloud-api-complete-guide-2026','whatsapp-cloud-api-pricing-india-2026','whatsapp-cloud-api-restrictions-coexistence-framework-2026','busy-erp-google-sheets-integration-complete-guide','whatsapp-graph-api-v24-to-v25-transition-guide','whatsapp-username-system-2026-complete-guide','whatsapp-plus-launch-2026-premium-subscription-guide','whatsapp-web-6-hour-logout-unofficial-api-migration-guide','whatsapp-web-6-hour-logout-rule-india-2026','busy-accounting-whatsapp-integration-benefits','meta-whatsapp-pricing-october-2026-india','whatsapp-business-tools-mcp-onboarding-2026']){
   const post=registry.getPostBySlug(slug);
   assert.ok(post?.thumbnailImage);
   assert.notEqual(post.thumbnailImage,post.coverImage);
@@ -46,8 +55,8 @@ test('redesigned posts have separate, compact listing thumbnails',async()=>{
  }
 });
 
-test('all 11 public posts have 2–4 distinct optimized landscape images in responsive server HTML',async()=>{
- const posts=registry.getAllPosts(),paths=new Set(),alts=new Set();assert.equal(posts.length,11);assert.deepEqual(new Set(posts.map(p=>p.id)),new Set(guides.keys()));
+test('all 12 public posts have 2–4 distinct optimized landscape images in responsive server HTML',async()=>{
+ const posts=registry.getAllPosts(),paths=new Set(),alts=new Set();assert.equal(posts.length,12);assert.deepEqual(new Set(posts.map(p=>p.id)),new Set(guides.keys()));
  for(const post of posts){
   const [guide,component]=guides.get(post.id),images=[guide.cover,...guide.sections.flatMap(section=>section.image?[section.image]:[])];
   assert.ok(images.every(image=>image.src.endsWith('-watermarked.webp')),`${post.slug} has an unwatermarked article image`);
@@ -70,10 +79,10 @@ test('all 11 public posts have 2–4 distinct optimized landscape images in resp
   }
   for(const section of guide.sections.filter(section=>section.image))assert.ok(html.includes(`href="#${section.id}"`));
  }
- assert.equal(paths.size,23);assert.equal(alts.size,23);
+ assert.equal(paths.size,25);assert.equal(alts.size,25);
 });
 
-test('all 11 registry bodies, MD/MCP readers, cover metadata and historical holds agree',async()=>{
+test('all 12 registry bodies, MD/MCP readers, cover metadata and historical holds agree',async()=>{
  const {GET:mdGet}=load('src/app/api/md/[slug]/route.ts'),{GET:jsonGet}=load('src/app/api/mcp/pages/[slug]/route.ts');
  for(const post of registry.getAllPosts()){
   const [guide]=guides.get(post.id),images=[guide.cover,...guide.sections.flatMap(section=>section.image?[section.image]:[])];

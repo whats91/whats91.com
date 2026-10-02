@@ -12,6 +12,15 @@ const root = path.resolve("public/images/blog");
 const logoPath = path.resolve("public/logo.svg");
 const jobs = [
   {
+    dir: "whatsapp-business-tools-mcp-onboarding-2026",
+    source: "cover-hero-square-editorial-2026-10-watermarked.webp",
+    title: ["Business", "Tools MCP"],
+    detail: "Cloud API · Setup",
+    background: "#EAF3E9",
+    titleSizes: [94, 91],
+    imagePosition: "north",
+  },
+  {
     dir: "whatsapp-cloud-api-complete-guide-2026",
     source: "cover-hero-square-refined-2026-10.webp",
     title: ["Cloud API", "Setup"],
@@ -112,11 +121,12 @@ async function fadedLogo() {
 }
 
 const logo = await fadedLogo();
-for (const job of jobs) {
+const selectedDir = process.argv[2];
+for (const job of jobs.filter((item) => !selectedDir || item.dir === selectedDir)) {
   const sourcePath = path.join(root, job.dir, job.source);
   const targetPath = path.join(root, job.dir, "listing-thumbnail-v3-2026-10.webp");
   const source = await sharp(sourcePath)
-    .resize(imageWidth, height, { fit: "cover", position: "centre" })
+    .resize(imageWidth, height, { fit: "cover", position: job.imagePosition ?? "centre" })
     .toBuffer();
   const type = `
     <svg xmlns="http://www.w3.org/2000/svg" width="${panelWidth}" height="${height}" viewBox="0 0 ${panelWidth} ${height}">

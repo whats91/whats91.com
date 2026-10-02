@@ -2,6 +2,22 @@ import type { EditorialVisual } from "@/components/blog/EditorialGuideArticle";
 
 const images = "/images/blog";
 
+export const mcpNewsVisual: EditorialVisual = {
+  eyebrow: "Cloud API setup guide",
+  heroSquare: `${images}/whatsapp-business-tools-mcp-onboarding-2026/cover-hero-square-editorial-2026-10-watermarked.webp`,
+  quickLinks: ["announcement-and-availability", "before-connecting", "pilot-and-proof"],
+  focusSectionId: "before-connecting",
+  figureEyebrow: "Setup review",
+  figureTitle: "Keep a person responsible for each change",
+  figureIntro: "Define the target account, permitted action and expected result before an agent-assisted test.",
+  mobileFigure: `${images}/whatsapp-business-tools-mcp-onboarding-2026/review-checklist-mobile-editorial-2026-10-watermarked.webp`,
+  cards: [
+    { title: "Target", text: "Confirm the intended business, app, WhatsApp account and test number." },
+    { title: "Permission", text: "Review the operator role and approve each asset change or test send." },
+    { title: "Outcome", text: "Compare the response and later events with the expected result." },
+  ],
+};
+
 export const sheetsVisual: EditorialVisual = {
   eyebrow: "Import & validation guide",
   heroSquare: `${images}/busy-erp-google-sheets-integration-complete-guide/cover-hero-square-2026-10-watermarked.webp`,

@@ -11,7 +11,7 @@ const context=slug=>({params:Promise.resolve({slug})}), request=new Request('htt
 const historical=['busy-erp','miracle-whatsapp-api','chat-shortcuts-conversation-automation','whatsapp-templates','whatsapp-coexistence','tools','pricing','partners','whats91-coins','google-sheets-integration','chatbot-flows'];
 
 test('actual expanded inventory resolves all historical and later bodies with common canonical/body policy',async()=>{
- const m=modules(),inventory=m.content.websiteContentInventory();assert.equal(inventory.length,36);assert.equal(inventory.filter(p=>p.slug.startsWith('blog-')).length,11);
+ const m=modules(),inventory=m.content.websiteContentInventory();assert.equal(inventory.length,37);assert.equal(inventory.filter(p=>p.slug.startsWith('blog-')).length,12);
  for(const slug of historical)assert.ok(inventory.some(p=>p.slug===slug));
  for(const item of inventory){
   const expected=m.content.getWebsiteContent(item.slug);assert.equal(expected.status,'available');assert.ok(expected.page.content.trim().length>500,'Actual maintained bodies are substantive');
@@ -19,7 +19,7 @@ test('actual expanded inventory resolves all historical and later bodies with co
   const markdown=await a.text(),json=await b.json();assert.ok(markdown.includes(expected.page.content));assert.equal(json.content,expected.page.content);assert.equal(json.content_format,'text/markdown');assert.equal(json.url,item.url);
   for(const response of [a,b]){assert.equal(response.headers.get('link'),`<${item.url}>; rel="canonical"`);assert.equal(response.headers.get('x-robots-tag'),'noindex');assert.equal(response.headers.get('x-content-type-options'),'nosniff');assert.equal(response.headers.get('allow'),'GET, HEAD, OPTIONS');assert.match(response.headers.get('cache-control'),/^public/);}
  }
- const c=await(await m.catalogue.GET()).json();assert.deepEqual(c.passages.pages.map(p=>p.slug),inventory.map(p=>p.slug));assert.equal(c.passages.total,36);assert.equal(c.tools,undefined);
+ const c=await(await m.catalogue.GET()).json();assert.deepEqual(c.passages.pages.map(p=>p.slug),inventory.map(p=>p.slug));assert.equal(c.passages.total,37);assert.equal(c.tools,undefined);
 });
 
 test('unknown, case-mismatched and prototype keys cannot become successful empty or inherited representations',async()=>{

@@ -53,9 +53,9 @@ test('metadata requires explicit author approval, uses supported article dates a
   assert.deepEqual(config.generatePageMetadata({...input,authorPublicUse:'approved'}).authors,[{name:'Held fixture'}]);
 });
 
-test('all eleven real article graphs preserve registry dates and held attribution while linking stable brand entities', () => {
+test('all twelve real article graphs preserve registry dates and held attribution while linking stable brand entities', () => {
   const {getAllPosts}=load('src/lib/blog/registry.ts'),{generateBlogArticleSchema}=load('src/lib/blog/metadata.ts'),{contentDates}=load('src/lib/content/dates.ts');
-  assert.equal(getAllPosts().length,11);
+  assert.equal(getAllPosts().length,12);
   for(const post of getAllPosts()){
     const schema=generateBlogArticleSchema(post.slug),dates=contentDates(post);
     assert.equal(schema.headline,post.title);assert.equal(schema.description,post.excerpt);

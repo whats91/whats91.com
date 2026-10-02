@@ -1,5 +1,6 @@
 import { cloudGuide, migrationGuide, indiaPricingGuide } from "./billing-guides";
 import { octoberPricingGuide, octoberPricingImages } from "./october-pricing-guide";
+import { mcpNewsGuide } from "./mcp-news-guide";
 import { sheetsGuide, benefitsGuide, guideMarkdown } from "./erp-guides";
 import { rolloutGuides } from "./rollout-guides";
 import { contentDates } from "@/lib/content/dates";
@@ -46,6 +47,29 @@ export interface BlogPostMeta {
 
 // All posts metadata - lightweight for listing page
 export const blogPosts: BlogPostMeta[] = [
+  {
+    id: "12",
+    editorial: { stage: "pending-human-review", evidenceCheckedAt: "2026-10-02", mediaCapturedAt: "2026-10-02", history: [] },
+    slug: mcpNewsGuide.slug,
+    title: mcpNewsGuide.title,
+    excerpt: mcpNewsGuide.description,
+    category: "WhatsApp API",
+    tags: ["WhatsApp API", "Cloud API", "Onboarding", "MCP", "2026"],
+    authorId: "1",
+    publishedAt: "2026-10-02",
+    readingTime: 7,
+    isFeatured: false,
+    coverImage: mcpNewsGuide.cover?.src,
+    thumbnailImage: "/images/blog/whatsapp-business-tools-mcp-onboarding-2026/listing-thumbnail-v3-2026-10.webp",
+    coverAlt: mcpNewsGuide.cover?.alt,
+    coverCaption: mcpNewsGuide.cover?.caption,
+    content: guideMarkdown(mcpNewsGuide),
+    seo: {
+      title: "WhatsApp Business Tools MCP: Cloud API Setup Checklist",
+      description: mcpNewsGuide.description,
+      keywords: ["WhatsApp Business Tools MCP", "WhatsApp Cloud API onboarding", "Meta Business Messaging MCP"],
+    },
+  },
   {
     id: "11",
     editorial: { stage: "pending-human-review", evidenceCheckedAt: "2026-09-29", mediaCapturedAt: "2026-09-29", history: [] },

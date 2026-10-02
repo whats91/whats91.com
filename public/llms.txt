@@ -54,6 +54,7 @@ These are qualified explanations and setup examples. A listed workflow does not 
 
 Article bodies carry the same qualified guides and supporting references as their reader pages. Published/material-update dates follow source history; a documentation-check or request time is separate. Attribution and human review remain pending. Historical synthetic arithmetic is not a current rate card or quote.
 
+- [Meta's WhatsApp Business Tools MCP: a practical Cloud API setup checklist](/blog/whatsapp-business-tools-mcp-onboarding-2026) — [Markdown](/api/md/blog-whatsapp-business-tools-mcp-onboarding-2026), [public passages](/api/mcp/pages/blog-whatsapp-business-tools-mcp-onboarding-2026).
 - [Meta WhatsApp pricing from 1 October 2026: India rates and budget examples](/blog/meta-whatsapp-pricing-october-2026-india) — [Markdown](/api/md/blog-meta-whatsapp-pricing-october-2026-india), [public passages](/api/mcp/pages/blog-meta-whatsapp-pricing-october-2026-india).
 - [WhatsApp Cloud API Pricing India 2026: Budgeting and Billing Conditions](/blog/whatsapp-cloud-api-pricing-india-2026) — [Markdown](/api/md/blog-whatsapp-cloud-api-pricing-india-2026), [public passages](/api/mcp/pages/blog-whatsapp-cloud-api-pricing-india-2026).
 - [WhatsApp Cloud API Restrictions and Coexistence: Diagnosis and Planning](/blog/whatsapp-cloud-api-restrictions-coexistence-framework-2026) — [Markdown](/api/md/blog-whatsapp-cloud-api-restrictions-coexistence-framework-2026), [public passages](/api/mcp/pages/blog-whatsapp-cloud-api-restrictions-coexistence-framework-2026).

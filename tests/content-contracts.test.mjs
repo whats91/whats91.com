@@ -56,7 +56,7 @@ test("fingerprint excludes internal governance but includes public dates, metada
   for (const value of ['const page={title:"Changed"};','const page={title:"Title", publishedAt:"2026-02-01"};','const page={title:"Title",image:"new.png",alt:"Evidence"};']) assert.notEqual(fingerprint(normalizedSource("page.ts",value)),fingerprint(normalizedSource("page.ts",'const page={title:"Title"};')));
 });
 test("current canonical inventory covers records/consumers/assets and has no fabricated human events", () => {
-  const result=inventory(); assert.equal(result.records.filter(r=>r.id.startsWith("blog:")).length,11); assert.equal(result.records.filter(r=>r.id.startsWith("author:")).length,4); assert.equal(result.records.filter(r=>r.id.startsWith("plan:")).length,2);
+  const result=inventory(); assert.equal(result.records.filter(r=>r.id.startsWith("blog:")).length,12); assert.equal(result.records.filter(r=>r.id.startsWith("author:")).length,4); assert.equal(result.records.filter(r=>r.id.startsWith("plan:")).length,2);
   assert.equal(result.records.filter(r=>r.id.startsWith("legal:")).length,11); // Legal Center is a hub, not a twelfth document.
   for (const record of result.records) { assert.equal(record.state,"pending-human-review"); assert.equal(record.humanEvents,0); assert.ok(Object.keys(record.mediaHashes).length>0); assert.ok(record.parts['source:src/app/layout.tsx']); assert.ok(record.parts['source:src/app/globals.css']); assert.ok(!record.sourceHashes['src/lib/content/review.ts']); }
   const legal=result.records.find(r=>r.id==='legal:privacyDocument'); assert.ok(legal.consumers.includes('src/app/privacy/page.tsx')); assert.ok(legal.consumers.includes('src/app/legal/dpa/page.tsx'));
