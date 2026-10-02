@@ -3,6 +3,7 @@ import { Header } from "@/components/landing/Header";
 import { Footer } from "@/components/landing/Footer";
 import { BreadcrumbJsonLD } from "@/components/seo/JsonLD";
 import { ContactForm } from "./ContactForm";
+import { supportedSubject } from "@/lib/enquiry-contract";
 import {
   Container,
   Section,
@@ -25,7 +26,7 @@ const pagePath = "/contact";
 const pageUrl = `${siteConfig.url}${pagePath}`;
 const seoTitle = "Contact Whats91 | WhatsApp Cloud API Sales & Support";
 const seoDescription =
-  "Get in touch with Whats91 for WhatsApp Cloud API sales, technical support, or integration help. Phone, email, and office details for our Ujjain, India team.";
+  "Get in touch with Whats91 for WhatsApp Cloud API sales, technical support, or integration help. Listed phone, email and address details; confirm availability and office arrangements.";
 
 export const metadata: Metadata = {
   ...generatePageMetadata({
@@ -58,7 +59,10 @@ const departments = [
   },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const params = await searchParams;
+  const values = params.subject === undefined ? [] : Array.isArray(params.subject) ? params.subject : [params.subject];
+  const subject = supportedSubject(values);
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <BreadcrumbJsonLD
@@ -78,15 +82,16 @@ export default function ContactPage() {
               </h1>
               <p className="text-lead measure-prose mx-auto">
                 Have a question about our WhatsApp Cloud API platform? Need help with integration?
-                Our team is ready to assist you.
+                Use the enquiry form to describe what you need.
               </p>
             </div>
 
             {/* Contact form */}
             <div className="max-w-2xl mx-auto mb-10 sm:mb-12">
-              <ContactForm />
+              <ContactForm initialSubject={subject} />
             </div>
 
+            <p className="max-w-3xl mx-auto text-sm text-text-secondary mb-6">These are the contact channels and address currently listed on this website. Confirm the recipient and office arrangements before sending sensitive documents or visiting.</p>
             {/* Contact info cards */}
             <div className="max-w-3xl mx-auto space-y-4 sm:space-y-5">
               <div className="grid gap-4 sm:gap-5 sm:grid-cols-2">
@@ -95,23 +100,23 @@ export default function ContactPage() {
                     <IconBadge icon={Phone} size="lg" className="shrink-0" />
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-text-primary mb-1">Phone</h3>
-                      <p className="text-caption mb-3">Mon-Fri, 9am-6pm IST</p>
+                      <p className="text-caption mb-3">Confirm availability before calling</p>
                       <div className="space-y-1.5">
-                        <div className="flex items-center gap-2 text-sm">
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
                           <span className="text-text-muted shrink-0">Sales:</span>
-                          <a href="tel:+919669823388" className="text-text-secondary hover:text-brand-primary transition-colors">
+                          <a href="tel:+919669823388" className="min-w-0 break-all text-text-secondary hover:text-primary transition-colors">
                             +91 96698 23388
                           </a>
                         </div>
-                        <div className="flex items-center gap-2 text-sm">
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
                           <span className="text-text-muted shrink-0">Support:</span>
-                          <a href="tel:+919302819026" className="text-text-secondary hover:text-brand-primary transition-colors">
+                          <a href="tel:+919302819026" className="min-w-0 break-all text-text-secondary hover:text-primary transition-colors">
                             +91 93028 19026
                           </a>
                         </div>
-                        <div className="flex items-center gap-2 text-sm">
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
                           <span className="text-text-muted shrink-0">Technical:</span>
-                          <a href="tel:+917000782082" className="text-text-secondary hover:text-brand-primary transition-colors">
+                          <a href="tel:+917000782082" className="min-w-0 break-all text-text-secondary hover:text-primary transition-colors">
                             +91 70007 82082
                           </a>
                         </div>
@@ -125,17 +130,17 @@ export default function ContactPage() {
                     <IconBadge icon={Mail} size="lg" className="shrink-0" />
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-text-primary mb-1">Email</h3>
-                      <p className="text-caption mb-3">We&apos;ll respond within 24 hours</p>
+                      <p className="text-caption mb-3">Response timing depends on the enquiry</p>
                       <div className="space-y-1.5">
-                        <div className="flex items-center gap-2 text-sm">
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
                           <span className="text-text-muted shrink-0">General:</span>
-                          <a href="mailto:hello@whats91.com" className="text-text-secondary hover:text-brand-primary transition-colors">
+                          <a href="mailto:hello@whats91.com" className="min-w-0 break-all text-text-secondary hover:text-primary transition-colors">
                             hello@whats91.com
                           </a>
                         </div>
-                        <div className="flex items-center gap-2 text-sm">
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
                           <span className="text-text-muted shrink-0">Support:</span>
-                          <a href="mailto:support@whats91.com" className="text-text-secondary hover:text-brand-primary transition-colors">
+                          <a href="mailto:support@whats91.com" className="min-w-0 break-all text-text-secondary hover:text-primary transition-colors">
                             support@whats91.com
                           </a>
                         </div>
@@ -150,8 +155,8 @@ export default function ContactPage() {
                   <div className="flex items-start gap-4">
                     <IconBadge icon={MapPin} size="lg" className="shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-text-primary mb-1">Office</h3>
-                      <p className="text-caption mb-3">Visit our headquarters</p>
+                      <h3 className="font-semibold text-text-primary mb-1">Listed address</h3>
+                      <p className="text-caption mb-3">Confirm arrangements before visiting</p>
                       <div className="space-y-0.5 text-sm text-text-secondary">
                         <p>131, C21 Mall</p>
                         <p>Ujjain, Madhya Pradesh</p>
@@ -165,21 +170,8 @@ export default function ContactPage() {
                   <div className="flex items-start gap-4">
                     <IconBadge icon={Clock} size="lg" className="shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-text-primary mb-3">Business Hours</h3>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-text-muted">Monday - Friday</span>
-                          <span className="text-text-secondary font-medium">9:00 AM - 6:00 PM</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-text-muted">Saturday</span>
-                          <span className="text-text-secondary font-medium">10:00 AM - 2:00 PM</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-text-muted">Sunday</span>
-                          <span className="text-text-muted">Closed</span>
-                        </div>
-                      </div>
+                      <h3 className="font-semibold text-text-primary mb-3">Availability</h3>
+                      <p className="text-sm text-text-secondary">Current hours and response commitments have not been confirmed. Ask which channel is monitored for your enquiry; an enquiry does not schedule an appointment.</p>
                     </div>
                   </div>
                 </div>
@@ -194,7 +186,7 @@ export default function ContactPage() {
             <SectionHeader
               id="departments-heading"
               title="How can we help?"
-              description="Choose the right department to get faster assistance for your needs."
+              description="Choose a route for your enquiry or documentation question."
             />
             <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {departments.map((dept) => {
@@ -219,7 +211,7 @@ export default function ContactPage() {
         {/* Final CTA */}
         <Section>
           <Container>
-            <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-brand-primary via-brand-primary to-brand-accent p-7 sm:p-8 md:p-12 shadow-xl">
+            <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-brand-700 via-brand-700 to-brand-800 p-7 sm:p-8 md:p-12 shadow-xl">
               <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
                 <div className="absolute -top-1/2 -right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-white/10 rounded-full blur-3xl" />
                 <div className="absolute -bottom-1/2 -left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-white/10 rounded-full blur-3xl" />
@@ -227,16 +219,16 @@ export default function ContactPage() {
               <div className="relative z-10 text-center max-w-2xl mx-auto">
                 <h2 className="heading-2 !text-white mb-4">Ready to get started?</h2>
                 <p className="text-base sm:text-lg text-white/90 mb-6">
-                  Join 500+ enterprises using Whats91 for their WhatsApp Cloud API needs.
+                  Describe your workflow and confirm supported features, prerequisites and written terms.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <a
-                    href="https://chat.whats91.com"
+                    href="#main-content"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center h-11 sm:h-12 px-6 sm:px-8 font-semibold bg-white text-brand-700 hover:bg-white/95 rounded-xl shadow-lg transition-colors"
                   >
-                    Start Free Trial
+                    Discuss availability
                   </a>
                   <a
                     href="https://developers.whats91.com/overview"

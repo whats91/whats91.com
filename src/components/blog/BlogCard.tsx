@@ -1,9 +1,12 @@
 "use client";
 
+import { contentDates } from "@/lib/content/dates";
+
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar, Clock, ArrowRight, Tag, BookOpen, User } from "lucide-react";
 import { BlogPostMeta } from "@/lib/blog/registry";
-import { getAuthorById } from "@/lib/blog/authors";
+import { getAuthorLink } from "@/lib/blog/author-links";
 
 interface BlogCardProps {
   post: BlogPostMeta;
@@ -12,11 +15,11 @@ interface BlogCardProps {
 }
 
 export function BlogCard({ post, showAuthor = true, variant = "default" }: BlogCardProps) {
-  const author = getAuthorById(post.authorId);
+  const author = getAuthorLink(post.authorId);
   
   const categoryStyles: Record<string, { bg: string; text: string; border: string }> = {
     "WhatsApp API": { bg: "bg-green-50", text: "text-green-700", border: "border-green-200" },
-    "ERP Integration": { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200" },
+    "ERP Integration": { bg: "bg-brand-50", text: "text-brand-700", border: "border-brand-200" },
     "Business Automation": { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200" },
     "Industry Insights": { bg: "bg-orange-50", text: "text-orange-700", border: "border-orange-200" },
     "Product Updates": { bg: "bg-pink-50", text: "text-pink-700", border: "border-pink-200" },
@@ -26,15 +29,16 @@ export function BlogCard({ post, showAuthor = true, variant = "default" }: BlogC
 
   const style = categoryStyles[post.category] || { bg: "bg-slate-50", text: "text-slate-700", border: "border-slate-200" };
 
-  const formattedDate = new Date(post.publishedAt).toLocaleDateString("en-IN", {
+  const published = contentDates(post).published;
+  const formattedDate = published ? new Date(published).toLocaleDateString("en-IN", {
     day: "numeric",
     month: "short",
     year: "numeric",
-  });
+  }) : undefined;
 
   return (
     <article className="group relative h-full">
-      <Link href={`/blog/${post.slug}`} className="block h-full">
+      <div className="block h-full">
         <div className="relative h-full rounded-2xl border border-border/60 bg-white overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-brand-primary/30 hover:-translate-y-1">
           
           {/* Top Accent Line */}
@@ -49,17 +53,18 @@ export function BlogCard({ post, showAuthor = true, variant = "default" }: BlogC
 
           {/* Hero Image Placeholder with Icon */}
           <div className="relative h-36 sm:h-40 bg-gradient-to-br from-surface via-surface/50 to-brand-primary/5 flex items-center justify-center overflow-hidden">
+            {post.coverImage && <Image src={post.coverImage} alt="" fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover" />}
             {/* Animated Background Pattern */}
-            <div className="absolute inset-0 opacity-5">
+            {!post.coverImage && <div className="absolute inset-0 opacity-5">
               <div className="absolute inset-0" style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Ccircle cx='1' cy='1' r='1'/%3E%3C/g%3E%3C/svg%3E")`
               }} />
-            </div>
+            </div>}
             
             {/* Reading Icon */}
-            <div className="relative h-14 w-14 rounded-2xl bg-white/80 backdrop-blur-sm border border-border/30 flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all duration-300">
+            {!post.coverImage && <div className="relative h-14 w-14 rounded-2xl bg-white/80 backdrop-blur-sm border border-border/30 flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all duration-300">
               <BookOpen className="h-6 w-6 text-brand-primary" />
-            </div>
+            </div>}
             
             {/* Reading Time Badge */}
             <div className="absolute bottom-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full bg-white/90 backdrop-blur-sm border border-border/30 text-[10px] text-text-muted">
@@ -72,7 +77,7 @@ export function BlogCard({ post, showAuthor = true, variant = "default" }: BlogC
           <div className="p-4 sm:p-5">
             {/* Title */}
             <h3 className="text-base sm:text-lg font-semibold text-text-primary mb-2 line-clamp-2 group-hover:text-brand-primary transition-colors duration-200 leading-snug">
-              {post.title}
+              <Link prefetch={false} href={`/blog/${post.slug}`} className="after:absolute after:inset-0">{post.title}</Link>
             </h3>
             
             {/* Excerpt */}
@@ -104,14 +109,14 @@ export function BlogCard({ post, showAuthor = true, variant = "default" }: BlogC
                 {showAuthor && author && (
                   <Link 
                     href={`/authors/${author.slug}`}
-                    className="flex items-center gap-1.5 text-[10px] sm:text-xs text-text-muted hover:text-brand-primary transition-colors"
+                    className="relative z-10 flex min-h-11 items-center gap-1.5 text-[10px] sm:text-xs text-text-muted hover:text-brand-primary transition-colors"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <User className="h-3 w-3" />
-                    {author.name}
+                    Attribution pending
                   </Link>
                 )}
-                {!showAuthor && (
+                {!showAuthor && formattedDate && (
                   <span className="flex items-center gap-1.5 text-[10px] sm:text-xs text-text-muted">
                     <Calendar className="h-3 w-3" />
                     {formattedDate}
@@ -125,7 +130,7 @@ export function BlogCard({ post, showAuthor = true, variant = "default" }: BlogC
             </div>
           </div>
         </div>
-      </Link>
+      </div>
     </article>
   );
 }

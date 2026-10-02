@@ -1,57 +1,18 @@
-import { NextResponse } from "next/server";
+import { z } from "zod";
+import { websiteContentInventory } from "@/lib/website-content";
+import { contentOptions, contentMethodNotAllowed, contentError } from "@/lib/website-content-http";
 
-/**
- * Catch-all route for MD endpoints with nested paths
- * Returns JSON 404 instead of HTML 404 for paths like /api/md/solutions/marketing
- * 
- * Available slugs are flat (no slashes):
- * - busy-erp
- * - miracle-whatsapp-api
- * - chat-shortcuts-conversation-automation
- * - whatsapp-templates
- * - whatsapp-coexistence
- * - tools
- * - pricing
- * - google-sheets-integration
- * - chatbot-flows
- * - blog-{post-slug}
- */
-
-const availableSlugs = [
-  "busy-erp",
-  "miracle-whatsapp-api",
-  "chat-shortcuts-conversation-automation",
-  "whatsapp-templates",
-  "whatsapp-coexistence",
-  "tools",
-  "pricing",
-  "google-sheets-integration",
-  "chatbot-flows",
-];
-
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ slug: string[] }> }
-) {
-  const { slug } = await params;
-  const fullPath = slug.join("/");
-
-  // Return JSON 404 with helpful information
-  return NextResponse.json(
-    {
-      error: "Page not found",
-      requested_path: fullPath,
-      message: "MD endpoints use flat slugs without slashes",
-      available_pages: availableSlugs,
-      hint: `Use /api/md/${availableSlugs[0]} instead of nested paths. For blog posts, use /api/md/blog-{post-slug}`,
-      example: `/api/md/${availableSlugs[0]}`,
-    },
-    {
-      status: 404,
-      headers: {
-        "Content-Type": "application/json",
-        "X-Robots-Tag": "noindex",
-      },
-    }
-  );
+export async function GET(_request: Request, { params }: { params: Promise<{ slug: string[] }> }) {
+  try {
+    const parsed = z.array(z.string().min(1).max(180)).min(1).max(10).safeParse((await params).slug);
+    if (!parsed.success) return contentError("not-found");
+    const path = "/" + parsed.data.join("/");
+    const page = websiteContentInventory().find(item => new URL(item.url).pathname === path);
+    return contentError("not-found", undefined, page ? `Use /api/md/${page.slug}; canonical reader: ${page.url}` : "MD endpoints use flat keys without slashes. Use /api/md/home or a listed key.");
+  } catch { return contentError("unavailable"); }
 }
+export const OPTIONS = contentOptions;
+export const POST = contentMethodNotAllowed;
+export const PUT = contentMethodNotAllowed;
+export const PATCH = contentMethodNotAllowed;
+export const DELETE = contentMethodNotAllowed;

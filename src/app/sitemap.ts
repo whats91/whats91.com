@@ -1,3 +1,4 @@
+import { contentDates } from "@/lib/content/dates";
 import { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/seo/config";
 import { getAllPosts } from "@/lib/blog";
@@ -12,11 +13,11 @@ import { getAllAuthors } from "@/lib/blog/authors";
 //
 // Static pages carry no lastModified on purpose — a build-time timestamp
 // claims every page changed on every deploy, which teaches crawlers to
-// distrust the value. Blog posts and authors use their real content dates.
+// distrust the value. Blog entries use declared content dates; profile joining dates are not page changes.
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
 
-  const blogPosts = getAllPosts();
+  const blogPosts = getAllPosts().filter(post => !post.indexHold);
   const authors = getAllAuthors();
 
   // ============================================
@@ -30,7 +31,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/contact`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/partners`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/partners/whats91-coins`, changeFrequency: "weekly", priority: 0.75 },
-    { url: `${baseUrl}/careers`, changeFrequency: "weekly", priority: 0.5 },
   ];
 
   // ============================================
@@ -40,7 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/blog`, changeFrequency: "daily", priority: 0.9 },
     ...blogPosts.map((post) => ({
       url: `${baseUrl}/blog/${post.slug}`,
-      lastModified: new Date(post.updatedAt || post.publishedAt).toISOString(),
+      ...(contentDates(post).lastModified && { lastModified: contentDates(post).lastModified }),
       changeFrequency: "weekly" as const,
       priority: 0.8,
     })),
@@ -115,10 +115,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // AUTHOR PAGES
   // ============================================
   const authorPages: MetadataRoute.Sitemap = [
-    { url: `${baseUrl}/authors`, changeFrequency: "weekly", priority: 0.8 },
-    ...authors.map((author) => ({
+    ...authors.filter(author => author.publicUse !== "pending").map((author) => ({
       url: `${baseUrl}/authors/${author.slug}`,
-      lastModified: new Date(author.joinedAt).toISOString(),
+      ...(contentDates(author).lastModified && { lastModified: contentDates(author).lastModified }),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),

@@ -137,8 +137,7 @@ src/app/
 │
 └── api/
     ├── route.ts
-    ├── contact/route.ts
-    └── webhooks/github/route.ts
+    └── ready/route.ts
 ```
 
 ### Components Structure

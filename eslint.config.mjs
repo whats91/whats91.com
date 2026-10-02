@@ -44,7 +44,24 @@ const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, {
     "no-useless-escape": "off",
   },
 }, {
-  ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts", "examples/**", "skills"]
+  // PM2 loads this deployment descriptor as CommonJS.
+  files: ["ecosystem.config.cjs"],
+  rules: {
+    "@typescript-eslint/no-require-imports": "off",
+  },
+}, {
+  // These duplicated websocket samples require optional socket.io packages
+  // that are not part of the production application dependency graph.
+  ignores: [
+    "node_modules/**",
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    "examples/websocket/**",
+    "temp/examples/websocket/**",
+    "skills",
+  ]
 }];
 
 export default eslintConfig;

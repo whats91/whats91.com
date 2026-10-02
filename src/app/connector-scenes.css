@@ -1,0 +1,66 @@
+/* ============================================================
+   Integrations band — SVG connector scene.
+   Curved SVG paths fan out from the central hub to each
+   integration node. A faint base stroke is ALWAYS drawn (the
+   legible diagram), and a brighter "comet" dash travels along
+   each path toward the hub to signal data flowing in. Because
+   the comet is a real static dash pattern on the path, the
+   global prefers-reduced-motion rule (which freezes animation)
+   leaves a clean dotted connector. Hub rings + the mobile spine
+   start transparent, so without motion they simply never appear.
+   pathLength="100" normalises every path so one keyframe set
+   drives comets of any length at identical speed.
+   ============================================================ */
+
+@keyframes conn-comet {
+  to { stroke-dashoffset: -100; }
+}
+
+@keyframes hub-ring {
+  0% { transform: scale(0.62); opacity: 0.5; }
+  70%, 100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes spine-flow {
+  to { background-position-y: 14px; }
+}
+
+.conn-base {
+  fill: none;
+  stroke: rgba(69, 188, 150, 0.22);
+  stroke-width: 1.5;
+}
+
+.conn-comet {
+  fill: none;
+  stroke: #45bc96;
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-dasharray: 12 88;
+  stroke-dashoffset: 0;
+  animation: conn-comet 2.6s linear infinite;
+}
+
+.hub-ring {
+  opacity: 0;
+  transform-origin: center;
+  animation: hub-ring 3s ease-out infinite;
+}
+
+.hub-ring-late {
+  animation-delay: 1.5s;
+}
+
+/* Mobile: a single vertical connector spine below the hub */
+.conn-spine {
+  width: 2px;
+  height: 2.25rem;
+  background-image: repeating-linear-gradient(
+    180deg,
+    rgba(69, 188, 150, 0.6) 0 6px,
+    transparent 6px 14px
+  );
+  background-size: 2px 14px;
+  animation: spine-flow 0.9s linear infinite;
+}
+

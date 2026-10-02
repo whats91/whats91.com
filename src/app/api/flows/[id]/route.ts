@@ -1,53 +1,23 @@
 import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
-import { getFlowById, FlowMetadata } from "@/lib/flows/registry";
+import { z } from "zod";
+import { createFlowExampleReader } from "@/lib/flows/read-example";
 
-// Cache for loaded flows
-const flowCache = new Map<string, unknown>();
-
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const { id } = await params;
-  
-  // Get flow metadata
-  const flowMeta: FlowMetadata | undefined = getFlowById(id);
-  
-  if (!flowMeta) {
-    return NextResponse.json(
-      { error: "Flow not found", message: `No flow exists with id: ${id}` },
-      { status: 404 }
-    );
-  }
-
+const idSchema = z.string().min(1).max(80);
+const readExample = createFlowExampleReader(filename => fs.readFile(path.join(process.cwd(), "src/lib/flows/json", filename), "utf-8"));
+export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    // Check cache first
-    if (flowCache.has(id)) {
-      return NextResponse.json(flowCache.get(id));
-    }
-
-    // Load JSON file
-    const jsonPath = path.join(process.cwd(), "src/lib/flows/json", `${flowMeta.jsonFile}.json`);
-    const fileContent = await fs.readFile(jsonPath, "utf-8");
-    const flowData = JSON.parse(fileContent);
-
-    // Cache the result
-    flowCache.set(id, flowData);
-
-    return NextResponse.json(flowData);
-  } catch (error) {
-    console.error(`Error loading flow ${id}:`, error);
-    return NextResponse.json(
-      { error: "Failed to load flow", message: "Could not read flow JSON file" },
-      { status: 500 }
-    );
+    const parsed = idSchema.safeParse((await params).id);
+    const result = parsed.success ? await readExample(parsed.data) : { status: 404 as const, error: "Flow not found" };
+    if (result.status !== 200) return NextResponse.json({ error: result.error }, { status: result.status, headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" } });
+    return new NextResponse(result.text, { headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Disposition": `attachment; filename="${result.id}.json"`,
+      "Cache-Control": "public, max-age=300, must-revalidate",
+      "X-Content-Type-Options": "nosniff",
+    } });
+  } catch {
+    return NextResponse.json({ error: "Example JSON unavailable. Retry later." }, { status: 503, headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" } });
   }
-}
-
-// GET /api/flows - List all flows metadata
-export async function LIST() {
-  const { flowRegistry } = await import("@/lib/flows/registry");
-  return NextResponse.json(flowRegistry);
 }

@@ -1,3 +1,6 @@
+import { servicePricingPolicy, utilityPricingPolicy } from "@/lib/meta-pricing";
+import { onboardingQualification, migrationQualification, throughputQualification, windowQualification } from "@/lib/platform-compatibility";
+import { pricingFAQs } from "@/lib/pricing";
 import {
   CreditCard,
   Code2,
@@ -25,19 +28,19 @@ export const faqData = {
     },
     {
       question: "How do I get started with Whats91 WhatsApp API?",
-      answer: "Getting started is simple: 1) Sign up on whats91.com with your business details, 2) Verify your business with Meta (we guide you through the process), 3) Set up your WhatsApp Business Account (WABA), 4) Create your first message templates, 5) Integrate via our API or use our no-code dashboard. The entire onboarding takes 24-48 hours. Contact our sales team for a personalized demo."
+      answer: "Discuss your number, existing app/API setup, business purpose and integration needs with the team. Assess the eligible registration path before changing the number; agree the service scope and schedule. Provider verification and template decisions are separate approvals, not an instant website activation."
     },
     {
       question: "What are the requirements to use WhatsApp Business API in India?",
-      answer: "To use WhatsApp Business API in India, you need: a valid business with GST registration (optional but recommended for ITC), a verified Meta Business Manager account, a phone number not currently on WhatsApp (or willing to deactivate), accepted business category (no gambling, alcohol, etc.), and compliance with WhatsApp's Commerce Policy. We handle the Meta verification process for you."
+      answer: "Check the exact number, business purpose, country, account permissions, provider onboarding flow and current Meta policy. An existing Business App number may be assessed for coexistence; deactivation is not a universal prerequisite. Business registration and tax treatment are separate from platform eligibility. Approval for one account does not establish approval for every Indian business."
     },
     {
       question: "How long does it take to get WhatsApp Business API access?",
-      answer: "With Whats91, most businesses get API access within 24-48 hours. The process includes: account creation (instant), business verification (12-24 hours), number registration (2-4 hours), and template approval (varies by category - utility templates are often instant, marketing takes 24-48 hours). Enterprise clients with existing Meta verification can be live in under 4 hours."
+      answer: onboardingQualification
     },
     {
       question: "Can I keep my existing WhatsApp number for Business API?",
-      answer: "Yes, but with conditions. Your existing WhatsApp number can be migrated to Business API, but you must first: 1) Export your chat history (API doesn't retain personal chats), 2) Deactivate the number from WhatsApp/WhatsApp Business app, 3) Wait 24-48 hours before registration. We recommend using a new dedicated business number for seamless transition."
+      answer: migrationQualification
     },
     {
       question: "What's the difference between WhatsApp Cloud API and On-Premise API?",
@@ -48,44 +51,7 @@ export const faqData = {
       answer: "Not necessarily. Whats91 offers two modes: 1) No-Code Dashboard - manage contacts, send broadcasts, view analytics through our intuitive interface, 2) API Integration - for developers building custom solutions. Our Busy ERP integration requires zero coding - we handle everything. For custom CRM integrations, basic API knowledge helps, but our team provides comprehensive documentation and support."
     },
   ],
-  "pricing": [
-    {
-      question: "What are the WhatsApp API pricing rates in India for 2026?",
-      answer: "Meta publishes WhatsApp Business Platform rates by market and message category, and those rates can change. Use the current Meta rate card and the Whats91 pricing page as estimates, then rely on your applicable plan, order form, and invoice for binding charges."
-    },
-    {
-      question: "Are there any setup fees or monthly charges?",
-      answer: "Setup fees, recurring platform fees, message charges, integrations, and taxes depend on the selected plan and any quoted scope. Review the pricing page and your written order form before purchase; the invoice should list applicable charges separately."
-    },
-    {
-      question: "How does volume discount pricing work?",
-      answer: "Utility and Authentication messages have automatic volume tiers: 0-25M messages at ₹0.1150 (base), 25M-50M at ₹0.1081 (6% off), 50M-100M at ₹0.1012 (12% off), up to 30% off at 300M+ messages. Marketing has a flat rate regardless of volume. Tier upgrades happen automatically - no negotiation needed."
-    },
-    {
-      question: "When are WhatsApp messages completely free?",
-      answer: "Three scenarios for free messaging: 1) 24-Hour Customer Service Window - any reply within 24 hours of customer message is free, 2) 72-Hour CTWA Window - all message types (including marketing) are free after a Click-to-WhatsApp ad click, 3) Utility templates within an active service window are free (April 2025 update)."
-    },
-    {
-      question: "How is billing handled? Is there GST?",
-      answer: "Meta bills in INR directly to Indian businesses. 18% GST applies and is fully claimable as Input Tax Credit (ITC) for GST-registered businesses. Invoices show every message as a line item with delivery status. No USD conversion fees, no foreign transaction charges. This local billing setup saves 12-20% compared to earlier USD billing."
-    },
-    {
-      question: "What happens if my message is not delivered?",
-      answer: "You don't pay. WhatsApp API uses per-delivered billing - only successfully delivered messages are charged. Undelivered messages due to invalid numbers, user opt-outs, or network issues cost nothing. Our dashboard shows detailed delivery analytics with reason codes for failed attempts."
-    },
-    {
-      question: "How do I add money to my WhatsApp API account?",
-      answer: "Meta uses a prepaid credit system. You can add funds directly through Meta Business Manager using credit card, debit card, or UPI. For Indian businesses, we recommend maintaining a balance equivalent to 2-4 weeks of messaging volume. Our dashboard shows real-time balance and projected usage alerts."
-    },
-    {
-      question: "Can I get a refund for unused credits?",
-      answer: "Meta's policy doesn't allow refunds for purchased credits. However, credits don't expire and can be used indefinitely. We recommend starting with smaller amounts and scaling based on actual usage. For enterprise clients, we offer custom billing arrangements with monthly invoicing."
-    },
-    {
-      question: "Why can provider pricing differ from Meta rates?",
-      answer: "Providers may separately charge for software, support, onboarding, integrations, or managed services. Compare the current Meta rate card with each provider's written commercial terms. Whats91 pricing and any pass-through charges are stated in the applicable plan or order form."
-    },
-  ],
+  "pricing": pricingFAQs,
   "technical": [
     {
       question: "How do WhatsApp Webhooks work?",
@@ -93,27 +59,27 @@ export const faqData = {
     },
     {
       question: "What message templates are supported?",
-      answer: "WhatsApp supports four template categories: 1) Utility - order confirmations, shipping updates, account alerts, 2) Marketing - promotional offers, newsletters, product launches, 3) Authentication - OTP delivery, verification codes, 4) Service - customer support responses. Each category has different pricing and approval requirements."
+      answer: "Marketing, utility and authentication are template purposes to confirm in the current template review flow. Service replies are not a fourth template approval category. Message format, approved purpose, customer-service window and effective pricing classification are separate checks."
     },
     {
       question: "How do I create and approve message templates?",
-      answer: "Templates are created through Meta Business Manager or our dashboard. Each template needs: a name, category, language code, and content body with optional variables. Meta reviews templates within 24-48 hours. Utility templates are often auto-approved. Marketing templates require more scrutiny. We provide pre-approved template libraries for common use cases."
+      answer: "Use the approved account template workflow and confirm category, language, content and variable examples. Provider review outcomes and timing vary; a library example is not an approval. Do not send a template until its actual status and intended use are confirmed."
     },
     {
       question: "What's the message rate limit (throughput)?",
-      answer: "Throughput depends on your messaging tier: Tier 1 (verified) - 1,000 unique users per 24 hours, Tier 2 - 10,000 users, Tier 3 - 100,000 users, Tier 4 - unlimited. Within these limits, you can send multiple messages per user. Our platform supports burst throughput of 500+ messages per second for time-sensitive campaigns."
+      answer: throughputQualification
     },
     {
       question: "Can I send images, videos, and documents via WhatsApp API?",
-      answer: "Yes, WhatsApp Cloud API supports rich media: Images (JPEG, PNG up to 5MB), Videos (MP4, 3GP up to 16MB), Documents (PDF, DOC, XLS up to 100MB), Audio (MP3, AAC, OGG up to 16MB), and Stickers. Media messages use template pricing. Our dashboard includes a media library for easy asset management."
+      answer: "Yes, WhatsApp Cloud API supports rich media: Images (JPEG, PNG up to 5MB), Videos (MP4, 3GP up to 16MB), Documents (PDF, DOC, XLS up to 100MB), Audio (MP3, AAC, OGG up to 16MB), and Stickers. Media format alone does not establish a billing category; template deliveries use their applicable category and non-template replies use Service pricing. Our dashboard includes a media library for easy asset management."
     },
     {
       question: "How do I handle incoming customer messages?",
-      answer: "Incoming messages are delivered via webhooks to your configured endpoint. You can: 1) Build a custom chat interface, 2) Use our multi-agent inbox dashboard, 3) Route to AI chatbots for auto-response, 4) Integrate with existing CRM/ticketing systems. Replies within 24 hours of customer message are free (Service window)."
+      answer: "Incoming messages are delivered via webhooks to your configured endpoint. You can: 1) Build a custom chat interface, 2) Use our multi-agent inbox dashboard, 3) Route to AI chatbots for auto-response, 4) Integrate with existing CRM/ticketing systems. " + servicePricingPolicy + " " + utilityPricingPolicy
     },
     {
       question: "What's Error 131049 (Frequency Cap Saturation)?",
-      answer: "Meta limits users to approximately 2 marketing messages per day across ALL businesses. Error 131049 occurs when attempting to send a marketing message to a user who has already received their daily quota. Solution: Segment audiences strategically, time broadcasts appropriately, and focus on quality over quantity."
+      answer: "Inspect the actual error and current provider guidance. Recipient-level marketing controls vary; no fixed daily message quota is confirmed here. Avoid aggressive retry loops, review consent and relevance, and separate recipient controls from account throughput."
     },
     {
       question: "How do I integrate WhatsApp API with my CRM or custom application?",
@@ -121,7 +87,7 @@ export const faqData = {
     },
     {
       question: "What is the 24-hour messaging window?",
-      answer: "When a customer messages you first, a 24-hour window opens. During this window, you can send unlimited free-form messages (no template required) to that customer at no cost. This is called the Customer Service Window (CSW). It resets each time the customer sends a new message."
+      answer: windowQualification
     },
   ],
   "busy-erp": [
@@ -147,7 +113,7 @@ export const faqData = {
     },
     {
       question: "How long does Busy ERP integration take?",
-      answer: "Standard integration takes 2-3 business days: Day 1 - WhatsApp Business setup and verification, Day 2 - Busy database connection and template creation, Day 3 - Testing and go-live. For complex setups with custom workflows, allow 5-7 days. We provide complete training and documentation."
+      answer: onboardingQualification
     },
     {
       question: "Can I customize the message templates for Busy integration?",
@@ -199,11 +165,11 @@ export const faqData = {
   "support": [
     {
       question: "What support options are available?",
-      answer: "We offer tiered support: Free tier - Email support (24-48 hour response), documentation, and community forum. Pro tier - Priority email (12-hour response), chat support, and onboarding assistance. Enterprise tier - Dedicated account manager, phone support, custom SLAs, and 2-hour response guarantee. All tiers include access to our knowledge base."
+      answer: "Confirm support channels, included assistance and any paid add-on in your written offer. No Free/Pro/Enterprise commercial tier or response-time guarantee is confirmed here."
     },
     {
       question: "How do I contact customer support?",
-      answer: "Multiple channels available: WhatsApp us at +91 96698 23388 (fastest for quick queries), Email support@whats91.com, Call +91 96698 23388 (Mon-Sat, 10AM-7PM IST), or use the in-dashboard chat widget. Enterprise clients have a dedicated support channel with their account manager."
+      answer: "Use the contact options displayed on this website and confirm staffed hours, response commitments and included assistance for your agreement. No fastest channel, dedicated account manager or universal support schedule is confirmed here."
     },
     {
       question: "My messages are being marked as 'Undelivered'. What should I do?",
@@ -211,7 +177,7 @@ export const faqData = {
     },
     {
       question: "My WhatsApp Business number is showing low quality rating. How to fix?",
-      answer: "Quality ratings depend on user feedback (blocks, reports). To improve: ensure consent before marketing messages, segment audiences better, reduce message frequency, improve content relevance, and honor opt-outs quickly. Quality typically recovers in 7-30 days of good sending behavior. Contact support for a quality audit."
+      answer: "Review recipient feedback, opt-ins, content relevance and sending frequency. Honour opt-outs and investigate the actual account status. No fixed recovery period or guaranteed restoration follows from these steps."
     },
     {
       question: "Templates are being rejected. What's wrong?",
@@ -219,7 +185,7 @@ export const faqData = {
     },
     {
       question: "How do I upgrade my messaging tier?",
-      answer: "Tiers upgrade automatically when you: maintain Green quality rating, send to 50%+ of your current daily limit consistently, and have no policy violations. Meta checks every 6 hours (2026 update). To accelerate: maintain high engagement rates, minimize blocks/reports, and ensure template compliance. Contact us for manual tier upgrade requests."
+      answer: "Check the actual account/portfolio limit, quality and current provider upgrade conditions. Recipient limits differ from MPS and template pacing; neither a repeated tier label nor a fixed checking schedule establishes eligibility. Whats91 assistance cannot guarantee a provider upgrade."
     },
     {
       question: "My webhook is not receiving messages. How to debug?",
@@ -227,7 +193,7 @@ export const faqData = {
     },
     {
       question: "How long does template approval take?",
-      answer: "Template approval times vary by category: Utility templates - often instant to 2 hours, Authentication templates - 2-6 hours, Marketing templates - 24-48 hours, Service templates - not required (free-form in 24h window). Rejected templates show specific reasons. Resubmission after correction typically takes half the original time."
+      answer: onboardingQualification
     },
   ],
 };

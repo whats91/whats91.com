@@ -24,7 +24,7 @@ const endpoints = [
 
 const outputFormats = [
   { id: "json", icon: FileJson, label: "JSON", color: "text-amber-600", bgColor: "bg-amber-50" },
-  { id: "html", icon: FileCode, label: "HTML", color: "text-blue-600", bgColor: "bg-blue-50" },
+  { id: "html", icon: FileCode, label: "HTML", color: "text-brand-700", bgColor: "bg-brand-50" },
   { id: "pdf", icon: FileText, label: "PDF", color: "text-red-600", bgColor: "bg-red-50" },
 ];
 

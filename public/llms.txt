@@ -1,173 +1,75 @@
-# Whats91 - LLM/MCP Entry Point
+# Whats91 website content
 
-> Enterprise WhatsApp Cloud API Platform - Official Meta Business Solution Provider for India. Transform business communication with 500+ msgs/sec throughput, 99.9% uptime, and seamless ERP integrations.
+> Whats91 explains WhatsApp messaging and ERP workflows for Indian businesses. Confirm current enabled features, account eligibility, integration prerequisites and written terms before launch. This optional entry file provides reading links; it does not establish provider designation, legal relationships or account access.
 
-## Language
-- Primary: English
-- Secondary: Hindi (partial support)
+## Start here
 
----
+- [Home workflow paths](/api/md/home)
+- [Feature paths](/api/md/features)
+- [Public website content catalogue](/api/mcp): GET, HEAD and OPTIONS; no MCP tool execution, account data or authorisation.
+- [MCP access information](/mcp): July 20 source-reported availability; confirm current tools, provider, plan and account permissions before connecting.
+- [MCP access Markdown](/api/md/mcp) and [MCP access passages](/api/mcp/pages/mcp).
+- [Indexable canonical sitemap](/sitemap.xml) and [Article feed](/feed.xml). An available reader page can still have a temporary indexing hold.
 
-## HIGH PRIORITY PAGES (Top 14)
+## Buying and privacy conditions
 
-1. [Busy ERP Integration](/solutions/busy-erp) - Core product: automate invoices, payment reminders, 24/7 balance inquiry chatbot for Busy Accounting
-2. [Miracle WhatsApp API](/solutions/miracle-whatsapp-api) - Miracle Accounting Software integration for invoices, builty PDFs, challans, statements, and reminders
-3. [Chat Shortcuts](/features/chat-shortcuts-conversation-automation) - WhatsApp ice breakers and slash commands routed into chatbots, flows, ERP, and support automation
-4. [WhatsApp Templates Library](/whatsapp-templates) - 20+ pre-approved message templates for marketing, utility, authentication
-5. [Chatbot Flow Library](/chatbot-flows) - Pre-built conversational flows for ERP automation
-6. [Google Sheets Integration](/google-sheets-integration) - Sync WhatsApp campaign responses to Google Sheets in real-time
-7. [Pricing](/pricing) - Transparent WhatsApp API pricing with zero markup guarantee
-8. [WhatsApp Coexistence Guide](/whatsapp-coexistence) - Use Business App + Cloud API simultaneously on one number
-9. [Free Tools](/tools) - WhatsApp link generator, QR code, cost calculator, and more
-10. [Blog](/blog) - Technical articles on WhatsApp API, ERP integration, automation
-11. [Partners](/partners) - Partner and Tech Partner pricing, responsibilities, add-ons, and renewal benefits
-12. [Whats91 Coins](/partners/whats91-coins) - Partner wallet coins, recharge GST, subscription assignments, and usage calculator
-13. [Contact](/contact) - Sales inquiries, technical support, demo requests
-14. [About](/about) - Company background, team, mission
+[Pricing](/pricing) publishes the dated Meta INR schedule, recipient-market rates, marginal tiers, allowances and Whats91 pass-through terms. Its [Markdown](/api/md/pricing) and [public passages](/api/mcp/pages/pricing) derive from the same maintained pricing source. Platform fees, tax applicability, coin conversion and total payable require separate confirmed terms; [Partners](/partners) and [Whats91 Coins](/partners/whats91-coins) retain written-offer conditions.
 
----
+[Four local tools](/tools) cover message-volume planning, user-assumption ROI, wa.me links and PNG QR generation. Calculations run in browser state; page requests and URL query links can reach the website. Copying uses clipboard permissions, and opening/sharing destinations transfers content. Avoid sensitive input. See [Privacy](/privacy) and [Cookies/preferences](/cookies) for site-level context; local processing does not establish no cookies, no transfers or whole-site privacy.
 
-## SOLUTIONS (By Intent)
+[Message examples](/whatsapp-templates) are illustrative, requiring account/category/approval review. [Eleven flow JSON examples](/chatbot-flows) span six categories; import and activation are unavailable here. No newsletter intake or subscriber delivery is enabled on the blog hub.
 
-### Marketing & Engagement
-- [Marketing Campaigns](/solutions/marketing) - Broadcast campaigns, promotional messaging, customer engagement
-- [Utility Messages](/solutions/utility) - Order updates, shipping alerts, transactional notifications
+Support and availability follow the [contractual-only policy](/sla): staffed hours, signed commitments, named controls/providers/locations/retention and any certification or residency assurance require confirmation. [Terms](/terms), [Privacy](/privacy), and [Compliance](/compliance) explain scope; these links do not certify compliance.
 
-### ERP Integrations
-- [Busy ERP Integration](/solutions/busy-erp) - Invoice automation, balance inquiry, payment reminders for Busy Accounting
-- [Miracle WhatsApp API](/solutions/miracle-whatsapp-api) - Miracle Accounting WhatsApp integration for invoices, builty PDFs, challans, statements, and reminders
-- [Busy API](/solutions/busy-api) - Direct API integration for custom workflows
-- [Busy Reports](/solutions/busy-reports) - Automated report delivery via WhatsApp
-- [Google Sheet Sync](/solutions/busy-google-sheet) - Real-time data sync to Google Sheets
+## Workflow readers and alternate formats
 
-### Automation
-- [Payment Reminders](/solutions/payment-reminders) - Automated collection reminders, due date alerts
-- [Chat Shortcuts](/features/chat-shortcuts-conversation-automation) - WhatsApp ice breakers and slash commands for chatbot, Flow Builder, ERP, sales, and support automation
+These are qualified explanations and setup examples. A listed workflow does not prove a shipped feature for an account, delivery, a customer result or approved media. Existing setup values must be checked against the current provider/account configuration.
 
----
+- [Whats91 | WhatsApp Messaging & ERP Workflows for Indian Businesses](/) — [Markdown](/api/md/home), [public passages](/api/mcp/pages/home).
+- [Whats91 Features](/features) — [Markdown](/api/md/features), [public passages](/api/mcp/pages/features).
+- [Whats91 MCP: Access and Availability](/mcp) — [Markdown](/api/md/mcp), [public passages](/api/mcp/pages/mcp).
+- [Busy Accounting WhatsApp Integration](/solutions/busy-erp) — [Markdown](/api/md/busy-erp), [public passages](/api/mcp/pages/busy-erp).
+- [Busy Accounting API: Data Contracts and Outputs](/solutions/busy-api) — [Markdown](/api/md/busy-api), [public passages](/api/mcp/pages/busy-api).
+- [Busy ERP AI Collections: Boundaries and Handoffs](/solutions/busy-ai-agent) — [Markdown](/api/md/busy-ai-agent), [public passages](/api/mcp/pages/busy-ai-agent).
+- [Busy Reports: Web and Mobile Access Planning](/solutions/busy-reports) — [Markdown](/api/md/busy-reports), [public passages](/api/mcp/pages/busy-reports).
+- [Busy to Google Sheets: Pull-Based Report Planning](/solutions/busy-google-sheet) — [Markdown](/api/md/busy-google-sheet), [public passages](/api/mcp/pages/busy-google-sheet).
+- [Busy ERP Ecommerce: Catalogue and Order Integration](/solutions/busy-ecommerce) — [Markdown](/api/md/busy-ecommerce), [public passages](/api/mcp/pages/busy-ecommerce).
+- [Miracle Accounting Software WhatsApp API Integration](/solutions/miracle-whatsapp-api) — [Markdown](/api/md/miracle-whatsapp-api), [public passages](/api/mcp/pages/miracle-whatsapp-api).
+- [WhatsApp Chat Shortcuts, Ice Breakers and Slash Commands](/features/chat-shortcuts-conversation-automation) — [Markdown](/api/md/chat-shortcuts-conversation-automation), [public passages](/api/mcp/pages/chat-shortcuts-conversation-automation).
+- [WhatsApp Message Examples](/whatsapp-templates) — [Markdown](/api/md/whatsapp-templates), [public passages](/api/mcp/pages/whatsapp-templates).
+- [WhatsApp Coexistence: Account Conditions](/whatsapp-coexistence) — [Markdown](/api/md/whatsapp-coexistence), [public passages](/api/mcp/pages/whatsapp-coexistence).
+- [WhatsApp API Pricing India](/pricing) — [Markdown](/api/md/pricing), [public passages](/api/mcp/pages/pricing).
+- [Whats91 Partner Program](/partners) — [Markdown](/api/md/partners), [public passages](/api/mcp/pages/partners).
+- [Whats91 Coins](/partners/whats91-coins) — [Markdown](/api/md/whats91-coins), [public passages](/api/mcp/pages/whats91-coins).
+- [WhatsApp Marketing: Campaign Setup and Measurement](/solutions/marketing) — [Markdown](/api/md/marketing), [public passages](/api/mcp/pages/marketing).
+- [WhatsApp Payment Reminders: Due Dates and Credit Rules](/solutions/payment-reminders) — [Markdown](/api/md/payment-reminders), [public passages](/api/mcp/pages/payment-reminders).
+- [WhatsApp Utility Messages: Transactional Templates and Conditions](/solutions/utility) — [Markdown](/api/md/utility), [public passages](/api/mcp/pages/utility).
+- [WhatsApp Flow Builder: Design Rules, Lookups and Handoffs](/flow-builder) — [Markdown](/api/md/flow-builder), [public passages](/api/mcp/pages/flow-builder).
+- [WhatsApp Campaign Responses to Google Sheets](/google-sheets-integration) — [Markdown](/api/md/google-sheets-integration), [public passages](/api/mcp/pages/google-sheets-integration).
+- [WhatsApp Business Calling: Voice Setup and Eligibility](/whatsapp-business-calling) — [Markdown](/api/md/whatsapp-business-calling), [public passages](/api/mcp/pages/whatsapp-business-calling).
+- [Chatbot Flow JSON Examples](/chatbot-flows) — [Markdown](/api/md/chatbot-flows), [public passages](/api/mcp/pages/chatbot-flows).
+- [Whats91 local tools](/tools) — [Markdown](/api/md/tools), [public passages](/api/mcp/pages/tools).
 
-## PRICING
+## Articles and historical limits
 
-- [API Pricing](/pricing) - Per-message rates, volume discounts, zero markup guarantee
-- [Marketing Rates](/pricing#marketing) - Promotional message pricing
-- [Utility Rates](/pricing#utility) - Transactional message pricing
-- [Partner Program](/partners) - Public Partner and Tech Partner plan and add-on pricing
-- [Whats91 Coins](/partners/whats91-coins) - Partner wallet recharge, GST treatment, and coin usage calculator
+Article bodies carry the same qualified guides and supporting references as their reader pages. Published/material-update dates follow source history; a documentation-check or request time is separate. Attribution and human review remain pending. Historical synthetic arithmetic is not a current rate card or quote.
 
----
+- [Meta WhatsApp pricing from 1 October 2026: India rates and budget examples](/blog/meta-whatsapp-pricing-october-2026-india) — [Markdown](/api/md/blog-meta-whatsapp-pricing-october-2026-india), [public passages](/api/mcp/pages/blog-meta-whatsapp-pricing-october-2026-india).
+- [WhatsApp Cloud API Pricing India 2026: Budgeting and Billing Conditions](/blog/whatsapp-cloud-api-pricing-india-2026) — [Markdown](/api/md/blog-whatsapp-cloud-api-pricing-india-2026), [public passages](/api/mcp/pages/blog-whatsapp-cloud-api-pricing-india-2026).
+- [WhatsApp Cloud API Restrictions and Coexistence: Diagnosis and Planning](/blog/whatsapp-cloud-api-restrictions-coexistence-framework-2026) — [Markdown](/api/md/blog-whatsapp-cloud-api-restrictions-coexistence-framework-2026), [public passages](/api/mcp/pages/blog-whatsapp-cloud-api-restrictions-coexistence-framework-2026).
+- [Busy ERP to Google Sheets: CSV Import and Spreadsheet Reporting](/blog/busy-erp-google-sheets-integration-complete-guide) — [Markdown](/api/md/blog-busy-erp-google-sheets-integration-complete-guide), [public passages](/api/mcp/pages/blog-busy-erp-google-sheets-integration-complete-guide).
+- [WhatsApp Graph API v24 to v25: An Evidence-Based Migration Checklist](/blog/whatsapp-graph-api-v24-to-v25-transition-guide) — [Markdown](/api/md/blog-whatsapp-graph-api-v24-to-v25-transition-guide), [public passages](/api/mcp/pages/blog-whatsapp-graph-api-v24-to-v25-transition-guide); temporary reader indexing hold, material facts require confirmation.
+- [WhatsApp Usernames in 2026: Reservations, Privacy and API Readiness](/blog/whatsapp-username-system-2026-complete-guide) — [Markdown](/api/md/blog-whatsapp-username-system-2026-complete-guide), [public passages](/api/mcp/pages/blog-whatsapp-username-system-2026-complete-guide).
+- [WhatsApp Plus in 2026: Official Announcement and Subscription Checks](/blog/whatsapp-plus-launch-2026-premium-subscription-guide) — [Markdown](/api/md/blog-whatsapp-plus-launch-2026-premium-subscription-guide), [public passages](/api/mcp/pages/blog-whatsapp-plus-launch-2026-premium-subscription-guide).
+- [WhatsApp Web Sessions and Official API Migration: A Planning Guide](/blog/whatsapp-web-6-hour-logout-unofficial-api-migration-guide) — [Markdown](/api/md/blog-whatsapp-web-6-hour-logout-unofficial-api-migration-guide), [public passages](/api/mcp/pages/blog-whatsapp-web-6-hour-logout-unofficial-api-migration-guide).
+- [WhatsApp Web Logout in India: Historical Direction and Current Checks](/blog/whatsapp-web-6-hour-logout-rule-india-2026) — [Markdown](/api/md/blog-whatsapp-web-6-hour-logout-rule-india-2026), [public passages](/api/mcp/pages/blog-whatsapp-web-6-hour-logout-rule-india-2026); temporary reader indexing hold, material facts require confirmation.
+- [WhatsApp Cloud API: Setup, Delivery and Billing Guide](/blog/whatsapp-cloud-api-complete-guide-2026) — [Markdown](/api/md/blog-whatsapp-cloud-api-complete-guide-2026), [public passages](/api/mcp/pages/blog-whatsapp-cloud-api-complete-guide-2026).
+- [Five Busy Accounting WhatsApp Workflows to Evaluate](/blog/busy-accounting-whatsapp-integration-benefits) — [Markdown](/api/md/blog-busy-accounting-whatsapp-integration-benefits), [public passages](/api/mcp/pages/blog-busy-accounting-whatsapp-integration-benefits).
 
-## RESOURCES
+## Company and recovery
 
-### Templates & Flows
-- [Chat Shortcuts](/features/chat-shortcuts-conversation-automation) - Meta WhatsApp ice breakers and slash commands managed in Whats91
-- [WhatsApp Templates](/whatsapp-templates) - Pre-approved message templates by category
-- [Chatbot Flow Library](/chatbot-flows) - ERP automation flows for Busy, Tally
-- [Google Sheets Integration](/google-sheets-integration) - Campaign response sync
-- [Co-Existing Mode](/whatsapp-coexistence) - Business App + Cloud API guide
+[About](/about) provides company context subject to identity confirmation. [Careers](/careers) explains recruiting status; no current vacancy is established here. [Contact](/contact) accepts enquiries subject to its displayed receipt conditions. No parent-organization, individual-author, product roadmap or staffed-support promise is supplied by this entry file.
 
-### Tools
-- [All Free Tools](/tools) - Complete tool collection
-- [WhatsApp Link Generator](/tools/whatsapp-link-generator) - Generate wa.me links
-- [QR Code Generator](/tools/qr-code-generator) - Create QR codes for multiple formats
-- [API Cost Calculator](/tools/whatsapp-api-cost-calculator) - Estimate messaging costs
-- [Lead ROI Calculator](/tools/lead-qualification-roi-calculator) - Calculate lead automation ROI
+Alternate content uses flat keys. Unknown nested or flat keys return an error with current supported-key recovery. Missing bodies are unavailable rather than successful empty articles. HTML remains the canonical reader format; public alternate formats carry noindex headers.
 
-### Blog
-- [Blog Index](/blog) - All articles
-- [WhatsApp Cloud API Pricing India 2026](/blog/whatsapp-cloud-api-pricing-india-2026) - Pillar guide for India pricing, Meta rates, BSP markups, template categories, invoices, and billing reconciliation
-- [WhatsApp Cloud API Guide 2026](/blog/whatsapp-cloud-api-complete-guide-2026) - Complete API reference
-- [Cloud API Restrictions & Coexistence Framework](/blog/whatsapp-cloud-api-restrictions-coexistence-framework-2026) - Restrictions, quality limits, portfolio pacing, and coexistence planning
-- [Graph API v24 to v25 Migration Guide](/blog/whatsapp-graph-api-v24-to-v25-transition-guide) - Developer migration guide for WhatsApp Graph API changes
-- [WhatsApp Web Logout Rule India](/blog/whatsapp-web-6-hour-logout-rule-india-2026) - 6-hour logout explanation
-- [Busy WhatsApp Integration Benefits](/blog/busy-accounting-whatsapp-integration-benefits) - ERP automation ROI
-
----
-
-## COMPLIANCE & LEGAL
-
-- [Privacy Policy](/privacy) - Data handling, GDPR compliance
-- [Terms of Service](/terms) - Platform usage terms
-- [Refund Policy](/refund) - Refund and cancellation policy
-- [DPDP Compliance](/compliance) - India Digital Personal Data Protection Act compliance
-- [Cookie Policy](/cookies) - Cookie usage and consent
-
----
-
-## COMPANY
-
-- [About Us](/about) - Company story, team, mission
-- [Partners](/partners) - Whats91 Partner Program, Tech Partner model, partner pricing, and renewal benefits
-- [Whats91 Coins](/partners/whats91-coins) - Partner wallet system for assigning subscriptions and add-ons independently
-- [Careers](/careers) - Job opportunities
-- [Contact](/contact) - Sales, support, demos
-
----
-
-## AI SEARCH ENTITY MAP
-
-Use these entities when summarizing, citing, or classifying Whats91.
-
-| Entity | Type | Canonical Page | Notes |
-| --- | --- | --- | --- |
-| Whats91 | Organization / SoftwareApplication | / | Enterprise WhatsApp Cloud API platform for India |
-| Wilford Technology | Parent Organization | /about | Parent company behind Whats91 |
-| WhatsApp Cloud API | Topic / Service | /blog/whatsapp-cloud-api-complete-guide-2026 | Official Meta-hosted WhatsApp Business Platform API |
-| WhatsApp API Pricing India | Topic / Pillar Page | /blog/whatsapp-cloud-api-pricing-india-2026 | India pricing, Meta rates, BSP markups, invoices, GST, optimization |
-| WhatsApp API Cost Calculator | SoftwareApplication / Tool | /tools/whatsapp-api-cost-calculator | Estimate marketing, utility, authentication, and service messaging costs |
-| WhatsApp Templates | Collection / Topic | /whatsapp-templates | Marketing, utility, authentication template examples and approval guidance |
-| Chat Shortcuts | Feature / Automation | /features/chat-shortcuts-conversation-automation | WhatsApp ice breakers and slash commands routed into Whats91 automation |
-| Whats91 Partner Program | Service / Partner Program | /partners | Partner and Tech Partner pricing, responsibilities, add-ons, and renewal benefits |
-| Whats91 Coins | Wallet / Calculator | /partners/whats91-coins | Partner and Tech Partner wallet coins, recharge GST, plan assignments, and add-on deductions |
-| WhatsApp Coexistence | Topic / Technical Guide | /whatsapp-coexistence | Hybrid Business App + Cloud API guidance where available |
-| Busy ERP Integration | Service / Integration | /solutions/busy-erp | Busy Accounting automation through WhatsApp |
-| Miracle WhatsApp API | Service / Integration | /solutions/miracle-whatsapp-api | Miracle Accounting Software WhatsApp API setup with templates and PDF attachments |
-| Google Sheets Integration | Service / Integration | /google-sheets-integration | Campaign response sync to Google Sheets |
-| Chatbot Flows | Collection / Automation | /chatbot-flows | Pre-built ERP and support chatbot flows |
-
-## KEY ENTITIES
-
-- **Organization**: Whats91
-- **Parent Organization**: Wilford Technology
-- **Platform**: Whats91 WhatsApp Cloud API Platform
-- **Primary Market**: India
-- **Core API**: WhatsApp Cloud API / WhatsApp Business API
-- **High-Intent Topics**: WhatsApp API pricing India, WhatsApp templates, WhatsApp chat shortcuts, WhatsApp slash commands, WhatsApp coexistence, Busy ERP WhatsApp integration, WhatsApp API cost calculator, Whats91 Partner Program, Whats91 Coins, WhatsApp API partner pricing
-- **Technology Stack**: Next.js, TypeScript, WhatsApp Cloud API, Prisma
-- **Industry**: Business Communication, Enterprise Messaging, ERP Integration
-
----
-
-## INTEGRATIONS
-
-- Busy Accounting Software
-- Miracle Accounting Software
-- Tally ERP (Coming Soon)
-- Zoho CRM (Coming Soon)
-- Custom REST APIs
-- Google Sheets
-
----
-
-## COMPLIANCE
-
-- GDPR Compliant
-- ISO 27001 Certified Infrastructure
-- Meta Business Solution Provider
-- Data Localization: India
-
----
-
-## MACHINE-READABLE ENDPOINTS
-
-- [MCP Discovery](/api/mcp) - Model Context Protocol tools and resources
-- [Sitemap](/sitemap.xml) - XML sitemap for all pages
-- [Markdown Content](/api/md/{slug}) - Clean markdown extracts for pages
-
----
-
-## OPTIONAL (Context-Constrained)
-
-Resources that may be skipped for smaller context windows:
-
-- [Careers](/careers) - Job listings
-- [Cookie Policy](/cookies) - Cookie details
+- [WhatsApp API Cost Calculator](/tools/whatsapp-api-cost-calculator) — [Markdown](/api/md/whatsapp-api-cost-calculator), [public passages](/api/mcp/pages/whatsapp-api-cost-calculator).

@@ -1,4 +1,5 @@
-"use client";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import { contentDates } from "@/lib/content/dates";
 
 /**
  * SEO 2.0 Structured Data Injector
@@ -15,19 +16,7 @@ interface SEO20StructuredDataProps {
 }
 
 export function SEO20StructuredData({ schemas }: SEO20StructuredDataProps) {
-  return (
-    <>
-      {schemas.map((schema, index) => (
-        <script
-          key={index}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(schema),
-          }}
-        />
-      ))}
-    </>
-  );
+  return <JsonLd data={schemas} />;
 }
 
 /**
@@ -78,8 +67,9 @@ interface SemanticArticleProps {
   children: React.ReactNode;
   headline: string;
   description: string;
-  author: string;
-  publishedDate: string;
+  author?: string;
+  authorPublicUse?: "approved";
+  publishedDate?: string;
   modifiedDate?: string;
   className?: string;
 }
@@ -89,6 +79,7 @@ export function SemanticArticle({
   headline,
   description,
   author,
+  authorPublicUse,
   publishedDate,
   modifiedDate,
   className = "",
@@ -102,9 +93,9 @@ export function SemanticArticle({
       <header>
         <h1 itemProp="headline">{headline}</h1>
         <meta itemProp="description" content={description} />
-        <meta itemProp="author" content={author} />
-        <meta itemProp="datePublished" content={publishedDate} />
-        {modifiedDate && <meta itemProp="dateModified" content={modifiedDate} />}
+        {author && authorPublicUse === "approved" && <meta itemProp="author" content={author} />}
+        {contentDates({ publishedAt: publishedDate, updatedAt: modifiedDate }).published && <meta itemProp="datePublished" content={contentDates({ publishedAt: publishedDate }).published} />}
+        {contentDates({ publishedAt: publishedDate, updatedAt: modifiedDate }).modified && <meta itemProp="dateModified" content={contentDates({ publishedAt: publishedDate, updatedAt: modifiedDate }).modified} />}
       </header>
       <div itemProp="articleBody">{children}</div>
     </article>
@@ -201,7 +192,7 @@ export function FAQSchema({ faqs, className = "" }: FAQSchemaProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
       />
       <section
         itemScope
@@ -279,7 +270,7 @@ export function BreadcrumbSchema({ items, className = "" }: BreadcrumbSchemaProp
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
       />
       <nav aria-label="Breadcrumb" className={className}>
         <ol

@@ -1,14 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useResourceCopy } from "@/components/shared/useResourceCopy";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+
 import {
   ChevronDown,
   ChevronRight,
@@ -56,24 +53,13 @@ function FlowLibraryCard({
   onToggle: () => void;
 }) {
   const category = getCategoryById(item.category);
-  const [copied, setCopied] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const handleCopyJSON = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/flows/${item.id}`);
-      if (!response.ok) throw new Error("Failed to fetch flow");
-
-      const flowData = await response.json();
-      await navigator.clipboard.writeText(JSON.stringify(flowData, null, 2));
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
-      console.error("Error copying flow:", error);
-    } finally {
-      setLoading(false);
-    }
+  const copy = useResourceCopy(item.id);
+  const readJSON = async () => {
+    const response = await fetch(`/api/flows/${item.id}`);
+    if (!response.ok || !response.headers.get("content-type")?.includes("application/json")) throw new Error("Example unavailable");
+    const text = await response.text();
+    JSON.parse(text);
+    return text;
   };
 
   return (
@@ -110,23 +96,9 @@ function FlowLibraryCard({
           ))}
         </div>
 
-        <Collapsible open={isExpanded} onOpenChange={onToggle}>
-          <CollapsibleTrigger asChild>
-            <Button variant="ghost" size="sm" className="w-full text-xs">
-              {isExpanded ? (
-                <>
-                  <ChevronDown className="h-3 w-3 mr-1" aria-hidden="true" />
-                  Hide Details
-                </>
-              ) : (
-                <>
-                  <ChevronRight className="h-3 w-3 mr-1" aria-hidden="true" />
-                  View Details
-                </>
-              )}
-            </Button>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
+        <details open={isExpanded} onToggle={event => { if (event.currentTarget.open !== isExpanded) onToggle(); }}>
+          <summary className="min-h-11 cursor-pointer py-3 text-sm font-medium text-brand-700">View example details</summary>
+
             <div className="mt-4 space-y-4">
               <div className="p-3 bg-surface rounded-lg">
                 <p className="text-xs font-medium text-text-primary mb-1">Use Case</p>
@@ -141,39 +113,21 @@ function FlowLibraryCard({
                 </code>
               </div>
 
-              <div className="flex gap-2 pt-2 border-t border-border/50">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="flex-1 text-xs"
-                  onClick={handleCopyJSON}
-                  disabled={loading}
-                >
-                  {copied ? (
-                    <>
-                      <Check className="h-3 w-3 mr-1" aria-hidden="true" />
-                      Copied!
-                    </>
-                  ) : loading ? (
-                    <>
-                      <span className="h-3 w-3 mr-1 animate-spin motion-reduce:animate-none">⏳</span>
-                      Loading...
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3 w-3 mr-1" aria-hidden="true" />
-                      Copy JSON
-                    </>
-                  )}
-                </Button>
-                <Button size="sm" className="flex-1 text-xs bg-brand-600 text-white hover:bg-brand-700">
-                  <Play className="h-3 w-3 mr-1" aria-hidden="true" />
-                  Use Flow
-                </Button>
+              <div className="space-y-3 border-t border-border/50 pt-3">
+                <div className="flex flex-wrap gap-2">
+                  <Button type="button" size="sm" variant="outline" onClick={() => copy.copy(readJSON)} disabled={!copy.hydrated || copy.pending}>
+                    <Copy className="h-3 w-3 mr-1" aria-hidden="true" />Copy JSON
+                  </Button>
+                  <a className="inline-flex min-h-11 items-center rounded-lg border border-border px-3 text-sm font-medium text-brand-700" href={`/api/flows/${item.id}`} download={`${item.id}.json`}>Download JSON</a>
+                </div>
+                <p role="status" className="text-caption">{copy.status}</p>
+                {copy.text && <label className="block text-caption">JSON for manual copy
+                  <textarea readOnly aria-label={`JSON example: ${item.name}`} value={copy.text} rows={8} wrap="off" className="mt-2 block w-full min-w-0 max-w-full rounded-lg border border-border p-2 font-mono text-xs" />
+                </label>}
+                <p className="text-caption">Import is unavailable on this website. This download is an example; confirm your builder’s version, schema and integrations before use.</p>
               </div>
             </div>
-          </CollapsibleContent>
-        </Collapsible>
+        </details>
       </CardContent>
     </Card>
   );
@@ -200,6 +154,7 @@ export function ChatbotFlowLibrary() {
 
   return (
     <>
+      <p className="mb-4 text-caption">Category filters and copying need JavaScript. Without scripts, use the full download list below; native detail disclosures still open.</p>
       {/* Category Navigation */}
       <div className="mb-8">
         <h2 className="text-lg font-semibold text-text-primary mb-4">Select Category</h2>
@@ -209,6 +164,8 @@ export function ChatbotFlowLibrary() {
             return (
               <button
                 key={category.id}
+                type="button"
+                aria-pressed={activeCategory === category.id}
                 onClick={() => setActiveCategory(category.id)}
                 className={`flex flex-col items-center gap-2 p-3 rounded-xl border transition-all duration-300 ${
                   activeCategory === category.id
@@ -221,7 +178,7 @@ export function ChatbotFlowLibrary() {
                 </div>
                 <span
                   className={`text-xs font-medium text-center ${
-                    activeCategory === category.id ? "text-brand-primary" : "text-text-secondary"
+                    activeCategory === category.id ? "text-primary" : "text-text-secondary"
                   }`}
                 >
                   {category.name}

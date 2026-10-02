@@ -13,7 +13,7 @@ interface RevealProps {
 /**
  * Scroll-reveal wrapper: fades content up on first viewport entry.
  * Failure mode is always "no animation", never "no content":
- * - no JS → never hidden (`@media (scripting: enabled)` gate in globals.css)
+ * - absent/failed JS → no pending marker, so server content stays visible
  * - reduced motion → shown instantly
  * - already in view at mount → revealed on the next frame
  * - IntersectionObserver broken/indefinitely delayed (the spec's mandatory
@@ -26,7 +26,10 @@ export function Reveal({ children, delay = 0, className }: RevealProps) {
     const node = ref.current;
     if (!node) return;
 
-    const show = () => node.classList.add("is-visible");
+    const show = () => {
+      node.classList.remove("is-pending");
+      node.classList.add("is-visible");
+    };
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       show();
@@ -35,12 +38,25 @@ export function Reveal({ children, delay = 0, className }: RevealProps) {
 
     // Already within (or above) the viewport: animate in immediately.
     if (node.getBoundingClientRect().top < window.innerHeight * 0.92) {
-      requestAnimationFrame(show);
+      node.classList.add("is-pending");
+      const frame = requestAnimationFrame(show);
+      return () => {
+        cancelAnimationFrame(frame);
+        node.classList.remove("is-pending");
+      };
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      show();
       return;
     }
 
+    // Hide only after enhancement is running; failed script delivery cannot hide SSR content.
+    node.classList.add("is-pending");
     let sawInitialCallback = false;
-    const observer = new IntersectionObserver(
+    let observer: IntersectionObserver;
+    try {
+      observer = new IntersectionObserver(
       (entries) => {
         sawInitialCallback = true;
         for (const entry of entries) {
@@ -52,7 +68,11 @@ export function Reveal({ children, delay = 0, className }: RevealProps) {
       },
       { rootMargin: "0px 0px -8% 0px", threshold: 0.1 }
     );
-    observer.observe(node);
+      observer.observe(node);
+    } catch {
+      show();
+      return;
+    }
 
     // A healthy IntersectionObserver always delivers an initial callback
     // within a frame or two. If it hasn't after 1.2s, it is broken in this
@@ -64,6 +84,7 @@ export function Reveal({ children, delay = 0, className }: RevealProps) {
     return () => {
       observer.disconnect();
       window.clearTimeout(guard);
+      node.classList.remove("is-pending");
     };
   }, []);
 

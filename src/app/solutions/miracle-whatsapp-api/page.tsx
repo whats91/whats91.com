@@ -34,6 +34,7 @@ import {
   Zap,
 } from "lucide-react";
 import type { Metadata } from "next";
+import { setupScope, sceneCaption, setupCaptureScope, profileCaption, formatCaption } from "@/lib/product-media";
 
 const pagePath = "/solutions/miracle-whatsapp-api";
 const pageUrl = `${siteConfig.url}${pagePath}`;
@@ -91,7 +92,7 @@ export const metadata: Metadata = {
         url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: openGraphTitle,
+        alt: "Whats91 brand and messaging graphic",
       },
     ],
   },
@@ -166,7 +167,7 @@ const implementationSteps = [
     icon: KeyRound,
     title: "Generate a Whats91 API token",
     description:
-      "Create a Whats91 API token for the Miracle integration. Do not paste a live token into website content, screenshots, or public documents. Use YOUR_WHATS91_API_TOKEN as the setup placeholder.",
+      "Create an integration token in your enabled Whats91 account. Replace YOUR_WHATS91_API_TOKEN only in your private Miracle configuration. Keep the token out of messages and shared documents.",
   },
   {
     step: "03",
@@ -538,15 +539,8 @@ const softwareApplicationSchema = {
   operatingSystem: "Web, WhatsApp Cloud API",
   publisher: {
     "@type": "Organization",
-    name: siteConfig.publisher,
+    name: siteConfig.name,
     url: siteConfig.url,
-  },
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "INR",
-    availability: "https://schema.org/InStock",
-    url: `${siteConfig.url}/contact?source=miracle-whatsapp-api-schema`,
   },
   featureList: [
     "Miracle Web API endpoint configuration",
@@ -568,7 +562,6 @@ const howToSchema = {
   name: "How to Connect Miracle Accounting Software to WhatsApp",
   description:
     "Configure Miracle Accounting Software with Whats91 by creating a template, generating a token, configuring Miracle API, adding a JSON payload, enabling attachments, and sending a test message.",
-  totalTime: "PT20M",
   tool: [
     {
       "@type": "HowToTool",
@@ -636,7 +629,7 @@ const techArticleSchema = {
   },
   publisher: {
     "@type": "Organization",
-    name: siteConfig.publisher,
+    name: siteConfig.name,
     url: siteConfig.url,
   },
   about: [
@@ -756,9 +749,9 @@ function MiracleSetupVisual() {
 
       <figure className="overflow-hidden rounded-2xl border border-border/70 bg-white shadow-xl">
         <div className="border-b border-border/60 bg-surface px-4 py-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-brand-primary">Setup Screenshot 1</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-brand-primary">Existing Setup Image 1</p>
           <figcaption className="mt-1 text-sm font-semibold text-text-primary">
-            Add WhatsApp Web API Profile in Miracle
+            {profileCaption}
           </figcaption>
         </div>
         <div className="bg-[#f7f1f8] p-3">
@@ -768,16 +761,24 @@ function MiracleSetupVisual() {
             width={647}
             height={394}
             className="h-auto w-full rounded-lg border border-border/60 bg-white"
-            sizes="(min-width: 1024px) 560px, 100vw"
+            sizes="(min-width: 1024px) 520px, (min-width: 640px) calc(100vw - 80px), calc(100vw - 56px)"
           />
+          <details className="mt-3 rounded-lg border border-border bg-white p-3">
+            <summary className="cursor-pointer text-sm font-semibold text-brand-700">View Web API profile at full size</summary>
+            <p className="mt-2 text-xs leading-relaxed text-text-secondary">Scroll horizontally to read the configuration. The setup steps and JSON examples explain the same fields in text.</p>
+            <div tabIndex={0} role="region" aria-label="Full-size Web API profile" className="mt-3 max-w-full overflow-x-auto">
+              <Image src="/solutions/miracle/miracle-web-api-profile.png" alt="Full-size Web API profile with placeholder token" width={647} height={394} unoptimized className="max-w-none" style={{ width: 647, height: 394 }} />
+            </div>
+            <a href="/solutions/miracle/miracle-web-api-profile.png" className="mt-3 inline-block text-sm font-semibold text-brand-700 underline">Open existing image file</a>
+          </details>
         </div>
       </figure>
 
       <figure className="overflow-hidden rounded-2xl border border-border/70 bg-white shadow-xl">
         <div className="border-b border-border/60 bg-surface px-4 py-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-brand-primary">Setup Screenshot 2</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-brand-primary">Existing Setup Image 2</p>
           <figcaption className="mt-1 text-sm font-semibold text-text-primary">
-            Paste JSON Body and Enable PDF Attachment Logging
+            {formatCaption}
           </figcaption>
         </div>
         <div className="bg-[#f7f1f8] p-3">
@@ -787,13 +788,21 @@ function MiracleSetupVisual() {
             width={614}
             height={408}
             className="h-auto w-full rounded-lg border border-border/60 bg-white"
-            sizes="(min-width: 1024px) 560px, 100vw"
+            sizes="(min-width: 1024px) 520px, (min-width: 640px) calc(100vw - 80px), calc(100vw - 56px)"
           />
+          <details className="mt-3 rounded-lg border border-border bg-white p-3">
+            <summary className="cursor-pointer text-sm font-semibold text-brand-700">View JSON and PDF settings at full size</summary>
+            <p className="mt-2 text-xs leading-relaxed text-text-secondary">Scroll horizontally to read the configuration. The setup steps and JSON examples explain the same fields in text.</p>
+            <div tabIndex={0} role="region" aria-label="Full-size JSON and PDF settings" className="mt-3 max-w-full overflow-x-auto">
+              <Image src="/solutions/miracle/miracle-format-config.png" alt="Full-size JSON and PDF settings with placeholder token" width={614} height={408} unoptimized className="max-w-none" style={{ width: 614, height: 408 }} />
+            </div>
+            <a href="/solutions/miracle/miracle-format-config.png" className="mt-3 inline-block text-sm font-semibold text-brand-700 underline">Open existing image file</a>
+          </details>
         </div>
       </figure>
 
       <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800">
-        These are the actual Miracle setup screenshots with the credential text masked for public serving. Rotate any token that appears in shared setup material.
+        {setupCaptureScope}
       </p>
     </div>
   );
@@ -801,7 +810,7 @@ function MiracleSetupVisual() {
 
 function MiracleDeliveryAnimation() {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border/70 bg-white p-4 shadow-xl sm:p-5">
+    <div aria-hidden="true" className="relative overflow-hidden rounded-2xl border border-border/70 bg-white p-4 shadow-xl sm:p-5">
       <style>{`
         @keyframes miracle-doc-glow {
           0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 10px 24px rgba(68, 140, 116, 0.10); }
@@ -838,12 +847,12 @@ function MiracleDeliveryAnimation() {
       <div className="relative">
         <div className="mb-4 flex items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-brand-primary">Visual live delivery</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-brand-primary">Illustrative delivery workflow</p>
             <h3 className="mt-1 text-lg font-semibold text-text-primary">Miracle Software to WhatsApp</h3>
           </div>
           <div className="flex items-center gap-1.5 rounded-full border border-brand-primary/15 bg-brand-primary/10 px-3 py-1.5 text-xs font-semibold text-brand-primary">
             <span className="h-2 w-2 rounded-full bg-brand-primary" />
-            Live
+            Sample
           </div>
         </div>
 
@@ -863,6 +872,7 @@ function MiracleDeliveryAnimation() {
                     alt="Miracle Accounting Software logo"
                     width={342}
                     height={147}
+                    sizes="(min-width: 640px) 180px, 100px"
                     className="h-auto w-full"
                   />
                 </div>
@@ -917,6 +927,7 @@ function MiracleDeliveryAnimation() {
                 alt="WhatsApp logo"
                 width={662}
                 height={664}
+                sizes="48px"
                 className="relative h-11 w-11 object-contain sm:h-12 sm:w-12"
               />
             </div>
@@ -943,6 +954,7 @@ function MiracleDeliveryAnimation() {
                     alt="WhatsApp logo"
                     width={662}
                     height={664}
+                    sizes="32px"
                     className="h-8 w-8 rounded-full object-contain"
                   />
                   <div className="min-w-0">
@@ -995,12 +1007,12 @@ export default function MiracleWhatsAppApiPage() {
     <div className="min-h-screen flex flex-col bg-background">
       <JsonLd data={schemaData} />
       <Header />
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         <section className="relative overflow-hidden bg-gradient-to-b from-surface/80 to-background pb-14 pt-3 sm:pb-16 sm:pt-3 md:pb-20 md:pt-4 lg:pb-24 lg:pt-5">
           <div className="absolute inset-0 gradient-brand-subtle pointer-events-none" />
           <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
             <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-              <div className="text-center lg:text-left">
+              <div className="min-w-0 text-center lg:text-left">
                 <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-primary/15 bg-brand-primary/10 px-4 py-1.5 text-xs font-medium text-brand-primary sm:text-sm">
                   <Zap className="h-3.5 w-3.5" />
                   Miracle WhatsApp API
@@ -1014,6 +1026,7 @@ export default function MiracleWhatsAppApiPage() {
                 <p className="mx-auto mb-6 max-w-xl text-sm leading-relaxed text-text-secondary sm:text-base lg:mx-0">
                   Whats91 gives Miracle Accounting Software users a clean POST endpoint that accepts approved template details, Miracle field placeholders, and Base64 PDF attachments without QR-based WhatsApp Web sending.
                 </p>
+                <p className="mb-6 text-sm leading-relaxed text-text-secondary">{setupScope}</p>
                 <div className="mb-8 flex flex-col justify-center gap-3 sm:flex-row sm:gap-4 lg:justify-start">
                   <Button asChild size="lg" className="h-12 rounded-xl bg-brand-primary px-7 text-base font-semibold text-brand-primary-foreground shadow-lg shadow-brand-primary/25 hover:bg-brand-primary-hover">
                     <a href="tel:+919669823388" aria-label="Call +91 96698 23388 for a Miracle WhatsApp API demo">
@@ -1026,7 +1039,7 @@ export default function MiracleWhatsAppApiPage() {
                   </Button>
                 </div>
                 <div className="flex flex-wrap justify-center gap-3 lg:justify-start">
-                  {["Official Cloud API", "Base64 PDF Attachments", "No public token leaks"].map((badge) => (
+                  {["Official Cloud API", "Base64 PDF Attachments", "Private token configuration"].map((badge) => (
                     <div key={badge} className="flex items-center gap-1.5 rounded-full border border-border/50 bg-white/80 px-3 py-1.5 text-xs text-text-muted sm:text-sm">
                       <CheckCircle2 className="h-3.5 w-3.5 text-brand-primary" />
                       {badge}
@@ -1034,7 +1047,10 @@ export default function MiracleWhatsAppApiPage() {
                   ))}
                 </div>
               </div>
-              <MiracleDeliveryAnimation />
+              <figure className="min-w-0">
+                <MiracleDeliveryAnimation />
+                <figcaption className="mt-3 text-sm leading-relaxed text-text-secondary">{sceneCaption}</figcaption>
+              </figure>
             </div>
           </div>
         </section>
@@ -1055,7 +1071,7 @@ export default function MiracleWhatsAppApiPage() {
             <SectionHeading
               eyebrow="Use Cases"
               title="Built for Miracle Accounting Workflows"
-              description="The page targets practical accounting tasks rather than generic messaging. Each workflow maps to real Miracle fields, templates, and document attachments."
+              description="Map the document, recipient, template and attachment fields for each accounting task."
             />
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {useCases.map((item) => (
@@ -1108,25 +1124,25 @@ export default function MiracleWhatsAppApiPage() {
           <div className="mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8">
             <SectionHeading
               eyebrow="JSON Payload"
-              title="Safe Payload Examples for Miracle"
-              description="These examples are safe to publish because they use placeholders only. Store live tokens in Miracle or Whats91 configuration, never in public content."
+              title="JSON Payload Examples for Miracle"
+              description="Replace placeholders in your private configuration. Map the recipient, template and PDF fields before sending a controlled test."
             />
-            <div className="grid gap-6 lg:grid-cols-2">
-              <div>
+            <div className="grid min-w-0 gap-6 lg:grid-cols-2">
+              <div className="min-w-0">
                 <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-text-primary">
                   <Code2 className="h-4 w-4 text-brand-primary" />
                   Simple builty template with PDF attachment
                 </div>
-                <pre className="overflow-auto rounded-2xl border border-ink-border bg-ink-elevated p-4 text-xs leading-relaxed text-ink-text shadow-lg">
+                <pre tabIndex={0} role="region" aria-label="Miracle JSON payload" className="max-w-full overflow-auto rounded-2xl border border-ink-border bg-ink-elevated p-4 text-xs leading-relaxed text-ink-text shadow-lg">
                   <code>{samplePayload}</code>
                 </pre>
               </div>
-              <div>
+              <div className="min-w-0">
                 <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-text-primary">
                   <TableProperties className="h-4 w-4 text-brand-primary" />
                   Extended template argument format
                 </div>
-                <pre className="overflow-auto rounded-2xl border border-ink-border bg-ink-elevated p-4 text-xs leading-relaxed text-ink-text shadow-lg">
+                <pre tabIndex={0} role="region" aria-label="Miracle JSON payload" className="max-w-full overflow-auto rounded-2xl border border-ink-border bg-ink-elevated p-4 text-xs leading-relaxed text-ink-text shadow-lg">
                   <code>{extendedPayload}</code>
                 </pre>
               </div>
@@ -1135,9 +1151,9 @@ export default function MiracleWhatsAppApiPage() {
               <div className="flex gap-3">
                 <TriangleAlert className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
                 <div>
-                  <h3 className="font-semibold text-amber-900">Security note for existing setup material</h3>
+                  <h3 className="font-semibold text-amber-900">Keep credentials private</h3>
                   <p className="mt-1 text-sm leading-relaxed text-amber-800">
-                    A live token appeared in the provided setup material. Rotate that token before production use and replace all public references with YOUR_WHATS91_API_TOKEN.
+                    Use YOUR_WHATS91_API_TOKEN in shared examples. Store the real token only in your private configuration and rotate it if it is exposed.
                   </p>
                 </div>
               </div>
@@ -1153,7 +1169,7 @@ export default function MiracleWhatsAppApiPage() {
               description="The Whats91 Miracle endpoint accepts clear field names and several Miracle-friendly aliases so setup can match the fields available in your Miracle build."
             />
             <div className="w-full overflow-hidden rounded-2xl border border-border/60 bg-white shadow-lg">
-              <div className="w-full max-w-full overflow-x-auto">
+              <div tabIndex={0} role="region" aria-label="Miracle reference table" className="w-full max-w-full overflow-x-auto">
                 <table className="w-full min-w-[820px] text-sm">
                   <thead>
                     <tr className="border-b border-border/60 bg-surface">
@@ -1191,7 +1207,7 @@ export default function MiracleWhatsAppApiPage() {
                 <article key={row.issue} className="rounded-2xl border border-border/60 bg-white p-5 shadow-md">
                   <div className="mb-3 flex items-center gap-2">
                     <TriangleAlert className="h-4 w-4 text-amber-600" />
-                    <h3 className="font-mono text-sm font-semibold text-text-primary">{row.issue}</h3>
+                    <h3 className="min-w-0 break-all font-mono text-sm font-semibold text-text-primary">{row.issue}</h3>
                   </div>
                   <p className="text-sm text-text-secondary">
                     <span className="font-semibold text-text-primary">Cause:</span> {row.cause}
@@ -1254,7 +1270,7 @@ export default function MiracleWhatsAppApiPage() {
                   Miracle Web API is the external integration mechanism used by Miracle Accounting Software to send structured data from an accounting workflow to another application over HTTP. In a WhatsApp integration, Miracle Web API acts as the request source. It collects the selected accounting fields, document details, party mobile number, template values, and attachment data, then submits them to a configured API endpoint. The endpoint can belong to a messaging provider, middleware service, ERP connector, reporting system, CRM, or custom business application.
                 </p>
                 <p>
-                  In practical terms, Miracle Web API lets Miracle Accounting Software communicate with systems outside the desktop accounting environment. A user or configured workflow can generate an invoice, challan, builty, ledger statement, receipt, or reminder, and Miracle can pass the required values to an external API. The external system receives the request, validates it, performs the next action, and returns a response. This is why the same integration concept may be described as Miracle API, Miracle Accounting API, Miracle ERP API, Miracle Integration API, or Miracle Accounting Software API. The phrase changes by use case, but the core function is structured data exchange from Miracle to another system.
+                  In practical terms, Miracle Web API lets Miracle Accounting Software communicate with systems outside the desktop accounting environment. A user or configured workflow can generate an invoice, challan, builty, ledger statement, receipt, or reminder, and Miracle can pass the required values to an external API. The external system receives the request, validates it, performs the next action, and returns a response. The core function is structured data exchange from Miracle to another system.
                 </p>
                 <p>
                   Miracle Web API works by using a profile configuration inside Miracle. The profile stores the request URL, optional key-value settings, and the message body format. For WhatsApp delivery through Whats91, the configured POST URL is <span className="break-all font-mono text-text-primary">https://graph.whats91.com/api/custom/miracle/send-template</span>. The body is JSON. Miracle replaces field placeholders with live accounting values before sending the request. For example, the party mobile placeholder becomes the recipient number, the bill number placeholder becomes a template variable, and the attachment Base64 placeholder becomes the PDF document payload.
@@ -1347,7 +1363,7 @@ export default function MiracleWhatsAppApiPage() {
               description="The same Miracle document can be sent through a browser-style WhatsApp Web path or through Whats91 Cloud API. The operational behavior is different."
             />
             <div className="w-full overflow-hidden rounded-2xl border border-border/60 bg-white shadow-lg">
-              <div className="w-full max-w-full overflow-x-auto">
+              <div tabIndex={0} role="region" aria-label="Miracle reference table" className="w-full max-w-full overflow-x-auto">
                 <table className="w-full min-w-[820px] text-sm">
                   <thead>
                     <tr className="border-b border-border/60 bg-surface">
@@ -1386,8 +1402,8 @@ export default function MiracleWhatsAppApiPage() {
             <SectionHeading
               id="industries-heading"
               eyebrow="Industry workflows"
-              title="Industries Using Miracle WhatsApp Automation"
-              description="Miracle WhatsApp automation is most useful where accounting documents, credit follow-up, dispatch documents, and customer communication repeat every day."
+              title="Miracle Workflow Examples by Industry"
+              description="Illustrative use cases for recurring documents and follow-up. These are not customer case studies or measured results."
             />
             <div className="grid gap-5 md:grid-cols-2">
               {industryUseCases.map((industry) => (
@@ -1458,7 +1474,7 @@ export default function MiracleWhatsAppApiPage() {
                     <h3 className="font-semibold text-text-primary">
                       {faq.question}
                     </h3>
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-primary/10 text-sm font-semibold text-brand-primary transition-transform group-open:rotate-45">
+                    <span aria-hidden="true" className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-primary/10 text-sm font-semibold text-brand-primary transition-transform group-open:rotate-45">
                       +
                     </span>
                   </summary>
@@ -1469,19 +1485,19 @@ export default function MiracleWhatsAppApiPage() {
           </div>
         </section>
 
-        <section className="bg-gradient-to-r from-brand-primary to-brand-primary-hover py-12 sm:py-16">
+        <section className="bg-gradient-to-r from-brand-700 to-brand-800 py-12 sm:py-16">
           <div className="mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8">
-            <div className="grid items-center gap-8 lg:grid-cols-[1fr_360px]">
-              <div className="text-center lg:text-left">
-                <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-white/80">Start with a technical setup call</p>
+            <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+              <div className="min-w-0 text-center lg:text-left">
+                <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-white">Start with a technical setup call</p>
                 <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
                   Connect Miracle Accounting Software to WhatsApp without exposing tokens or relying on WhatsApp Web.
                 </h2>
-                <p className="mt-4 text-sm leading-relaxed text-white/85 sm:text-base">
+                <p className="mt-4 text-sm leading-relaxed text-white sm:text-base">
                   Share your Miracle template fields, attachment format, and sender setup. Whats91 will map the custom endpoint, approve templates, and validate test messages before go-live.
                 </p>
-                <Button asChild size="lg" className="mt-6 h-12 rounded-xl bg-white px-7 text-base font-semibold text-brand-primary hover:bg-white/90">
-                  <Link href="/contact?source=miracle-whatsapp-api-cta">
+                <Button asChild size="lg" className="mt-6 min-h-12 h-auto max-w-full whitespace-normal rounded-xl bg-white px-7 py-3 text-base font-semibold text-brand-primary hover:bg-white/90">
+                  <Link href="/contact?source=miracle-whatsapp-api-cta" className="text-center">
                     Request Miracle WhatsApp API Setup
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>

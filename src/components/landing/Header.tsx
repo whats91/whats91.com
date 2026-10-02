@@ -35,13 +35,13 @@ const solutions = [
   {
     title: "Marketing & Engagement",
     href: "/solutions/marketing",
-    description: "Broadcast campaigns, CTWA ads, and cart recovery with 98% open rates.",
+    description: "Plan broadcasts, customer replies and Click-to-WhatsApp entry paths.",
     icon: Megaphone,
   },
   {
     title: "Utility Messages",
     href: "/solutions/utility",
-    description: "Transactional alerts, OTPs, and order updates with compliant templates.",
+    description: "Explore transactional alerts and order updates; confirm template category and approval.",
     icon: Zap,
   },
   {
@@ -61,14 +61,14 @@ const solutions = [
   {
     title: "Busy E-Commerce",
     href: "/solutions/busy-ecommerce",
-    description: "White-label B2B/B2C storefront with 10-minute Busy sync engine.",
+    description: "Explore a storefront connected to Busy stock and rates; confirm sync requirements.",
     icon: ShoppingCart,
     featured: true,
   },
   {
     title: "Busy AI Agent",
     href: "/solutions/busy-ai-agent",
-    description: "Autonomous AI-powered payment recovery via WhatsApp with 98% open rate.",
+    description: "Explore payment follow-up workflows and confirm data, approval and handoff requirements.",
     icon: Bot,
     featured: true,
   },
@@ -140,7 +140,7 @@ export function Header() {
         <div className="px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
           <div className="flex h-14 sm:h-16 items-center justify-between">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 shrink-0 group">
+            <Link prefetch={false} href="/" className="flex items-center gap-2 shrink-0 group">
               <Image
                 src="/whats91_logo.svg"
                 alt="Whats91 Logo"
@@ -155,7 +155,7 @@ export function Header() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav aria-label="Primary" className="hidden lg:flex items-center gap-1">
+            <nav aria-label="Primary" className="hidden xl:flex items-center gap-1">
               {/* Solutions Dropdown */}
               <NavigationMenu>
                 <NavigationMenuList>
@@ -198,7 +198,7 @@ export function Header() {
               {primaryNavItems.map((item) => {
                 const active = isNavActive(pathname, item.href);
                 return (
-                  <Link
+                  <Link prefetch={false}
                     key={item.label}
                     href={item.href}
                     aria-current={active ? "page" : undefined}
@@ -216,21 +216,21 @@ export function Header() {
             </nav>
 
             {/* Desktop CTA */}
-            <div className="hidden lg:flex items-center gap-2">
+            <div className="hidden xl:flex items-center gap-2">
               <Button
                 variant="ghost"
                 asChild
                 aria-current={pathname === "/whatsapp-templates" ? "page" : undefined}
                 className="text-text-secondary hover:text-text-primary text-sm font-medium hover:bg-surface"
               >
-                <Link href="/whatsapp-templates">Templates</Link>
+                <Link prefetch={false} href="/whatsapp-templates">Templates</Link>
               </Button>
               <Button
                 asChild
-                className="bg-brand-600 text-brand-primary-foreground hover:bg-brand-700 text-sm font-medium shadow-md shadow-brand-primary/20 hover:shadow-lg hover:shadow-brand-primary/25 transition-all duration-300"
+                className="bg-primary text-primary-foreground hover:bg-brand-700 hover:text-white text-sm font-medium shadow-md shadow-brand-primary/20 hover:shadow-lg hover:shadow-brand-primary/25 transition-all duration-300"
               >
                 <a href="https://chat.whats91.com" target="_blank" rel="noopener noreferrer">
-                  Get Started
+                  Open Whats91 app
                 </a>
               </Button>
             </div>
@@ -241,7 +241,7 @@ export function Header() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="lg:hidden h-11 w-11 shrink-0 hover:bg-surface"
+                  className="xl:hidden h-11 w-11 shrink-0 hover:bg-surface"
                 >
                   <Menu className="h-5 w-5 text-text-primary" aria-hidden="true" />
                   <span className="sr-only">Open main menu</span>
@@ -249,7 +249,7 @@ export function Header() {
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="w-[85vw] sm:w-[340px] md:w-[380px] bg-background border-l border-border p-0"
+                className="w-[85vw] sm:w-[340px] md:w-[380px] [&>button]:min-h-11 [&>button]:min-w-11 [&>button]:flex [&>button]:items-center [&>button]:justify-center flex flex-col gap-0 bg-background border-l border-border p-0"
               >
                 <SheetTitle className="sr-only">Main menu</SheetTitle>
                 <SheetDescription className="sr-only">
@@ -257,8 +257,8 @@ export function Header() {
                 </SheetDescription>
 
                 {/* Mobile Menu Header */}
-                <div className="flex items-center p-4 border-b border-border/60">
-                  <Link href="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
+                <div className="shrink-0 flex items-center p-4 border-b border-border/60">
+                  <Link prefetch={false} href="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
                     <Image
                       src="/whats91_logo.svg"
                       alt="Whats91 Logo"
@@ -271,7 +271,7 @@ export function Header() {
                 {/* Mobile Navigation Links */}
                 <nav
                   aria-label="Primary"
-                  className="flex flex-col p-3 overflow-y-auto max-h-[calc(100dvh-180px)]"
+                  className="flex-1 min-h-0 flex flex-col p-3 overflow-y-auto"
                 >
                   {/* Solutions Section */}
                   <div className="mb-2">
@@ -283,11 +283,11 @@ export function Header() {
                     const active = pathname === solution.href;
                     return (
                       <SheetClose key={solution.href} asChild>
-                        <Link
+                        <Link prefetch={false}
                           href={solution.href}
                           aria-current={active ? "page" : undefined}
                           className={cn(
-                            "flex items-center gap-3 py-2.5 px-3 text-sm font-medium rounded-lg transition-all duration-200",
+                            "flex items-center gap-3 min-h-11 py-2.5 px-3 text-sm font-medium rounded-lg transition-all duration-200",
                             active
                               ? "text-text-primary bg-surface"
                               : "text-text-secondary hover:text-text-primary hover:bg-surface"
@@ -308,11 +308,11 @@ export function Header() {
                     const active = isNavActive(pathname, item.href);
                     return (
                       <SheetClose key={item.label} asChild>
-                        <Link
+                        <Link prefetch={false}
                           href={item.href}
                           aria-current={active ? "page" : undefined}
                           className={cn(
-                            "flex items-center py-2.5 px-3 text-base font-medium rounded-lg transition-all duration-200",
+                            "flex items-center min-h-11 py-2.5 px-3 text-base font-medium rounded-lg transition-all duration-200",
                             active
                               ? "text-text-primary bg-surface"
                               : "text-text-secondary hover:text-text-primary hover:bg-surface"
@@ -326,15 +326,15 @@ export function Header() {
                 </nav>
 
                 {/* Mobile Menu Footer */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border bg-surface/50">
+                <div className="shrink-0 p-4 border-t border-border bg-surface/50">
                   <div className="flex flex-col gap-2.5">
                     <SheetClose asChild>
                       <Button variant="outline" asChild className="w-full h-11 border-border text-text-primary hover:bg-background font-medium">
-                        <Link href="/whatsapp-templates">WhatsApp Templates</Link>
+                        <Link prefetch={false} href="/whatsapp-templates">WhatsApp Templates</Link>
                       </Button>
                     </SheetClose>
-                    <Button asChild className="w-full h-11 bg-brand-600 text-brand-primary-foreground hover:bg-brand-700 font-medium shadow-md shadow-brand-primary/20">
-                      <a href="https://chat.whats91.com" target="_blank" rel="noopener noreferrer">Get Started</a>
+                    <Button asChild className="w-full h-11 bg-primary text-primary-foreground hover:bg-brand-700 hover:text-white font-medium shadow-md shadow-brand-primary/20">
+                      <a href="https://chat.whats91.com" target="_blank" rel="noopener noreferrer">Open Whats91 app</a>
                     </Button>
                   </div>
                   <div className="flex items-center justify-center gap-2 mt-4">
@@ -369,7 +369,7 @@ const ListItem = ({
   return (
     <li>
       <NavigationMenuLink asChild>
-        <Link
+        <Link prefetch={false}
           href={href}
           className={cn(
             "block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-all duration-200",
@@ -383,7 +383,7 @@ const ListItem = ({
             <span className="text-sm font-semibold leading-none text-text-primary">{title}</span>
             {featured && (
               <span className="inline-flex items-center rounded-full bg-brand-600 px-2 py-0.5 text-[10px] font-medium text-white">
-                Popular
+                Explore
               </span>
             )}
           </div>

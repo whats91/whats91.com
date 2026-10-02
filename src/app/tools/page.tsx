@@ -1,3 +1,4 @@
+import { localTools, localToolPrivacy } from "@/lib/tool-catalogue";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/landing/Header";
@@ -23,7 +24,7 @@ const pageUrl = `${siteConfig.url}${pagePath}`;
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Free WhatsApp Business Tools | Link Generator, Cost Calculator | Whats91",
-  description: "Free tools for WhatsApp Business users. Generate wa.me links, calculate API costs, estimate lead qualification ROI, and create QR codes. No signup required.",
+  description: "Free tools for WhatsApp Business users. Generate wa.me links and PNG QR codes, plan message volumes, and compare lead qualification assumptions. No signup required.",
   keywords: ["WhatsApp link generator", "WhatsApp API cost calculator", "lead qualification ROI", "QR code generator", "WhatsApp business tools", "free WhatsApp tools"],
   path: pagePath,
 });
@@ -41,55 +42,24 @@ const structuredData = [
     name: "Whats91 Free WhatsApp Business Tools",
     description: "Free tools for WhatsApp Business users: link generator, cost calculator, ROI calculator, and QR code generator.",
     inLanguage: "en-IN",
-    isPartOf: {
-      "@type": "WebSite",
-      name: siteConfig.name,
-      url: siteConfig.url,
-    },
+    isPartOf: { "@id": `${siteConfig.url}/#website` },
   },
 ];
 
-const tools = [
-  {
-    title: "WhatsApp API Cost Calculator",
-    description: "Calculate your WhatsApp Business API costs accurately. Estimate spending by message type, volume, and country with official Meta pricing.",
-    href: "/tools/whatsapp-api-cost-calculator",
-    icon: DollarSign,
-    category: "WhatsApp API",
-    featured: true,
-  },
-  {
-    title: "Lead Qualification ROI Calculator",
-    description: "Compare AI-powered WhatsApp automation vs human agents vs self-built solutions. Calculate monthly savings, ROI, and cost per qualified lead.",
-    href: "/tools/lead-qualification-roi-calculator",
-    icon: TrendingUp,
-    category: "Business ROI",
-    featured: true,
-  },
-  {
-    title: "WhatsApp Link Generator",
-    description: "Create clickable WhatsApp links (wa.me) with pre-filled messages. Perfect for business cards, email signatures, websites, and marketing campaigns.",
-    href: "/tools/whatsapp-link-generator",
-    icon: MessageCircle,
-    category: "WhatsApp Tools",
-    featured: true,
-  },
-  {
-    title: "QR Code Generator",
-    description: "Generate high-resolution QR codes for WhatsApp links, URLs, vCards, and more. Download as PNG or SVG without watermarks.",
-    href: "/tools/qr-code-generator",
-    icon: QrCode,
-    category: "Marketing",
-    featured: true,
-  },
+const toolPresentation = [
+  { icon: DollarSign, category: "WhatsApp API", featured: true },
+  { icon: TrendingUp, category: "Business ROI", featured: true },
+  { icon: MessageCircle, category: "WhatsApp Tools", featured: true },
+  { icon: QrCode, category: "Marketing", featured: true },
 ];
+const tools = localTools.map((tool, index) => ({ ...tool, ...toolPresentation[index] }));
 
 export default function ToolsPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <JsonLd data={structuredData} />
       <Header />
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-b from-surface to-background py-16 sm:py-20 lg:py-24">
           <div className="absolute inset-0 bg-grid-pattern opacity-5" />
@@ -104,7 +74,7 @@ export default function ToolsPage() {
                 <span className="text-brand-primary"> for Growth</span>
               </h1>
               <p className="text-lg sm:text-xl text-text-secondary mb-8 max-w-2xl mx-auto">
-                Free tools to maximize your WhatsApp API ROI. Calculate costs, generate links, and estimate automation savings—no signup required.
+                Free tools to maximize your WhatsApp API ROI. Plan message volumes, generate links, and estimate automation savings—no signup required.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-text-secondary">
                 <div className="flex items-center gap-2">
@@ -113,7 +83,7 @@ export default function ToolsPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Users className="h-4 w-4 text-brand-primary" />
-                  <span>Used by 10,000+ businesses</span>
+                  <span>Plan using your assumptions</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-brand-primary" />
@@ -149,7 +119,7 @@ export default function ToolsPage() {
                           <tool.icon className={`h-5 w-5 ${tool.featured ? 'text-brand-primary' : 'text-text-secondary'}`} />
                         </div>
                         {tool.featured && (
-                          <Badge variant="default" className="bg-brand-primary text-white text-[10px]">
+                          <Badge variant="default" className="bg-brand-600 text-white text-[10px]">
                             Popular
                           </Badge>
                         )}
@@ -211,7 +181,7 @@ export default function ToolsPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-text-secondary">
-                    Your data never leaves your browser. We don&apos;t store or track any information.
+                    {localToolPrivacy}
                   </p>
                 </CardContent>
               </Card>
@@ -224,7 +194,7 @@ export default function ToolsPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-text-secondary">
-                    Use our tools as many times as you need. No daily limits, no watermarks, no signup walls.
+                    Generate local links and PNG images without signing up. Content, image size and browser capabilities can limit generation.
                   </p>
                 </CardContent>
               </Card>
@@ -235,7 +205,7 @@ export default function ToolsPage() {
         {/* CTA Section */}
         <section className="py-14 sm:py-16 md:py-20">
           <div className="px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
-            <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-brand-primary via-brand-primary to-brand-accent p-7 sm:p-8 md:p-12 lg:p-16 shadow-xl">
+            <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-brand-700 via-brand-700 to-brand-800 p-7 sm:p-8 md:p-12 lg:p-16 shadow-xl">
               
               {/* Background Decorations */}
               <div className="absolute inset-0 overflow-hidden pointer-events-none">

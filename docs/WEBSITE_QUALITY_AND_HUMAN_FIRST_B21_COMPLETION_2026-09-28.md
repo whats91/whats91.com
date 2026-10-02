@@ -1,0 +1,91 @@
+# B21 — Billing and migration guide completion candidate
+
+Execution/source checks: **29 September 2026**. The filename retains the batch series date. Status: **TECHNICALLY VERIFIED / COORDINATOR REVIEW / PARTIAL**. **STOP before B22.** No human review or release approval is recorded.
+
+B21 reconciles the Cloud setup guide, browser-session migration guide and India pricing pillar across their visible and machine-readable consumers. Cloud and migration are now server articles; pricing remains a server article. The guides preserve useful long explanations while withholding unsupported current account, commercial and regulatory outcomes. The Cloud article's eight unnamed inputs are replaced by named, native reading steps.
+
+## Authority and preserved baseline
+
+The coordinator independently accepted B20 after reading its report/contract, rerunning `npm run check` (102/102), and verifying all **7,681** manifest hashes for build `_Yh_dfhmWvfqdBS6gdhps`. This acceptance is recorded in the current batch ledger; historical audit, blueprint, B20 report and evidence remain unchanged. The coordinator authorized **B21 only**, installed Node 24, this existing workspace, a production build and loopback verification. No new chat, subagent, model override or outgoing coordination message was used.
+
+Read before implementation: actual `AGENTS.md`, master quality plan, relevant phase-one findings and phase-two B21/common/owner-input contracts, current ledger, B20 report/article contract, accepted B12/B13 completion contracts, current pricing/platform helpers and all three article consumers. The Playwright skill was applied with the existing task-owned CLI session `whats91-b15`.
+
+The safe pre-B21 snapshot has **6,825** nonignored files. HEAD remains `6fdf9db34ea3d06772059873890f03fa1ed02657`. Exact delta: **9 inherited files refined, 16 new source/helper/test/report files, 0 baseline files retired**, and **6,816 inherited files byte-identical**. The patch has **25 files**. Evidence and browser captures are additional review artifacts; they are excluded from the source-delta count. Secret `.env` files are excluded; `.env.example` is preserved.
+
+Baseline and recovery evidence: [baseline](evidence/b21-2026-09-28/baseline.json), [before dispositions/anchors](evidence/b21-2026-09-28/block-dispositions-before.json), [exact source/import inventory](evidence/b21-2026-09-28/source-review-inventory.json), [patch](evidence/b21-2026-09-28/b21-billing-migration-guides.patch), [disposable patch application/hash check](evidence/b21-2026-09-28/patch-verification.json), [preservation checks](evidence/b21-2026-09-28/preservation-checks.json). The safe before-source copy is `/private/tmp/whats91-b21-baseline`. Patch application was checked only in a disposable copy; inherited workspace changes were not reset or staged. Use the inventory/before snapshot for review or targeted recovery; do not overwrite the inherited dirty tree wholesale.
+
+## Source and behavior
+
+| Area | Final treatment |
+| --- | --- |
+| `billing-guides.ts` | One canonical source for three full explanations, titles, descriptions, excerpts, tables, reading steps, FAQs, source dates and Markdown bodies. Imports accepted B12/B13 qualifications and the canonical six-row standard/hybrid comparison. |
+| `PlatformGuideArticle.tsx` | New server renderer with semantic article/sections, native contents links and FAQs, labelled keyboard-focusable table/code regions, ordinary CTAs and share links. Reuses the existing narrow `CopyArticleLink` and pending `ArticleAttribution`. B20 renderer is unchanged. |
+| Three article pages | Thin server consumers. Cloud/migration whole-client wrappers removed; pricing stays server. Existing metadata exports/layout system retained. |
+| Registry, metadata and related consumers | Canonical titles/descriptions/excerpts/full body feed the existing registry, list/feed/meta/OG/Twitter and Markdown consumers. Related cards on these routes show only the other two reconciled B21 guides, avoiding an unqualified B22 regulatory excerpt alongside qualified migration advice. B22 sources/URLs remain unchanged. |
+| FAQ/Article schema | All five FAQs per guide match visible answers. Article schema keeps canonical URL/title/description/image/publication/update dates and organizational publisher. No invented Person/approved author. `<` is escaped in JSON-LD. Pricing's existing Article schema contract is preserved. |
+| MD/MCP | Full canonical explanations, tables, arithmetic and FAQs flow to existing Markdown consumers. The pricing MCP passage now prefers full `post.content` with its existing fallback; other guide passages already consume that field. Existing allowlists, public URL checks, guards and method behavior are unchanged. |
+| Identity/history | Slugs, IDs, categories, tags, author IDs, raw publication/update records and meaningful literal anchors retained. B10 date semantics and B19 pending attribution/local initials/index contracts remain. Zero human review events. A documentation check date does not become an article review/update date. |
+| Ledger/owner sheet | Current ledger records B20 acceptance and this B21 candidate. Single `docs/legal-policy-inputs.md` keeps OI01/OI03/OI06/OI08/OI12 pending, including actual selected-flow, rate, scope, account and historical authority. |
+
+The 9 refined paths are the current ledger, owner sheet, blog registry, MCP page route, all three article `page.tsx` files, and Cloud/migration `layout.tsx` files. The 16 new paths are this report, canonical guide module, server renderer, three meaningful tests in one test file, and 12 bounded B21 preview helpers. See the inventory for exact paths and imports. No shadcn UI, database/schema, packages/config, shared shell, public media, B12/B13 helpers or existing narrow copy component changes.
+
+[Claim/consumer parity](evidence/b21-2026-09-28/claim-consumer-parity.json) and [source sweep](evidence/b21-2026-09-28/semantic-sweep-source.txt) provide the source trace. Built checks also exercise registry excerpts, dates, metadata, FAQ/Article schema, full twins and local CTA/anchor destinations.
+
+## Content and evidence limits
+
+The Cloud guide retains registration-path assessment, separation of API/application/operators, genuine identity and selected-flow verification, permission/template handling, delivery reconciliation, queue/recovery responsibilities, capacity planning and a measured pilot. A queued or accepted request does not prove delivery or a final bill. Unknown delivery/pricing stays unresolved; missing callbacks do not become zero-cost records. No universal MPS, SLA, approval time, provider feature bundle or target success percentage is asserted. The example JSON is an invented offline reconciliation record, not a credential-bearing API request or working endpoint.
+
+Migration retains separate standard/hybrid paths, backup/history/device scope, current workflow inventory, number transition, pause/recovery, operator escalation, cost separation and evidence-based readiness stages. It explicitly requires genuine business information and a functioning website **if the selected flow requests one**; it rejects dummy sites/fabricated review evidence. Exact portfolio/provider requirements remain to be confirmed. No automatic immunity, guaranteed badge/history transfer, irreversible account deletion instruction or fixed account deadline is published.
+
+The India pricing guide preserves category/currency/effective-period reasoning, marginal utility/authentication tiers, allowance evidence, separate Meta/platform/setup/tax lines and reconciliation states. Rates/fees/discounts/tax applicability/eligibility are not guessed. Existing planners retain unavailable monetary outputs until effective scope is supported. A reply-window timestamp, an accepted API request, account approval or a future card's calendar date does not establish a charge or free allowance.
+
+Public primary documents were opened on 29 September: Meta's [pricing explanation](https://whatsappbusiness.com/products/platform-pricing/), [Business Messaging Policy](https://whatsappbusiness.com/policy/) (displayed policy date 23 September 2026), [platform overview](https://whatsappbusiness.com/products/business-platform/), and [PIB release of 1 December 2025](https://www.pib.gov.in/PressReleasePage.aspx?PRID=2197146&lang=1&reg=3). The PIB release reports directions dated 28 November 2025, periodic web logout no later than six hours, re-linking and a 90-day implementation requirement. This is dated context, not proof of present account enforcement, a timer beginning at each QR scan, blanket Cloud exemption, a verified account deadline or legal compliance. Broader regulatory articles remain B22 work.
+
+Detailed developer get-started/coexistence/pricing pages were unavailable through retrieval; the business-help page returned a cache miss. No search summary/third-party description was adopted as current numerical pricing or a universal verification checklist. The public policy supports genuine identity/contact/permission and messaging rules; it does not establish every website/document requirement of a particular selected flow. [Primary documentation record](evidence/b21-2026-09-28/primary-documentation.json) preserves availability and support limits. No private account source, real invoice, live callback, registration or migration was inspected.
+
+## Synthetic financial exercise
+
+The displayed **invented INR fixture** has no real pricing period or account approval: marketing `11,000 × .20 = 2,200.00`; utility `1,000 × .10 + 200 × .08 = 116.00`; authentication `1,000 × .05 + 10 × .04 = 50.40`; service `4,000 × 0 = 0.00` only by an explicit fixture assumption. The Meta-model subtotal is **₹2,366.40**. Platform, setup, tax and total payable remain **unavailable**. These are neither current nor historical Meta rates, Whats91 fees or an offer.
+
+Tests use the **actual accepted B12 estimate helper**, not a second arithmetic implementation. Fourteen asserted scenarios cover the displayed subtotal/null money, utility and authentication at 999/1,000/1,001, category isolation, missing/pending card, unconfirmed conditions, currency mismatch, out-of-period and future-card gates. Marketing/service cannot unlock utility/authentication tiers; later-tier prices are marginal, not retroactive. Full inherited B12 tests remain in the suite. [Financial scenarios](evidence/b21-2026-09-28/financial-fixtures.json), [tests](../tests/billing-guides.test.mjs).
+
+## Final verification
+
+Runtime: Node **24.1.0**, Next **16.3.6**. Final build **`tMBjajrKnNcwbO7K7L3ka`**, **111 generated entries**, **53 sitemap HTML routes**. Production preview: **http://127.0.0.1:4307**, bound only to `127.0.0.1`, PID **70036**, Codex process session **85742**. Database/Redis/CRM/notification/captcha enabling values are empty; the public captcha key is a local fixture. No secrets were copied into standalone output. B20's prior build remains historical evidence; current `.next` artifacts belong to B21.
+
+| Check | Result |
+| --- | --- |
+| `npm run check` | **105/105 tests**, lint/typecheck clean, exit 0. Three new tests exercise real financial helper behavior, canonical content/history and actual server rendering with header/footer-only mocks. |
+| 12 current-build contracts | **1,899 assertions**, all exit 0: billing guides 58; B20 guides 37; shell 256; dates 111; pricing 128; platform 153; MCP 285; home 230; media 33; ERP 175; automation 203; identity 230. |
+| Whole-site validator | **1,219 pass / 0 fail / 198 not-checked / 1 unavailable**. Closed native FAQ and unsupported/broad eligibility checks stay bounded. Retired B03 scoring remains unavailable. This is not a universal all-pass or live-site acceptance. |
+| Main browser matrix | **69 states / 1,358 assertions / 109 screenshots**, no failure. Three routes × five widths × hydrated/no-JS/failed-JS/reduced-motion, plus 320px text spacing/forced colors/1280-to-320 reflow. Native FAQ Enter/Space/focus, TOC, skip link, labelled keyboard scroll and synthetic clipboard success/denial were exercised. Canonical social hrefs inspected without external navigation. |
+| Settled native supplement | **30 states / 60 assertions / 60 screenshots**, no failure: share/related tail at five widths, plus critical delivery/cutover/arithmetic and share sections in five 320px reader/static modes. |
+| Actual scroll-region supplement | **10 states / 10 assertions / 10 screenshots**, no failure: fresh element screenshots show every table/code region after keyboard horizontal scrolling at 320px. |
+| Browser total | **109 states / 1,428 assertions / 179 screenshots**, no failure. Main recorded page errors/external requests/API POSTs: **0/0/0**. Supplemental contexts likewise allow only loopback GET/HEAD. |
+| Visual inspection | Actually opened **35 complete hydrated overview sheets** (every changed section at all five widths), **14 native/keyboard overview sheets**, and **10 actual scroll-region images**: **59 inspected image artifacts**. |
+
+Evidence: [final build](evidence/b21-2026-09-28/build-final.txt), [full check](evidence/b21-2026-09-28/check-final.txt), [built summary](evidence/b21-2026-09-28/results-regression-summary.json), [validator](evidence/b21-2026-09-28/whole-site-validator.json), [browser summary](evidence/b21-2026-09-28/browser-results-summary.json), [visual inspection and limitations](evidence/b21-2026-09-28/visual-inspection.json).
+
+Full-page 320px Cloud/migration PNG tails contain repeated hero pixels. Those captures remain in evidence. Fresh DOM checks show one main H1; settled viewport captures show the correct share/related sections. This is recorded as capture ambiguity, not claimed pixel-perfect output. Earlier region viewport captures did not consistently show the focused region; the additional ten actual element captures close that visual coverage. Tables/code intentionally scroll within labelled regions. Forced-colour system link colours are browser behavior, not source-brand changes. No physical device, actual browser zoom, assistive technology or field Core Web Vitals claim is made.
+
+## Payload comparison and preliminary repairs
+
+| Route | HTML before → after, decoded bytes | Initially referenced JS before → after, body bytes |
+| --- | --- | --- |
+| Cloud | 120,868 → 172,009 (**+51,141**) | 1,046,417 → 831,087 (**−215,330**) |
+| Migration | 141,529 → 171,993 (**+30,464**) | 1,063,994 → 831,087 (**−232,907**) |
+| Pricing | 114,618 → 163,542 (**+48,924**) | 832,270 → 831,087 (**−1,183**) |
+
+[Payload comparison](evidence/b21-2026-09-28/payload-comparison.json) compares B20 before-build with final B21. HTML is larger with full canonical explanations/schema/RSC content. JS sums distinct initially referenced script bodies per route, counting shared assets per route. Cache, encoding, network, CPU/device and field conditions are not matched. No speed/CWV improvement is asserted; B29 remains pending.
+
+Preliminary diagnostics were preserved rather than replaced by final success: first build had four bad local destinations and missing canonical B13 comparison rows; routes/anchors and table source were corrected. A later review caught pricing Article schema omission; schema was restored and meaningful preservation tests added. Visual review then caught an unqualified pending B22 regulatory related-card excerpt; related selection was narrowed to the reconciled guide family. Each source correction was followed by a fresh build and relevant/full final verification. An initial validator CLI syntax mistake and unavailable system Python Pillow were also retained; the correct positional validator command and bundled Python were used without installation. See [preliminary evidence](evidence/b21-2026-09-28/preliminary/) and capture-path maps for build-specific diagnostics. Final assertion counts refer only to the final build.
+
+## Preservation and stopping gate
+
+All protected files passed hash preservation. Database `db/custom.db`, `dev.log` and `tsconfig.tsbuildinfo` also retain size and nanosecond mtime. Existing UI, packages/locks/config, schema, media, B19 identity/author/source records, date contracts, B20 ERP guide/renderer/exercise, optional copy control and prior evidence remain unchanged. **869 inherited B16/public-media preservation paths** were rehashed; that preserves B16's historical **125-output** inspection scope and optimizer/download bodies, not a new media optimization or publication claim. [Media preservation](evidence/b21-2026-09-28/b16-and-public-media-preservation.json).
+
+F022 denominator remains **nine**: B20 two independently accepted server pilots; B21 two additional server conversions awaiting coordinator review; B22 five pending client articles. India pricing is an additional server reference outside those nine. **F022 stays PARTIAL.** B22 sources are byte-identical, including restrictions/coexistence framework, Graph v24→v25, Plus, usernames and six-hour regulatory guide. Graph 320px code overflow stays pending. [Remaining article contract](evidence/b21-2026-09-28/remaining-article-contract.json).
+
+OI01/OI03/OI06/OI08/OI12 remain **PENDING** in the single [owner-input sheet](legal-policy-inputs.md). Actual import/sync, recovery, eligibility, delivery, invoice, current fees/tax/discounts and provider behavior remain unverified; attribution/history/permanent indexing and human acceptance are not inferred. This candidate does not reopen other batches or close broader findings.
+
+The [candidate manifest](evidence/b21-2026-09-28/candidate-manifest.json) binds the safe inherited baseline, exact patch delta, evidence/captures/preliminary diagnostics and actual current build/server/static artifacts. It excludes secrets, cache/vendor directories and its own manifest/verification. [Manifest verification](evidence/b21-2026-09-28/manifest-verification.json) records **8,355 checked artifact hashes, zero mismatches**, unchanged HEAD/current build and **61 protected checks, zero failures**. No commit, push, cloud/deployment/publication, database push/write, provider activation, private account access, real message/mail/call/payment or outgoing coordinator message occurred. **B21 stops here before B22.**

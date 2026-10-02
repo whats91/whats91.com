@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef, Suspense } from "react";
+import { useState, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
+import * as Slider from "@radix-ui/react-slider";
 import {
   QrCode,
   Download,
@@ -23,21 +23,10 @@ import {
   Wifi,
   RefreshCw
 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { qrPayload, qrAppearance, type QRType, type WiFiData } from "@/lib/tool-inputs";
 
-// QR Code types
-type QRType = "url" | "text" | "whatsapp" | "email" | "phone" | "wifi";
-
-interface WiFiData {
-  ssid: string;
-  password: string;
-  security: "WPA" | "WEP" | "nopass";
-}
-
-// Inner component that uses useSearchParams
-function QRCodeGeneratorContent() {
-  const searchParams = useSearchParams();
-  const urlParam = searchParams.get("url");
+// Each query prefill owns a fresh form; client navigation cannot retain the previous payload.
+function QRCodeForm({ urlParam }: { urlParam: string | null }) {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [qrType, setQrType] = useState<QRType>(urlParam ? "url" : "text");
@@ -53,130 +42,76 @@ function QRCodeGeneratorContent() {
   const [bgColor, setBgColor] = useState("#ffffff");
   const [copied, setCopied] = useState(false);
   const [generated, setGenerated] = useState(false);
-  const { toast } = useToast();
-
-  // Get data string based on QR type
-  const getQRData = useCallback((): string => {
-    switch (qrType) {
-      case "url":
-        return text.startsWith("http") ? text : `https://${text}`;
-      case "text":
-        return text;
-      case "whatsapp":
-        const cleanNumber = whatsappNumber.replace(/[^\d]/g, "");
-        const baseUrl = `https://wa.me/${cleanNumber}`;
-        return whatsappMessage ? `${baseUrl}?text=${encodeURIComponent(whatsappMessage)}` : baseUrl;
-      case "email":
-        let emailUrl = `mailto:${email}`;
-        if (emailSubject) {
-          emailUrl += `?subject=${encodeURIComponent(emailSubject)}`;
-        }
-        return emailUrl;
-      case "phone":
-        return `tel:${phone.replace(/[^\d+]/g, "")}`;
-      case "wifi":
-        return `WIFI:T:${wifiData.security};S:${wifiData.ssid};P:${wifiData.password};;`;
-      default:
-        return text;
-    }
-  }, [qrType, text, whatsappNumber, whatsappMessage, email, emailSubject, phone, wifiData]);
-
-  // Generate QR Code using canvas
-  const generateQRCode = useCallback(async () => {
-    const data = getQRData();
-
-    if (!data || data.length === 0) {
-      toast({
-        title: "Missing Data",
-        description: "Please enter the required information",
-        variant: "destructive",
-      });
-      return;
-    }
-
+  const [status, setStatus] = useState("Enter content, then generate a PNG. Changing any option clears the previous output.");
+  const [busy, setBusy] = useState(false);
+  const version = useRef(0);
+  const invalidate = () => {
+    version.current += 1;
+    setGenerated(false); setCopied(false); setBusy(false);
+    setStatus("Options changed. Generate a new QR code before copying or downloading.");
+    const canvas = canvasRef.current;
+    if (canvas) canvas.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height);
+  };
+  const generateQRCode = async () => {
+    invalidate();
+    const current = version.current;
+    const payload = qrPayload({ type: qrType, text, number: whatsappNumber, message: whatsappMessage, email, subject: emailSubject, phone, wifi: wifiData });
+    const appearanceError = qrAppearance(fgColor, bgColor, size);
+    if (!payload.ok || appearanceError) { setStatus(!payload.ok ? payload.error : appearanceError!); return; }
+    setBusy(true); setStatus("Generating QR code…");
     try {
-      // Import QR code library dynamically
-      const QRCode = (await import("qrcode")).default;
+      const QRCode = await import("qrcode");
+      const draft = document.createElement("canvas");
+      await QRCode.toCanvas(draft, payload.value, { width: size, margin: 4, color: { dark: fgColor, light: bgColor }, errorCorrectionLevel: "M" });
+      if (version.current !== current) return;
       const canvas = canvasRef.current;
-
-      if (canvas) {
-        await QRCode.toCanvas(canvas, data, {
-          width: size,
-          margin: 2,
-          color: {
-            dark: fgColor,
-            light: bgColor,
-          },
-        });
-        setGenerated(true);
-      }
-    } catch (error) {
-      console.error("QR Code generation error:", error);
-      toast({
-        title: "Generation Failed",
-        description: "Could not generate QR code. Please check your input.",
-        variant: "destructive",
-      });
-    }
-  }, [getQRData, size, fgColor, bgColor, toast]);
-
-  // Download QR Code
-  const downloadQRCode = (format: "png" | "svg") => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    if (format === "png") {
-      const link = document.createElement("a");
-      link.download = `qrcode-${Date.now()}.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    } else {
-      // For SVG, we'd need a different approach - for now just PNG
-      const link = document.createElement("a");
-      link.download = `qrcode-${Date.now()}.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    }
-
-    toast({
-      title: "Downloaded!",
-      description: `QR code saved as ${format.toUpperCase()}`,
-    });
-  };
-
-  // Copy to clipboard
-  const copyToClipboard = async () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    try {
-      const blob = await new Promise<Blob>((resolve) => {
-        canvas.toBlob((b) => resolve(b!), "image/png");
-      });
-      await navigator.clipboard.write([
-        new ClipboardItem({ "image/png": blob }),
-      ]);
-      setCopied(true);
-      toast({
-        title: "Copied!",
-        description: "QR code copied to clipboard",
-      });
-      setTimeout(() => setCopied(false), 2000);
+      if (!canvas) throw new Error("Preview unavailable");
+      // Keep at least two image pixels per QR module; a large payload can exceed selected size.
+      if (draft.width !== size) throw new Error("Payload needs a larger image");
+      const modules = QRCode.create(payload.value, { errorCorrectionLevel: "M" }).modules.size;
+      if (size < (modules + 8) * 2) { setStatus("This content needs a larger image. Increase the size or shorten the content, then retry."); return; }
+      canvas.width = draft.width; canvas.height = draft.height;
+      const context = canvas.getContext("2d"); if (!context) throw new Error("Canvas unavailable");
+      context.drawImage(draft, 0, 0);
+      setGenerated(true); setStatus("Current QR code ready. Test the downloaded PNG with your intended scanner before sharing.");
     } catch {
-      toast({
-        title: "Failed to copy",
-        description: "Please download the QR code instead",
-        variant: "destructive",
-      });
+      if (version.current === current) setStatus("QR generation unavailable. Check image size and content, then retry. If the library is blocked, reload with JavaScript and local scripts allowed; your input can be copied manually.");
+    } finally { if (version.current === current) setBusy(false); }
+  };
+  const pngBlob = (canvas: HTMLCanvasElement) => new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("PNG unavailable")), "image/png");
+  });
+  const downloadQRCode = async () => {
+    if (!generated || !canvasRef.current) return;
+    const current = version.current;
+    let url: string | undefined;
+    try {
+      const blob = await pngBlob(canvasRef.current);
+      if (version.current !== current) return;
+      url = URL.createObjectURL(blob);
+      const link = document.createElement("a"); link.href = url; link.download = "qrcode.png";
+      document.body.appendChild(link);
+      try { link.click(); } finally { link.remove(); }
+      setStatus("PNG download requested. Check your browser’s downloads; this page cannot confirm that the file was saved.");
+      const cleanup = url; setTimeout(() => URL.revokeObjectURL(cleanup), 1000); url = undefined;
+    } catch {
+      if (version.current === current) setStatus("PNG download could not start. Retry or use Copy PNG. You can also save the current preview using your browser’s image options where supported.");
+    } finally { if (url) URL.revokeObjectURL(url); }
+  };
+  const copyToClipboard = async () => {
+    if (!generated || !canvasRef.current) return;
+    const current = version.current;
+    try {
+      const blob = await pngBlob(canvasRef.current);
+      if (version.current !== current) return;
+      if (!navigator.clipboard?.write || typeof ClipboardItem === "undefined") throw new Error("Clipboard unavailable");
+      await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+      if (version.current !== current) return;
+      setCopied(true); setStatus("Current PNG copied to clipboard.");
+    } catch {
+      if (version.current === current) { setCopied(false); setStatus("Copy unavailable or permission denied. Use Download PNG, or save the current preview with your browser’s image options where supported."); }
     }
   };
-
-  // Auto-generate on initial load if URL param exists
-  useEffect(() => {
-    if (urlParam) {
-      generateQRCode();
-    }
-  }, [urlParam, generateQRCode]);
 
   const typeOptions = [
     { value: "url", label: "URL / Website", icon: Link2 },
@@ -201,19 +136,21 @@ function QRCodeGeneratorContent() {
               Select the type of content and enter the required information
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="min-w-0 space-y-6">
             {/* QR Type Selection */}
             <div className="space-y-2">
               <Label className="text-sm font-medium">Content Type</Label>
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+              <div role="group" aria-label="QR content type" className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                 {typeOptions.map((option) => (
                   <Button
                     key={option.value}
+                    type="button"
+                    aria-pressed={qrType === option.value}
                     variant={qrType === option.value ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setQrType(option.value as QRType)}
+                    onClick={() => { invalidate(); setQrType(option.value as QRType); }}
                     className={`flex flex-col items-center gap-1 h-auto py-2 ${
-                      qrType === option.value ? "bg-brand-primary hover:bg-brand-primary-hover" : ""
+                      qrType === option.value ? "bg-primary text-primary-foreground hover:bg-brand-700 hover:text-white" : ""
                     }`}
                   >
                     <option.icon className="h-4 w-4" />
@@ -231,11 +168,11 @@ function QRCodeGeneratorContent() {
                     {qrType === "url" ? "Website URL" : "Text Content"}
                   </Label>
                   <Input
-                    id="text"
+                    id="text" aria-describedby="qr-status"
                     type={qrType === "url" ? "url" : "text"}
                     placeholder={qrType === "url" ? "https://example.com" : "Enter your text"}
                     value={text}
-                    onChange={(e) => setText(e.target.value)}
+                    onChange={(e) => { invalidate(); setText(e.target.value); }}
                   />
                 </div>
               )}
@@ -247,11 +184,11 @@ function QRCodeGeneratorContent() {
                       WhatsApp Number
                     </Label>
                     <Input
-                      id="wa-number"
+                      id="wa-number" aria-describedby="qr-status"
                       type="tel"
                       placeholder="919876543210"
                       value={whatsappNumber}
-                      onChange={(e) => setWhatsappNumber(e.target.value)}
+                      onChange={(e) => { invalidate(); setWhatsappNumber(e.target.value); }}
                     />
                     <p className="text-xs text-text-muted">Include country code (e.g., 91 for India)</p>
                   </div>
@@ -264,7 +201,7 @@ function QRCodeGeneratorContent() {
                       type="text"
                       placeholder="Hi! I'm interested in your services"
                       value={whatsappMessage}
-                      onChange={(e) => setWhatsappMessage(e.target.value)}
+                      onChange={(e) => { invalidate(); setWhatsappMessage(e.target.value); }}
                     />
                   </div>
                 </>
@@ -277,11 +214,11 @@ function QRCodeGeneratorContent() {
                       Email Address
                     </Label>
                     <Input
-                      id="email"
+                      id="email" aria-describedby="qr-status"
                       type="email"
                       placeholder="example@email.com"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => { invalidate(); setEmail(e.target.value); }}
                     />
                   </div>
                   <div className="space-y-2">
@@ -293,7 +230,7 @@ function QRCodeGeneratorContent() {
                       type="text"
                       placeholder="Hello!"
                       value={emailSubject}
-                      onChange={(e) => setEmailSubject(e.target.value)}
+                      onChange={(e) => { invalidate(); setEmailSubject(e.target.value); }}
                     />
                   </div>
                 </>
@@ -305,11 +242,11 @@ function QRCodeGeneratorContent() {
                     Phone Number
                   </Label>
                   <Input
-                    id="phone"
+                    id="phone" aria-describedby="qr-status"
                     type="tel"
-                    placeholder="+91 98765 43210"
+                    placeholder="+919876543210"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => { invalidate(); setPhone(e.target.value); }}
                   />
                 </div>
               )}
@@ -321,11 +258,11 @@ function QRCodeGeneratorContent() {
                       Network Name (SSID)
                     </Label>
                     <Input
-                      id="ssid"
+                      id="ssid" aria-describedby="qr-status"
                       type="text"
                       placeholder="MyWiFiNetwork"
                       value={wifiData.ssid}
-                      onChange={(e) => setWifiData({ ...wifiData, ssid: e.target.value })}
+                      onChange={(e) => { invalidate(); setWifiData({ ...wifiData, ssid: e.target.value }); }}
                     />
                   </div>
                   <div className="space-y-2">
@@ -333,20 +270,20 @@ function QRCodeGeneratorContent() {
                       Password
                     </Label>
                     <Input
-                      id="password"
+                      id="password" aria-describedby="qr-status"
                       type="password"
                       placeholder="WiFi password"
                       value={wifiData.password}
-                      onChange={(e) => setWifiData({ ...wifiData, password: e.target.value })}
+                      onChange={(e) => { invalidate(); setWifiData({ ...wifiData, password: e.target.value }); }}
                     />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-sm font-medium">Security Type</Label>
                     <Select
                       value={wifiData.security}
-                      onValueChange={(value) => setWifiData({ ...wifiData, security: value as WiFiData["security"] })}
+                      onValueChange={(value) => { invalidate(); setWifiData({ ...wifiData, security: value as WiFiData["security"] }); }}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger aria-label="Wi-Fi security" className="min-h-11">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -363,36 +300,40 @@ function QRCodeGeneratorContent() {
             {/* Customization Options */}
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Foreground Color</Label>
+                <Label htmlFor="qr-foreground-hex" className="text-sm font-medium">Foreground Color</Label>
                 <div className="flex items-center gap-2">
                   <Input
                     type="color"
+                    aria-label="Foreground color picker"
                     value={fgColor}
-                    onChange={(e) => setFgColor(e.target.value)}
-                    className="w-12 h-10 p-1 cursor-pointer"
+                    onChange={(e) => { invalidate(); setFgColor(e.target.value); }}
+                    className="w-12 h-11 shrink-0 p-1 cursor-pointer"
                   />
                   <Input
                     type="text"
+                    id="qr-foreground-hex"
                     value={fgColor}
-                    onChange={(e) => setFgColor(e.target.value)}
-                    className="flex-1"
+                    onChange={(e) => { invalidate(); setFgColor(e.target.value); }}
+                    className="min-w-0 flex-1"
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Background Color</Label>
+                <Label htmlFor="qr-background-hex" className="text-sm font-medium">Background Color</Label>
                 <div className="flex items-center gap-2">
                   <Input
                     type="color"
+                    aria-label="Background color picker"
                     value={bgColor}
-                    onChange={(e) => setBgColor(e.target.value)}
-                    className="w-12 h-10 p-1 cursor-pointer"
+                    onChange={(e) => { invalidate(); setBgColor(e.target.value); }}
+                    className="w-12 h-11 shrink-0 p-1 cursor-pointer"
                   />
                   <Input
                     type="text"
+                    id="qr-background-hex"
                     value={bgColor}
-                    onChange={(e) => setBgColor(e.target.value)}
-                    className="flex-1"
+                    onChange={(e) => { invalidate(); setBgColor(e.target.value); }}
+                    className="min-w-0 flex-1"
                   />
                 </div>
               </div>
@@ -401,17 +342,19 @@ function QRCodeGeneratorContent() {
             {/* Size Slider */}
             <div className="space-y-2">
               <Label className="text-sm font-medium">Size: {size}px</Label>
-              <Slider
-                value={[size]}
-                onValueChange={([value]) => setSize(value)}
-                min={128}
-                max={512}
-                step={32}
-              />
+              <Slider.Root value={[size]} onValueChange={([value]) => { invalidate(); setSize(value); }}
+                min={128} max={512} step={32}
+                className="relative flex h-11 w-full touch-none select-none items-center">
+                <Slider.Track className="relative h-1.5 grow rounded-full bg-text-muted">
+                  <Slider.Range className="absolute h-full rounded-full bg-primary" />
+                </Slider.Track>
+                <Slider.Thumb aria-label="QR code size in pixels" className="block size-6 rounded-full border-2 border-primary bg-background shadow-sm" />
+              </Slider.Root>
             </div>
 
+            <p id="qr-status" role="status" aria-live="polite" aria-atomic="true" className="text-sm break-words">{status}</p>
             {/* Generate Button */}
-            <Button onClick={generateQRCode} className="w-full bg-brand-primary hover:bg-brand-primary-hover" size="lg">
+            <Button onClick={generateQRCode} disabled={busy} className="w-full bg-primary text-primary-foreground hover:bg-brand-700 hover:text-white" size="lg">
               <RefreshCw className="mr-2 h-4 w-4" />
               Generate QR Code
             </Button>
@@ -420,25 +363,25 @@ function QRCodeGeneratorContent() {
       </div>
 
       {/* QR Code Preview */}
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-6">
         <Card className="border-border/60">
           <CardHeader className="pb-3">
             <CardTitle className="text-base">Preview</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col items-center">
-            <div className="p-4 bg-white rounded-lg shadow-inner mb-4">
+            <div className="w-full max-w-72 min-w-0 p-4 bg-white rounded-lg shadow-inner mb-4">
               <canvas
                 ref={canvasRef}
                 width={size}
                 height={size}
-                className="max-w-full h-auto"
-                style={{ maxWidth: "256px", maxHeight: "256px" }}
+                role="img" aria-label="Current generated QR code" hidden={!generated} className="max-w-full h-auto"
+                style={{ width: "100%", height: "auto" }}
               />
             </div>
 
             {generated && (
               <div className="flex flex-wrap gap-2 justify-center">
-                <Button variant="default" size="sm" onClick={() => downloadQRCode("png")}>
+                <Button variant="default" size="sm" onClick={downloadQRCode}>
                   <Download className="mr-2 h-3.5 w-3.5" />
                   Download PNG
                 </Button>
@@ -448,14 +391,14 @@ function QRCodeGeneratorContent() {
                   ) : (
                     <Copy className="mr-2 h-3.5 w-3.5" />
                   )}
-                  Copy
+                  Copy PNG
                 </Button>
               </div>
             )}
 
             {!generated && (
               <p className="text-sm text-text-muted text-center">
-                Configure options and click Generate
+                Configure options and click Generate; the preview is empty until valid generation.
               </p>
             )}
           </CardContent>
@@ -485,7 +428,7 @@ function QRCodeGeneratorContent() {
             </div>
             <div className="flex items-center gap-2 text-text-secondary">
               <Check className="h-4 w-4 text-success" />
-              100% free, no limits
+              Free local PNG generation
             </div>
           </CardContent>
         </Card>
@@ -496,7 +439,7 @@ function QRCodeGeneratorContent() {
             <p className="text-sm text-text-secondary mb-3">
               Need bulk QR code generation?
             </p>
-            <Button asChild className="bg-brand-primary hover:bg-brand-primary-hover">
+            <Button asChild className="bg-primary text-primary-foreground hover:bg-brand-700 hover:text-white">
               <Link href="/contact">
                 Contact Us
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -509,6 +452,12 @@ function QRCodeGeneratorContent() {
   );
 }
 
+function QRCodeGeneratorContent() {
+  const params = useSearchParams();
+  const urlParam = params.get("url");
+  return <QRCodeForm key={urlParam ?? ""} urlParam={urlParam} />;
+}
+
 // Loading fallback for Suspense
 function QRCodeGeneratorSkeleton() {
   return (
@@ -519,7 +468,7 @@ function QRCodeGeneratorSkeleton() {
             <div className="h-6 bg-surface rounded w-48"></div>
             <div className="h-4 bg-surface rounded w-64 mt-2"></div>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="min-w-0 space-y-6">
             <div className="h-10 bg-surface rounded"></div>
             <div className="h-24 bg-surface rounded"></div>
             <div className="grid grid-cols-2 gap-4">
@@ -530,7 +479,7 @@ function QRCodeGeneratorSkeleton() {
           </CardContent>
         </Card>
       </div>
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-6">
         <Card className="border-border/60">
           <CardContent className="pt-6">
             <div className="h-48 bg-surface rounded"></div>

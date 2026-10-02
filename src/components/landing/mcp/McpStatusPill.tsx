@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { statusLabel, type McpStatus } from "./mcpContent";
 
 const toneClasses: Record<McpStatus, string> = {
-  available: "bg-brand-600 text-white border-brand-600",
+  confirm: "bg-surface-subtle text-text-secondary border-border",
 };
 
 interface McpStatusPillProps {
@@ -20,7 +20,7 @@ export function McpStatusPill({ status, className }: McpStatusPillProps) {
         className
       )}
     >
-      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white" aria-hidden="true" />
+      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-current" aria-hidden="true" />
       {statusLabel[status]}
     </span>
   );

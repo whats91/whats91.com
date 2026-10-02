@@ -38,6 +38,8 @@
   ],
   "exclude": [
     "node_modules",
-    "temp"
+    "temp",
+    // Nonproduction websocket samples require optional socket.io packages.
+    "examples/websocket"
   ]
 }

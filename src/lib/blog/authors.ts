@@ -1,3 +1,5 @@
+import type { ContentDates } from "@/lib/content/dates";
+import type { EditorialRecord } from "@/lib/content/review";
 /**
  * Author Registry - Author profiles for blog posts
  * 
@@ -5,7 +7,10 @@
  * Each author has a dedicated page at /authors/[slug]
  */
 
-export interface Author {
+export interface Author extends ContentDates {
+  /** Internal provenance; omitted from public metadata. No human review is inferred. */
+  editorial?: EditorialRecord;
+  publicUse: "pending";
   id: string;
   slug: string;
   name: string;
@@ -24,10 +29,13 @@ export interface Author {
   joinedAt: string;
 }
 
-// Author profiles - Real team members
+// Source-reported profiles. Identity and public-use approval are pending.
+// Client consumers must use author-links.ts, which carries no biographies or social relations.
 export const authors: Author[] = [
   {
+    publicUse: "pending",
     id: "1",
+    editorial: { stage: "pending-human-review", history: [] },
     slug: "devendar-singh-gohil",
     name: "Devendar Singh Gohil",
     role: "Developer",
@@ -50,7 +58,9 @@ export const authors: Author[] = [
     joinedAt: "2024-01-01",
   },
   {
+    publicUse: "pending",
     id: "2",
+    editorial: { stage: "pending-human-review", history: [] },
     slug: "mayur-arya",
     name: "Mayur Arya",
     role: "Meta Technical Support",
@@ -71,7 +81,9 @@ export const authors: Author[] = [
     joinedAt: "2024-01-01",
   },
   {
+    publicUse: "pending",
     id: "3",
+    editorial: { stage: "pending-human-review", history: [] },
     slug: "santosh-patil",
     name: "Santosh Patil",
     role: "Meta Support",
@@ -92,7 +104,9 @@ export const authors: Author[] = [
     joinedAt: "2024-01-01",
   },
   {
+    publicUse: "pending",
     id: "4",
+    editorial: { stage: "pending-human-review", history: [] },
     slug: "ankita-arya",
     name: "Ankita Arya",
     role: "Sales Team",
@@ -116,7 +130,7 @@ export const authors: Author[] = [
 
 // Helper functions
 export function getAllAuthors(): Author[] {
-  return authors.sort((a, b) => a.name.localeCompare(b.name));
+  return [...authors].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function getAuthorBySlug(slug: string): Author | undefined {

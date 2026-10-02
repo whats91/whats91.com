@@ -1,4 +1,14 @@
-@import "tailwindcss";
+@import "tailwindcss" source("..");
+
+/* Scan application sources, excluding retained unimported legacy scenes.
+   Evidence, docs and scripts cannot add delivery utilities. */
+@source not "../components/landing/AnimatedAPIArchitecture.tsx";
+@source not "../components/landing/AnimatedChatbot.tsx";
+@source not "../components/landing/AnimatedPaymentReminder.tsx";
+@source not "../components/landing/AnimatedReportPortal.tsx";
+@source not "../components/landing/AnimatedReverseFlow.tsx";
+@source not "../components/landing/GoogleSheetAnimation.tsx";
+
 @import "tw-animate-css";
 
 @media print {
@@ -32,7 +42,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: var(--font-geist-mono);
   
   /* Custom semantic colors */
@@ -164,7 +174,7 @@
   --status-warning: #B45309;
   --status-warning-soft: #FFFBEB;
   --status-warning-border: #FDE68A;
-  --status-error: #DC2626;
+  --status-error: #B91C1C;
   --status-error-soft: #FEF2F2;
   --status-error-border: #FECACA;
   --status-info: #0369A1;
@@ -234,7 +244,7 @@
   --accent-foreground: #0F172A;
   
   /* Destructive colors */
-  --destructive: #EF4444;
+  --destructive: #B91C1C;
   
   /* Input and ring */
   --input: #E2E8F0;
@@ -371,6 +381,7 @@
   /* Smooth scrolling */
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
   }
 
   /* Visible keyboard focus everywhere, consistent with the brand ring */
@@ -603,17 +614,19 @@
 
   /* ============================================================
      Scroll-reveal system (used via the <Reveal> island).
-     The hidden state only applies when scripting is enabled, so
-     users without JS always see content. Reduced motion forces
+     The hidden state requires a marker added after reveal JS starts, so
+     absent or failed JS leaves content visible. Reduced motion forces
      everything visible instantly.
      ============================================================ */
   @media (scripting: enabled) {
     .reveal {
-      opacity: 0;
-      transform: translateY(16px);
       transition:
         opacity var(--duration-slower) var(--ease-out-soft),
         transform var(--duration-slower) var(--ease-out-soft);
+    }
+    .reveal.is-pending {
+      opacity: 0;
+      transform: translateY(16px);
     }
   }
 
@@ -642,174 +655,6 @@
 
   .animate-float {
     animation: float-y 7s ease-in-out infinite;
-  }
-
-  /* ============================================================
-     Product animation scenes (homepage storytelling).
-     Each scene is one shared-duration loop; every element's
-     keyframes encode its own timing window so the whole scene
-     resets together. Base styles are ALWAYS the completed state —
-     the global prefers-reduced-motion rule collapses each
-     animation to a single instant run, leaving the finished scene
-     visible. Transient props (.scene-transient: typing dots,
-     travelling pulses) are hidden at rest so they simply never
-     appear without motion.
-     ============================================================ */
-
-  .scene-transient { opacity: 0; }
-
-  /* --- Hero chat scene (12s) --- */
-  @keyframes hs-msg-1 {
-    0%, 4% { opacity: 0; transform: translateY(10px); }
-    8%, 91% { opacity: 1; transform: none; }
-    97%, 100% { opacity: 0; }
-  }
-  @keyframes hs-typing {
-    0%, 10% { opacity: 0; }
-    13%, 22% { opacity: 1; }
-    25%, 100% { opacity: 0; }
-  }
-  @keyframes hs-msg-2 {
-    0%, 25% { opacity: 0; transform: translateY(10px); }
-    29%, 91% { opacity: 1; transform: none; }
-    97%, 100% { opacity: 0; }
-  }
-  @keyframes hs-tick-sent {
-    0%, 31% { opacity: 0; }
-    33%, 44% { opacity: 1; }
-    46%, 100% { opacity: 0; }
-  }
-  @keyframes hs-tick-read {
-    0%, 46% { opacity: 0; }
-    48%, 91% { opacity: 1; }
-    97%, 100% { opacity: 0; }
-  }
-  @keyframes hs-toast {
-    0%, 55% { opacity: 0; transform: translateY(8px) scale(0.96); }
-    60%, 88% { opacity: 1; transform: none; }
-    93%, 100% { opacity: 0; }
-  }
-  @keyframes dot-bounce {
-    0%, 60%, 100% { transform: translateY(0); }
-    30% { transform: translateY(-3px); }
-  }
-
-  /* cs-bar-read is retained — the hero composition also uses it. */
-  @keyframes cs-bar-read {
-    0%, 30% { width: 0%; }
-    58%, 100% { width: 98%; }
-  }
-
-  /* --- Campaign report scene. Each metric bar rests at its target width
-     (always legible; reduced-motion simply freezes the sweep and leaves a
-     solid, complete funnel). A soft highlight sweeps across the fill for
-     continuous, non-resetting motion — the bar's own bg-* colour shows
-     through as the base. --- */
-  .camp-bar-flow {
-    background-image: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.5) 50%,
-      transparent 100%
-    );
-    background-size: 45% 100%;
-    background-repeat: no-repeat;
-    background-position: -60% 0;
-    animation: camp-sweep 2.6s linear infinite;
-  }
-  @keyframes camp-sweep {
-    to { background-position: 160% 0; }
-  }
-
-  /* --- Automation flow scene. Connectors flow toward the next node and the
-     node tiles pulse in sequence — all continuous, so nothing blinks out or
-     resets. Frozen (reduced motion) leaves a static, legible flow diagram:
-     the dashes rest as a solid dashed link and the tile rings collapse to
-     nothing. --- */
-  .flow-link-h {
-    background-image: repeating-linear-gradient(90deg, rgba(68, 140, 116, 0.6) 0 5px, transparent 5px 11px);
-    background-size: 11px 100%;
-    background-repeat: repeat-x;
-    background-position: 0 0;
-    animation: flow-move-x 0.8s linear infinite;
-  }
-  @keyframes flow-move-x {
-    to { background-position-x: 11px; }
-  }
-  .flow-link-v {
-    background-image: repeating-linear-gradient(180deg, rgba(68, 140, 116, 0.6) 0 5px, transparent 5px 11px);
-    background-size: 100% 11px;
-    background-repeat: repeat-y;
-    background-position: 0 0;
-    animation: flow-move-y 0.8s linear infinite;
-  }
-  @keyframes flow-move-y {
-    to { background-position-y: 11px; }
-  }
-  .flow-tile {
-    animation: flow-tile-pulse 3.2s ease-in-out infinite;
-  }
-  @keyframes flow-tile-pulse {
-    0%, 12%, 100% { box-shadow: 0 0 0 0 rgba(68, 140, 116, 0); }
-    22% { box-shadow: 0 0 0 4px rgba(68, 140, 116, 0.16); }
-    34% { box-shadow: 0 0 0 0 rgba(68, 140, 116, 0); }
-  }
-
-  /* --- Sync pipeline scene. Two dashed lanes flow in opposite directions
-     (ERP data out, customer queries back) for a continuous two-way sync
-     signal. Frozen (reduced motion) leaves two static, legible dashed
-     lanes; the reused flow-move-x drives the outbound lane. --- */
-  .sync-out,
-  .sync-in {
-    background-image: repeating-linear-gradient(90deg, rgba(68, 140, 116, 0.55) 0 5px, transparent 5px 11px);
-    background-size: 11px 100%;
-    background-repeat: repeat-x;
-    background-position: 0 0;
-  }
-  .sync-out {
-    animation: flow-move-x 0.85s linear infinite;
-  }
-  .sync-in {
-    opacity: 0.55;
-    animation: flow-move-x-rev 1.15s linear infinite;
-  }
-  @keyframes flow-move-x-rev {
-    to { background-position-x: -11px; }
-  }
-
-  /* --- Webhook event stream (10s) --- */
-  @keyframes es-line-1 { 0%, 4% { opacity: 0; } 8%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
-  @keyframes es-line-2 { 0%, 18% { opacity: 0; } 22%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
-  @keyframes es-line-3 { 0%, 34% { opacity: 0; } 38%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
-  @keyframes es-line-4 { 0%, 50% { opacity: 0; } 54%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
-  @keyframes es-line-5 { 0%, 66% { opacity: 0; } 70%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
-  @keyframes caret-blink { 0%, 45% { opacity: 1; } 50%, 95% { opacity: 0; } 100% { opacity: 1; } }
-
-  /* --- Bento micro-visuals --- */
-  @keyframes wave-bar {
-    0%, 100% { transform: scaleY(0.35); }
-    50% { transform: scaleY(1); }
-  }
-  @keyframes mini-bar-grow {
-    0%, 8% { transform: scaleY(0.1); }
-    35%, 88% { transform: scaleY(1); }
-    96%, 100% { transform: scaleY(0.1); }
-  }
-  @keyframes bell-ring {
-    0%, 82%, 100% { transform: rotate(0deg); }
-    86% { transform: rotate(12deg); }
-    90% { transform: rotate(-10deg); }
-    94% { transform: rotate(6deg); }
-    98% { transform: rotate(-3deg); }
-  }
-  @keyframes chip-type {
-    0%, 8% { width: 1ch; }
-    40%, 82% { width: 9ch; }
-    94%, 100% { width: 1ch; }
-  }
-  @keyframes swap-pulse {
-    0%, 100% { transform: scale(1); opacity: 0.9; }
-    50% { transform: scale(1.12); opacity: 1; }
   }
 
   /* Inline text link */
@@ -1031,121 +876,25 @@
   background: rgba(68, 140, 116, 0.12);
 }
 
-/* ============================================================
-   Integrations band — SVG connector scene.
-   Curved SVG paths fan out from the central hub to each
-   integration node. A faint base stroke is ALWAYS drawn (the
-   legible diagram), and a brighter "comet" dash travels along
-   each path toward the hub to signal data flowing in. Because
-   the comet is a real static dash pattern on the path, the
-   global prefers-reduced-motion rule (which freezes animation)
-   leaves a clean dotted connector. Hub rings + the mobile spine
-   start transparent, so without motion they simply never appear.
-   pathLength="100" normalises every path so one keyframe set
-   drives comets of any length at identical speed.
-   ============================================================ */
-
-@keyframes conn-comet {
-  to { stroke-dashoffset: -100; }
+/* Shared sticky-header clearance for native fragments and keyboard focus. */
+#main-content, main [id], main :is(a, button, input, select, textarea, summary, [tabindex]) {
+  scroll-margin-top: 5.5rem;
+}
+@media (forced-colors: active) {
+  :is(button, summary, input, select, textarea, [role="region"]):focus-visible {
+    outline: 2px solid Highlight;
+  }
+  button[aria-pressed="true"], summary:focus-visible {
+    border: 2px solid Highlight;
+  }
 }
 
-@keyframes hub-ring {
-  0% { transform: scale(0.62); opacity: 0.5; }
-  70%, 100% { transform: scale(1.5); opacity: 0; }
+/* Consumer focus remains visible when a primitive uses outline-none with a translucent ring. */
+header :is(a, button):focus-visible,
+main :is(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }
-
-@keyframes spine-flow {
-  to { background-position-y: 14px; }
-}
-
-.conn-base {
-  fill: none;
-  stroke: rgba(69, 188, 150, 0.22);
-  stroke-width: 1.5;
-}
-
-.conn-comet {
-  fill: none;
-  stroke: #45bc96;
-  stroke-width: 2.25;
-  stroke-linecap: round;
-  stroke-dasharray: 12 88;
-  stroke-dashoffset: 0;
-  animation: conn-comet 2.6s linear infinite;
-}
-
-.hub-ring {
-  opacity: 0;
-  transform-origin: center;
-  animation: hub-ring 3s ease-out infinite;
-}
-
-.hub-ring-late {
-  animation-delay: 1.5s;
-}
-
-/* Mobile: a single vertical connector spine below the hub */
-.conn-spine {
-  width: 2px;
-  height: 2.25rem;
-  background-image: repeating-linear-gradient(
-    180deg,
-    rgba(69, 188, 150, 0.6) 0 6px,
-    transparent 6px 14px
-  );
-  background-size: 2px 14px;
-  animation: spine-flow 0.9s linear infinite;
-}
-
-/* ============================================================
-   /mcp hero scene — the "approved scope" lock badge gets a slow,
-   subtle pulse to draw the eye to the consent checkpoint. The
-   global prefers-reduced-motion rule above freezes it to its
-   resting (fully legible) frame, same as every other animation
-   on the site.
-   ============================================================ */
-@keyframes mcp-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(68, 140, 116, 0.25); }
-  50% { box-shadow: 0 0 0 6px rgba(68, 140, 116, 0); }
-}
-
-.mcp-pulse {
-  animation: mcp-pulse 2.4s ease-in-out infinite;
-}
-
-/* ============================================================
-   /mcp architecture diagram (dark `ink` band) — a slow light sweep
-   crosses the panel and each pipeline node/arrow glows in sequence,
-   left to right, so the diagram reads as data actively flowing
-   through the connection rather than a static graphic. Every effect
-   is opacity/box-shadow/background-position/transform on a wrapper
-   that carries no other transform, so nothing fights the arrow
-   rotation utility used on mobile. Frozen to a legible resting frame
-   by the global prefers-reduced-motion rule above.
-   ============================================================ */
-@keyframes mcp-node-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(84, 160, 132, 0); }
-  50% { box-shadow: 0 0 0 5px rgba(84, 160, 132, 0.16), 0 0 16px 2px rgba(84, 160, 132, 0.28); }
-}
-
-.mcp-node-badge {
-  animation: mcp-node-glow 3.2s ease-in-out infinite;
-}
-
-@keyframes mcp-arrow-flow {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
-}
-
-.mcp-arrow-flow {
-  animation: mcp-arrow-flow 2.6s ease-in-out infinite;
-}
-
-@keyframes mcp-scan {
-  0% { transform: translateX(-120%); }
-  100% { transform: translateX(320%); }
-}
-
-.mcp-scan-line {
-  animation: mcp-scan 5.5s linear infinite;
+@media (forced-colors: active) {
+  header :focus-visible, main :focus-visible { outline-color: Highlight; }
 }

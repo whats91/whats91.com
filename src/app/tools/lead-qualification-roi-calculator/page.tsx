@@ -11,29 +11,16 @@ import {
 import { ROICalculatorClient } from "./ROICalculatorClient";
 
 const calculatorFAQs = [
-  {
-    question: "What is lead qualification ROI?",
-    answer: "Lead qualification ROI measures the return on investment from qualifying leads using different methods (AI, self-built systems, or human agents). It compares costs and qualification rates to determine the most cost-effective approach.",
-  },
-  {
-    question: "How accurate is the AI qualification rate?",
-    answer: "AI qualification rates typically range from 70-90% depending on the quality of training data and the complexity of qualification criteria. Modern AI systems can match or exceed human qualification accuracy while processing leads at scale.",
-  },
-  {
-    question: "What costs should I include in cost per lead?",
-    answer: "Cost per lead should include all direct costs: labor costs (for human qualification), software/platform fees (for AI or self-built), infrastructure costs, and any overhead allocated to the qualification process.",
-  },
-  {
-    question: "Why is AI qualification more cost-effective?",
-    answer: "AI qualification is more cost-effective because it processes leads 24/7 without fatigue, handles higher volumes without additional staffing, maintains consistent accuracy, and reduces the cost per qualified lead significantly compared to human agents.",
-  },
+  { question: "What does this scenario compare?", answer: "It compares entered per-lead costs and qualification rates for human, AI and self-built approaches. Use the same currency and period. Savings can be negative; the result is not a quote or a guarantee." },
+  { question: "What happens at zero qualification?", answer: "Zero percent produces zero qualified leads. Cost per qualified lead is unavailable when its lead count is zero. ROI and comparison percentages are unavailable when their denominator is zero." },
+  { question: "Which assumptions should I enter?", answer: "Use measured or explicitly hypothetical lead volume, costs and qualification rates. Include relevant labour, software and infrastructure costs. No default AI accuracy or commercial rate is supplied." },
 ];
 
 const pagePath = "/tools/lead-qualification-roi-calculator";
 const pageUrl = `${siteConfig.url}${pagePath}`;
 const seoTitle = "Free Lead Qualification ROI Calculator | AI vs Human | Whats91";
 const seoDescription =
-  "Compare the true cost of AI-powered lead qualification vs human agents and self-built systems. Calculate your monthly savings and ROI instantly, 100% free.";
+  "Compare lead qualification costs using your own assumptions. See scenario savings and ROI, with explicit zero and unavailable results. Free local calculator.";
 
 export const metadata: Metadata = {
   ...generatePageMetadata({
@@ -82,7 +69,14 @@ export default function LeadQualificationROICalculatorPage() {
       <JsonLd data={structuredData} />
       <Header />
       <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
-        <ROICalculatorClient />
+        <article className="px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto py-12 space-y-8">
+          <header><h1 className="heading-1">Lead Qualification ROI Calculator</h1><p className="text-body mt-4">Compare costs using your own assumptions. This scenario does not promise savings or qualification accuracy.</p></header>
+          <p className="text-body-sm">Interactive calculation requires JavaScript. If controls do not respond, reload with local scripts enabled. The method and limitations below remain readable.</p>
+          <noscript><p className="surface-card p-4">Calculations require JavaScript. The method and limitations below remain readable; no result is available without entering valid assumptions.</p></noscript>
+          <ROICalculatorClient />
+          <section aria-labelledby="roi-faq"><h2 id="roi-faq" className="heading-2 mb-4">Method and limitations</h2>{calculatorFAQs.map(item => <details key={item.question} className="surface-card p-4 mb-3"><summary className="cursor-pointer font-semibold">{item.question}</summary><p className="text-body-sm mt-3">{item.answer}</p></details>)}</section>
+          <p className="text-body-sm">Inputs are calculated in this page’s browser state. See our <a className="text-primary underline" href="/privacy">privacy policy</a> for page requests and site preferences. <a className="text-primary underline" href="/tools">Explore other tools</a>.</p>
+        </article>
       </main>
       <Footer />
     </div>

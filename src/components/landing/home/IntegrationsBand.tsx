@@ -31,15 +31,15 @@ interface IntegrationNode {
 const businessSystems: IntegrationNode[] = [
   { id: "busy-erp", name: "Busy ERP", detail: "Invoices, ledger & reports", icon: Database, href: "/solutions/busy-erp" },
   { id: "miracle", name: "Miracle Accounting", detail: "Documents & statements", icon: Calculator, href: "/solutions/miracle-whatsapp-api" },
-  { id: "sheets", name: "Google Sheets", detail: "Real-time data sync", icon: Table2, href: "/google-sheets-integration" },
+  { id: "sheets", name: "Google Sheets", detail: "Confirm sync requirements", icon: Table2, href: "/google-sheets-integration" },
   { id: "ecommerce", name: "E-commerce & Orders", detail: "Storefront + order management", icon: ShoppingCart, href: "/solutions/busy-ecommerce" },
   { id: "api", name: "REST API & Webhooks", detail: "Custom workflows", icon: Webhook, href: "/solutions/busy-api" },
 ];
 
 const aiAgents: IntegrationNode[] = [
-  { id: "mcp", name: "MCP Server", detail: "Native agent endpoint", icon: PlugZap },
-  { id: "claude-code", name: "Claude Code", detail: "Connects via MCP", icon: Terminal },
-  { id: "chatgpt", name: "ChatGPT", detail: "Connects via MCP", icon: Bot },
+  { id: "mcp", name: "MCP Server", detail: "Confirm product access", icon: PlugZap },
+  { id: "claude-code", name: "Claude Code", detail: "Confirm MCP support", icon: Terminal },
+  { id: "chatgpt", name: "ChatGPT", detail: "Confirm MCP support", icon: Bot },
   { id: "gemini", name: "Gemini", detail: "Agent-readable APIs", icon: Sparkles },
   { id: "groq", name: "Groq", detail: "Agent-readable APIs", icon: Zap },
 ];
@@ -160,7 +160,7 @@ export function IntegrationsBand() {
           eyebrow="Integrations"
           id="integrations-heading"
           title="Plug Whats91 into the tools you already run"
-          description="ERP, commerce, and spreadsheet systems on one side — an MCP server and agent-readable APIs for AI assistants on the other. Everything routes through one WhatsApp platform."
+          description="Explore ERP, commerce and spreadsheet integrations alongside AI assistant paths. Confirm product support and account eligibility for the integration you need."
         />
 
         {/* Desktop: SVG connector scene ------------------------------------ */}
@@ -223,9 +223,8 @@ export function IntegrationsBand() {
         </Reveal>
 
         <p className="mt-10 text-center text-sm text-text-secondary">
-          AI assistants and agent frameworks connect through the Whats91 MCP server and
-          agent-readable APIs — point any MCP-compatible client at{" "}
-          <code className="rounded bg-surface-subtle px-1.5 py-0.5 text-xs">whats91.com/api/mcp</code>.
+          Explore product MCP access on the MCP page. Public website content is available through{" "}
+          <code className="rounded bg-surface-subtle px-1.5 py-0.5 text-xs">whats91.com/api/mcp</code> — a read-only content catalogue, not an executable tool gateway.
         </p>
       </Container>
     </Section>

@@ -1,0 +1,18 @@
+import {writeFileSync} from 'node:fs';
+import {projectLoader} from '../tests/helpers/load-project-module.mjs';
+const load=projectLoader(),g=load('src/lib/blog/erp-guides.ts'),{parseExerciseCSV,checkExerciseCSV,checkSpreadsheetReference}=load('src/lib/blog/sheets-exercise.ts');
+const cases=[],add=(name,input,expected,run)=>{try{const actual=run();cases.push({name,input,expected,actual,pass:JSON.stringify(actual)===JSON.stringify(expected)});}catch(e){cases.push({name,input,expected,error:e.message,pass:e.message===expected});}};
+add('valid displayed CSV',g.syntheticCSV,{columns:8,invoices:2,invoiced:77000,paid:10000,outstanding:67000},()=>checkExerciseCSV(g.syntheticCSV));
+add('quoted comma remains one cell','first customer','Sample Store, East',()=>parseExerciseCSV(g.syntheticCSV)[1][5]);
+add('valid illustrative spreadsheet reference',{url:g.syntheticSpreadsheetURL,range:g.syntheticRange,sourceAccess:true,destinationGrant:true},g.syntheticImportRange,()=>checkSpreadsheetReference(g.syntheticSpreadsheetURL,g.syntheticRange,true,true));
+add('CSV URL cannot stand in for spreadsheet URL',{url:'https://example.invalid/report.csv',range:g.syntheticRange},'Expected a Google spreadsheet URL, not CSV',()=>checkSpreadsheetReference('https://example.invalid/report.csv',g.syntheticRange,true,true));
+add('missing source access',{sourceAccess:false,destinationGrant:true},'Source access required',()=>checkSpreadsheetReference(g.syntheticSpreadsheetURL,g.syntheticRange,false,true));
+add('missing destination grant',{sourceAccess:true,destinationGrant:false},'Destination access grant required',()=>checkSpreadsheetReference(g.syntheticSpreadsheetURL,g.syntheticRange,true,false));
+add('unbounded range',{range:'Raw!A:H'},'Expected bounded simple-tab A1 range for this exercise',()=>checkSpreadsheetReference(g.syntheticSpreadsheetURL,'Raw!A:H',true,true));
+add('duplicate invoice snapshot append',g.syntheticCSV+'\n'+g.syntheticCSV.split('\n')[1],'Duplicate invoice key',()=>checkExerciseCSV(g.syntheticCSV+'\n'+g.syntheticCSV.split('\n')[1]));
+add('mixed company',g.syntheticCSV.replace('DEMO,2026-27,DEMO-002','OTHER,2026-27,DEMO-002'),'Mixed company or financial year',()=>checkExerciseCSV(g.syntheticCSV.replace('DEMO,2026-27,DEMO-002','OTHER,2026-27,DEMO-002')));
+add('formula string is not amount',g.syntheticCSV.replace('32000,0','32000,=1+1'),'Expected nonnegative numeric amount',()=>checkExerciseCSV(g.syntheticCSV.replace('32000,0','32000,=1+1')));
+add('invalid calendar date',g.syntheticCSV.replace('2026-04-20','2026-02-30'),'Invalid ISO date',()=>checkExerciseCSV(g.syntheticCSV.replace('2026-04-20','2026-02-30')));
+add('ageing arithmetic at stated as-of date','2026-04-30 / 2026-04-15 / 2026-04-20',[15,10],()=>['2026-04-15','2026-04-20'].map(d=>Math.max(0,(Date.parse('2026-04-30')-Date.parse(d))/86400000)));
+const table=g.benefitsGuide.sections.find(s=>s.id==='ledger-requests').table;let balance=0;add('chronological synthetic ledger reconciliation',table.rows,[45000,35000,67000],()=>table.rows.map(row=>balance+=Number(row[2].replaceAll(',',''))-Number(row[3].replaceAll(',',''))));
+const report={scope:'Synthetic/offline parsing, arithmetic, input type and permission prerequisites from displayed guide fixtures. No private records, network, live Busy export, Google UI import, formula engine evaluation, refresh, webhook or delivery was exercised.',cases};writeFileSync('docs/evidence/b20-2026-09-28/synthetic-procedure-fixtures.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({cases:cases.length,failures:cases.filter(c=>!c.pass)}));if(cases.some(c=>!c.pass))process.exitCode=1;

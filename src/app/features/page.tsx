@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { featureRoutes, offeringScope, supportScope } from "@/lib/home-content";
 import type { Metadata } from "next";
 import { Header } from "@/components/landing/Header";
 import { Footer } from "@/components/landing/Footer";
@@ -33,40 +34,8 @@ export const metadata: Metadata = generatePageMetadata({
   path: pagePath,
 });
 
-const featureCards = [
-  {
-    icon: MessageSquareText,
-    title: "Chat Shortcuts",
-    description:
-      "Configure WhatsApp ice breakers and slash commands, then route customer taps into chatbots, Flow Builder, support, sales, and ERP workflows.",
-    href: "/features/chat-shortcuts-conversation-automation",
-    badge: "New",
-  },
-  {
-    icon: Workflow,
-    title: "Flow Builder",
-    description:
-      "Build visual WhatsApp automation journeys with triggers, actions, routing, webhooks, and API calls.",
-    href: "/flow-builder",
-    badge: "Popular",
-  },
-  {
-    icon: Bot,
-    title: "Chatbot Flow Library",
-    description:
-      "Start from pre-built ERP and support chatbot flows for invoices, ledgers, payments, receipts, and reports.",
-    href: "/chatbot-flows",
-    badge: "Ready",
-  },
-  {
-    icon: PlugZap,
-    title: "Whats91 MCP",
-    description:
-      "Connect ChatGPT, Claude, Grok, or Gemini to your Whats91 account and ask about your WhatsApp message performance in plain language.",
-    href: "/mcp",
-    badge: "Private preview",
-  },
-];
+const featureIcons = [MessageSquareText, Workflow, Bot, PlugZap];
+const featureCards = featureRoutes.map((feature, index) => ({ ...feature, icon: featureIcons[index] }));
 
 const structuredData = [
   generateBreadcrumbSchema([
@@ -82,11 +51,7 @@ const structuredData = [
     description:
       "Feature index for Whats91 WhatsApp automation capabilities, including Chat Shortcuts, Flow Builder, and chatbot flow templates.",
     inLanguage: "en-IN",
-    isPartOf: {
-      "@type": "WebSite",
-      name: siteConfig.name,
-      url: siteConfig.url,
-    },
+    isPartOf: { "@id": `${siteConfig.url}/#website` },
   },
 ];
 
@@ -95,7 +60,7 @@ export default function FeaturesPage() {
     <div className="min-h-screen bg-background">
       <JsonLd data={structuredData} />
       <Header />
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         <section className="relative overflow-hidden bg-gradient-to-b from-surface/80 to-background py-14 sm:py-16 md:py-20">
           <div className="absolute inset-0 gradient-brand-subtle" aria-hidden="true" />
           <div className="relative mx-auto max-w-[1000px] px-4 text-center sm:px-6 lg:px-8">
@@ -104,20 +69,21 @@ export default function FeaturesPage() {
               Whats91 feature library
             </div>
             <h1 className="text-3xl font-bold tracking-tight text-text-primary sm:text-4xl md:text-5xl">
-              WhatsApp automation features for faster business conversations
+              Choose a feature path for your customer workflow
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-text-secondary sm:text-lg">
               Browse Whats91 features for customer conversations, chatbot automation, visual workflows, templates, and ERP-connected WhatsApp journeys.
             </p>
+            <p className="mx-auto mt-4 max-w-2xl text-body-sm">{offeringScope}</p>
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-              <Button asChild className="h-11 bg-brand-primary px-6 text-white hover:bg-brand-primary-hover">
+              <Button asChild className="min-h-11 h-auto py-3 whitespace-normal bg-brand-600 px-6 text-white hover:bg-brand-primary-hover">
                 <Link href="/features/chat-shortcuts-conversation-automation">
                   Explore Chat Shortcuts
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" className="h-11 border-border bg-card px-6 text-text-primary hover:bg-surface">
-                <Link href="/contact">Book a Demo</Link>
+              <Button asChild variant="outline" className="min-h-11 h-auto py-3 whitespace-normal border-border bg-card px-6 text-text-primary hover:bg-surface">
+                <Link href="/contact">Request a demo</Link>
               </Button>
             </div>
           </div>
@@ -161,6 +127,8 @@ export default function FeaturesPage() {
           </div>
         </section>
 
+        <aside className="max-w-4xl mx-auto px-4 sm:px-6 pb-8 text-body-sm space-y-3"><p>{supportScope}</p><p>A demo request is an enquiry, not a scheduled appointment or account activation.</p></aside>
+
         <section className="bg-surface/50 py-12 sm:py-14" aria-labelledby="feature-principles-heading">
           <div className="mx-auto max-w-[1000px] px-4 sm:px-6 lg:px-8">
             <div className="rounded-3xl border border-border/70 bg-card p-6 shadow-sm sm:p-8">
@@ -169,9 +137,9 @@ export default function FeaturesPage() {
               </h2>
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
                 {[
-                  "Official WhatsApp Cloud API patterns",
-                  "Business workflows before decorative UI",
-                  "SEO and AI-readable pages for every major feature",
+                  "Templates, incoming messages and workflow routing",
+                  "ERP requests, customer replies and human handoff",
+                  "Confirm prerequisites, enabled actions and exception handling",
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3 text-sm leading-relaxed text-text-secondary">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-primary" />

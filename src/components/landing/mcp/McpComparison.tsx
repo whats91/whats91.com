@@ -2,10 +2,10 @@ import { ArrowRight, Check, X } from "lucide-react";
 
 const rows = [
   { without: "Open the dashboard, filter, export", with: 'Ask: "How did today\'s messages perform?"' },
-  { without: "Manual reports & screenshots", with: "Natural-language answers, in seconds" },
-  { without: "Copy-paste between tools", with: "Live business context, right in your AI" },
+  { without: "Manual reports & screenshots", with: "Ask in natural language, when the tool is enabled" },
+  { without: "Copy-paste between tools", with: "Results from the approved tools and data scope" },
   { without: "Build against raw APIs", with: "AI-ready, permission-scoped tools" },
-  { without: "Hope you're reading the right number", with: "Answers from your account, scoped to you" },
+  { without: "Hope you're reading the right number", with: "Check the returned result against your account" },
 ];
 
 /**
@@ -28,7 +28,7 @@ export function McpComparison() {
       </div>
 
       <div className="rounded-2xl border border-brand-primary/25 bg-brand-primary/[0.04] p-5 shadow-sm sm:p-6">
-        <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-brand-primary">With Whats91 MCP</p>
+        <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-brand-primary">Illustrative MCP workflow</p>
         <ul className="space-y-3">
           {rows.map((row) => (
             <li key={row.with} className="flex items-start gap-2.5 text-sm font-medium text-text-primary">

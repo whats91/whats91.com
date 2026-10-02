@@ -1,12 +1,13 @@
+import { contentDates, feedItems } from "@/lib/content/dates";
 import { getAllPosts } from "@/lib/blog";
-import { getAuthorById } from "@/lib/blog/authors";
 import { siteConfig } from "@/lib/seo/config";
 
 export async function GET() {
-  const posts = getAllPosts();
+  // RSS permits undated items; never invent a mandatory publication date.
+  const posts = feedItems(getAllPosts());
+  const lastChanged = posts.map(post => contentDates(post).lastModified).filter((value): value is string => Boolean(value)).sort().at(-1);
+  const lastPublished = posts.map(post => contentDates(post).published).filter((value): value is string => Boolean(value)).sort().at(-1);
   const baseUrl = siteConfig.url;
-  const authorEmail = `${siteConfig.email}`;
-  const managingEditor = `${siteConfig.email} (${siteConfig.author})`;
 
   const rssFeed = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" 
@@ -20,12 +21,10 @@ export async function GET() {
     <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
     <atom:link href="${baseUrl}/blog" rel="alternate" type="text/html"/>
     <description>${escapeXml(siteConfig.description)} - Technical articles on WhatsApp API, ERP integration, and business messaging automation.</description>
-    <language>en-US</language>
+    <language>en-IN</language>
     <copyright>Copyright ${new Date().getFullYear()} ${siteConfig.publisher}</copyright>
-    <managingEditor>${escapeXml(managingEditor)}</managingEditor>
-    <webMaster>${escapeXml(authorEmail)} (Whats91 Technical Team)</webMaster>
-    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-    <pubDate>${posts.length > 0 ? new Date(posts[0].publishedAt).toUTCString() : new Date().toUTCString()}</pubDate>
+    ${lastChanged ? `<lastBuildDate>${new Date(lastChanged).toUTCString()}</lastBuildDate>` : ""}
+    ${lastPublished ? `<pubDate>${new Date(lastPublished).toUTCString()}</pubDate>` : ""}
     <generator>Whats91 RSS Generator 2.0</generator>
     <ttl>60</ttl>
     <sy:updatePeriod>hourly</sy:updatePeriod>
@@ -43,7 +42,6 @@ export async function GET() {
     ${posts
       .slice(0, 20)
       .map((post) => {
-        const author = getAuthorById(post.authorId);
         const postUrl = `${baseUrl}/blog/${post.slug}`;
         return `
     <item>
@@ -52,9 +50,7 @@ export async function GET() {
       <guid isPermaLink="true">${postUrl}</guid>
       <description>${escapeXml(post.excerpt)}</description>
       <content:encoded><![CDATA[${post.excerpt}<p><a href="${postUrl}">Read the full article on Whats91 Blog</a></p>]]></content:encoded>
-      <pubDate>${new Date(post.publishedAt).toUTCString()}</pubDate>
-      <dc:creator>${escapeXml(author?.name || siteConfig.author)}</dc:creator>
-      <author>${escapeXml(authorEmail)} (${escapeXml(author?.name || siteConfig.author)})</author>
+      ${contentDates(post).feedPublished ? `<pubDate>${contentDates(post).feedPublished}</pubDate>` : ""}
       <category domain="${baseUrl}/blog">${escapeXml(post.category)}</category>
       ${post.tags.map((tag) => `<category>${escapeXml(tag)}</category>`).join("\n      ")}
       <source url="${baseUrl}/feed.xml">${escapeXml(siteConfig.name)} Blog</source>

@@ -12,7 +12,7 @@ Whats91 is an Enterprise WhatsApp Cloud API Platform built with Next.js 16, Type
 framework: Next.js 16 (App Router)
 language: TypeScript 5
 styling: Tailwind CSS 4 + shadcn/ui
-database: Prisma ORM (SQLite)
+form intake: Browser POST to the Graph public form-submission API; no website database
 auth: NextAuth.js v4
 state: Zustand (client), TanStack Query (server)
 ```
@@ -24,11 +24,8 @@ state: Zustand (client), TanStack Query (server)
 ```typescript
 // ✅ CORRECT: Default to Server Components
 // File: src/app/page.tsx (no "use client" directive)
-import { db } from "@/lib/db";
-
 export default async function Page() {
-  const data = await db.example.findMany();
-  return <div>{data.map(...)}</div>;
+  return <div>Public website content</div>;
 }
 
 // ❌ AVOID: Client Components for data fetching
@@ -67,23 +64,9 @@ export async function POST(request: Request) {
 }
 ```
 
-### 3. Database Operations
+### 3. Form Submissions
 
-```typescript
-// File: src/lib/db.ts (already exists)
-// Always use the singleton Prisma client
-import { db } from "@/lib/db";
-
-// ✅ CORRECT: Use transactions for related operations
-await db.$transaction([
-  db.user.create({ data: userData }),
-  db.auditLog.create({ data: logData }),
-]);
-
-// ❌ AVOID: Multiple separate calls for related data
-await db.user.create({ data: userData });
-await db.auditLog.create({ data: logData }); // Can fail independently
-```
+Contact and demo enquiries go only to `https://graph.whats91.com/public/form-submissions` from the browser. Keep the Graph idempotency key for an unchanged retry. Do not add website storage, CRM forwarding, or Bot Master notifications.
 
 ### 4. SEO Component Pattern
 
@@ -152,12 +135,10 @@ src/
 │   ├── landing/           # Landing page components
 │   └── shared/            # Reusable components
 ├── lib/
-│   ├── db.ts              # Prisma client singleton
+│   ├── graph-form-submissions.ts # Graph contact/demo contract
 │   ├── blog/              # Blog system
 │   ├── seo/               # SEO utilities
 │   └── utils.ts           # Helper functions
-└── prisma/
-    └── schema.prisma      # Database schema
 ```
 
 ## Known Issues & Solutions
@@ -178,7 +159,7 @@ src/
 ## Prohibited Actions
 
 1. **Never** modify files in `src/components/ui/` - these are shadcn/ui components
-2. **Never** use `prisma` directly - always import from `@/lib/db`
+2. **Never** reintroduce website database storage or parallel form delivery.
 3. **Never** use blue/indigo colors - use brand colors from tailwind config
 4. **Never** create client components when server components suffice
 5. **Never** skip error handling in API routes
@@ -187,7 +168,6 @@ src/
 
 ```bash
 bun run lint     # Check code quality
-bun run db:push  # Push schema changes
 bun run dev      # Development server (auto-started)
 ```
 
@@ -202,5 +182,15 @@ bun run dev      # Development server (auto-started)
 
 - Next.js: 16.x
 - TypeScript: 5.x
-- Node: 20.x
+- Node: 24.x
 - Last Updated: 2026-01
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

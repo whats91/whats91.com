@@ -19,7 +19,7 @@ function CapabilityCard({ capability }: { capability: McpCapability }) {
   );
 }
 
-/** Full capability grid — every tool below is live and available now. */
+/** Source-reported capability areas; current enabled tools require confirmation. */
 export function McpCapabilityGrid() {
   return (
     <div className="space-y-8">
@@ -30,8 +30,8 @@ export function McpCapabilityGrid() {
       </div>
 
       <p className="rounded-xl border border-border/60 bg-surface/60 px-4 py-3 text-center text-sm text-text-secondary">
-        Whats91 MCP covers your WhatsApp Business Platform data and workflows. It does not access accounting, sales,
-        orders, or payment data.
+        These are source-reported capability areas; confirm the currently enabled tools and account permissions.
+        Accounting, sales, orders and payment data are outside this page’s documented MCP scope.
       </p>
     </div>
   );

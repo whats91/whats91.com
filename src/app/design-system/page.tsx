@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { generatePageMetadata } from "@/lib/seo/config";
 import {
   Zap,
   Shield,
@@ -27,7 +28,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Whats91 Design System Preview (Internal)",
+  ...generatePageMetadata({ title: "Whats91 Design System Preview (Internal)", description: "Internal preview of Whats91 typography, shared components and layout tokens. This preview is excluded from search indexing and the public sitemap.", path: "/design-system" }),
   robots: { index: false, follow: false },
 };
 
@@ -38,9 +39,9 @@ export const metadata: Metadata = {
  */
 export default function DesignSystemPage() {
   return (
-    <main className="min-h-screen bg-background">
+    <main id="main-content" tabIndex={-1} className="min-h-screen bg-background">
       {/* Typography */}
-      <Section tone="default">
+      <Section tone="default" id="type">
         <Container>
           <SectionHeader
             align="left"
@@ -99,7 +100,7 @@ export default function DesignSystemPage() {
           <div className="mt-8 flex flex-wrap gap-2.5">
             <TrustPill>Meta-hosted Cloud API</TrustPill>
             <TrustPill icon={Shield}>Protected connections</TrustPill>
-            <TrustPill icon={Zap}>500 msgs/sec throughput</TrustPill>
+            <TrustPill icon={Zap}>Confirm account throughput</TrustPill>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
             <Eyebrow>Plain eyebrow</Eyebrow>
@@ -110,7 +111,7 @@ export default function DesignSystemPage() {
       </Section>
 
       {/* Cards */}
-      <Section tone="default">
+      <Section tone="default" id="type">
         <Container>
           <SectionHeader
             title="Cards"
@@ -147,7 +148,7 @@ export default function DesignSystemPage() {
           </div>
           <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard value="SLA" label="Contract specific" />
-            <StatCard value="500/sec" label="Message throughput" icon={Zap} />
+            <StatCard value="Confirm" label="Account throughput" icon={Zap} />
             <StatCard value="24×7" label="Support" />
             <StatCard value="10 min" label="Busy sync interval" />
           </div>

@@ -15,7 +15,7 @@ export function HomeFinalCTA() {
     <Section>
       <Container>
         <Reveal>
-          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-brand-primary via-brand-primary to-brand-accent p-7 sm:p-10 md:p-14 lg:p-16 shadow-xl">
+          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-brand-700 via-brand-700 to-brand-800 p-7 sm:p-10 md:p-14 lg:p-16 shadow-xl">
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
               <div className="absolute -top-1/2 -right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-white/10 rounded-full blur-3xl" />
@@ -29,35 +29,34 @@ export function HomeFinalCTA() {
               </div>
 
               <h2 className="heading-2 !text-white mb-4">
-                Put your business on WhatsApp — properly.
+                Bring one workflow to a demo discussion
               </h2>
 
-              <p className="text-base sm:text-lg text-white/90 mb-8 max-w-xl mx-auto leading-relaxed">
-                Official Cloud API, zero-markup Meta rates, and an ERP that
-                finally talks to your customers.
+              <p className="text-base sm:text-lg text-white mb-8 max-w-xl mx-auto leading-relaxed">
+                Tell us the task, your accounting or CRM system and the exceptions your team handles. Confirm feasibility, account eligibility and written terms before rollout.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                 <BookDemoPopup
-                  triggerLabel="Book a free demo"
+                  triggerLabel="Request a demo"
                   triggerSize="lg"
                   source="homepage-final-cta"
-                  triggerClassName="h-11 sm:h-12 px-7 sm:px-8 rounded-xl !bg-white !text-brand-700 hover:!bg-white/95 !shadow-lg font-semibold w-full sm:w-auto"
+                  triggerClassName="min-h-11 h-auto py-3 whitespace-normal px-7 sm:px-8 rounded-xl !bg-white !text-brand-700 hover:!bg-white/95 !shadow-lg font-semibold w-full sm:w-auto"
                   showIcon={false}
                 />
                 <a
                   href="https://wa.me/919669823388"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 h-11 sm:h-12 px-7 sm:px-8 rounded-xl border border-white/40 text-white font-semibold text-sm sm:text-base hover:bg-white/10 transition-colors w-full sm:w-auto"
+                  className="inline-flex items-center justify-center gap-2 min-h-11 h-auto py-3 whitespace-normal px-7 sm:px-8 rounded-xl border border-white/40 text-white font-semibold text-sm sm:text-base hover:bg-white/10 transition-colors w-full sm:w-auto"
                 >
                   <WhatsAppGlyph className="h-4 w-4" />
                   Chat with us on WhatsApp
                 </a>
               </div>
 
-              <p className="mt-7 sm:mt-8 text-xs sm:text-sm text-white/70">
-                Trusted by <span className="font-semibold text-white/90">500+ enterprises</span> across India
+              <p className="mt-7 sm:mt-8 text-xs sm:text-sm text-white">
+                A demo request is an enquiry, not a scheduled appointment or account activation. Support hours and any SLA need written confirmation.
               </p>
             </div>
           </div>

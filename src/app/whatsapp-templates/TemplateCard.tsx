@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useResourceCopy } from "@/components/shared/useResourceCopy";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,18 +21,8 @@ import {
   ExternalLink,
 } from "lucide-react";
 
-export interface Template {
-  id: string;
-  name: string;
-  category: "marketing" | "utility" | "authentication";
-  industry?: string;
-  header?: { type: "text" | "image" | "video" | "document"; content: string };
-  body: string;
-  footer?: string;
-  buttons?: { type: "quick_reply" | "url" | "phone" | "copy_code"; text: string; value?: string }[];
-  variables: string[];
-  useCase: string;
-}
+import type { Template } from "@/lib/message-examples";
+export type { Template } from "@/lib/message-examples";
 
 const industryIcons: Record<string, React.ElementType> = {
   "E-commerce": ShoppingCart,
@@ -53,13 +43,7 @@ const categoryBadgeClass: Record<Template["category"], string> = {
 };
 
 export function TemplateCard({ template }: { template: Template }) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(template.body);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const copy = useResourceCopy(`${template.id}|${template.body}`);
 
   const IndustryIcon = template.industry ? industryIcons[template.industry] || Building : Building;
 
@@ -97,9 +81,9 @@ export function TemplateCard({ template }: { template: Template }) {
 
         <div className="relative">
           <div className="bg-success-soft rounded-lg p-3 text-sm border border-success-border">
-            <p className="text-success whitespace-pre-line text-xs leading-relaxed">
-              {template.body}
-            </p>
+            <label className="block text-xs font-medium text-success">Illustrative message body
+              <textarea readOnly aria-label={`Message body: ${template.name}`} value={template.body} rows={4} className="mt-2 block w-full min-w-0 resize-y bg-transparent text-xs leading-relaxed text-text-primary" />
+            </label>
           </div>
           <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-success" aria-hidden="true" />
         </div>
@@ -109,15 +93,16 @@ export function TemplateCard({ template }: { template: Template }) {
         )}
 
         {template.buttons && template.buttons.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {template.buttons.map((btn) => (
-              <Button key={btn.text} variant="outline" size="sm" className="text-xs h-7">
+          <div className="space-y-2">
+            <p className="text-caption">Example message actions · illustrative only; no action runs here.</p>
+            <div className="flex flex-wrap gap-2">{template.buttons.map((btn) => (
+              <span key={btn.text} className="inline-flex items-center rounded-lg border border-border px-2 py-1 text-xs">
                 {btn.type === "copy_code" && <Copy className="h-3 w-3 mr-1" aria-hidden="true" />}
                 {btn.type === "url" && <ExternalLink className="h-3 w-3 mr-1" aria-hidden="true" />}
                 {btn.type === "phone" && <MessageCircle className="h-3 w-3 mr-1" aria-hidden="true" />}
                 {btn.text}
-              </Button>
-            ))}
+              </span>
+            ))}</div>
           </div>
         )}
 
@@ -129,19 +114,11 @@ export function TemplateCard({ template }: { template: Template }) {
           ))}
         </div>
 
-        <Button size="sm" variant="ghost" className="w-full" onClick={handleCopy}>
-          {copied ? (
-            <>
-              <Check className="h-3 w-3 mr-1 text-success" aria-hidden="true" />
-              Copied!
-            </>
-          ) : (
-            <>
-              <Copy className="h-3 w-3 mr-1" aria-hidden="true" />
-              Copy Template
-            </>
-          )}
+        <Button type="button" size="sm" variant="ghost" className="w-full" disabled={!copy.hydrated || copy.pending} onClick={() => copy.copy(() => template.body)}>
+          <Copy className="h-3 w-3 mr-1" aria-hidden="true" />Copy message body
         </Button>
+        <p role="status" className="text-caption">{copy.status}</p>
+        <p className="text-caption">Copy needs JavaScript. You can always select the message body. This example is not an approved template for your account.</p>
       </CardContent>
     </Card>
   );

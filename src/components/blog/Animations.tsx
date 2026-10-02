@@ -184,7 +184,7 @@ export function AnimatedStep({ stepNumber, title, description, children }: Anima
           whileInView={{ scale: 1 }}
           viewport={{ once: true }}
           transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 }}
-          className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-primary to-brand-primary/80 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-brand-primary/20"
+          className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-700 to-brand-800 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-brand-primary/20"
         >
           {stepNumber}
         </motion.div>

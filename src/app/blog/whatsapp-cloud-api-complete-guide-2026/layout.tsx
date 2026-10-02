@@ -1,8 +1,6 @@
 import { generateBlogPostMetadata } from "@/lib/blog/metadata";
 
-// The post page is a client component and cannot export metadata; this server
-// layout gives the post its own title/description/canonical/article metadata
-// from the blog registry instead of inheriting the blog-index metadata.
+// Preserve the server metadata boundary and canonical registry for this guide.
 export const metadata = generateBlogPostMetadata(
   "whatsapp-cloud-api-complete-guide-2026"
 );

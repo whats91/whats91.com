@@ -1,0 +1,170 @@
+@layer components {
+  /* ============================================================
+     Product animation scenes (homepage storytelling).
+     Each scene is one shared-duration loop; every element's
+     keyframes encode its own timing window so the whole scene
+     resets together. Base styles are ALWAYS the completed state —
+     the global prefers-reduced-motion rule collapses each
+     animation to a single instant run, leaving the finished scene
+     visible. Transient props (.scene-transient: typing dots,
+     travelling pulses) are hidden at rest so they simply never
+     appear without motion.
+     ============================================================ */
+
+  .scene-transient { opacity: 0; }
+
+  /* --- Hero chat scene (12s) --- */
+  @keyframes hs-msg-1 {
+    0%, 4% { opacity: 0; transform: translateY(10px); }
+    8%, 91% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; }
+  }
+  @keyframes hs-typing {
+    0%, 10% { opacity: 0; }
+    13%, 22% { opacity: 1; }
+    25%, 100% { opacity: 0; }
+  }
+  @keyframes hs-msg-2 {
+    0%, 25% { opacity: 0; transform: translateY(10px); }
+    29%, 91% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; }
+  }
+  @keyframes hs-tick-sent {
+    0%, 31% { opacity: 0; }
+    33%, 44% { opacity: 1; }
+    46%, 100% { opacity: 0; }
+  }
+  @keyframes hs-tick-read {
+    0%, 46% { opacity: 0; }
+    48%, 91% { opacity: 1; }
+    97%, 100% { opacity: 0; }
+  }
+  @keyframes hs-toast {
+    0%, 55% { opacity: 0; transform: translateY(8px) scale(0.96); }
+    60%, 88% { opacity: 1; transform: none; }
+    93%, 100% { opacity: 0; }
+  }
+  @keyframes dot-bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-3px); }
+  }
+
+  /* cs-bar-read is retained — the hero composition also uses it. */
+  @keyframes cs-bar-read {
+    0%, 30% { width: 0%; }
+    58%, 100% { width: 98%; }
+  }
+
+  /* --- Campaign report scene. Each metric bar rests at its target width
+     (always legible; reduced-motion simply freezes the sweep and leaves a
+     solid, complete funnel). A soft highlight sweeps across the fill for
+     continuous, non-resetting motion — the bar's own bg-* colour shows
+     through as the base. --- */
+  .camp-bar-flow {
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.5) 50%,
+      transparent 100%
+    );
+    background-size: 45% 100%;
+    background-repeat: no-repeat;
+    background-position: -60% 0;
+    animation: camp-sweep 2.6s linear infinite;
+  }
+  @keyframes camp-sweep {
+    to { background-position: 160% 0; }
+  }
+
+  /* --- Automation flow scene. Connectors flow toward the next node and the
+     node tiles pulse in sequence — all continuous, so nothing blinks out or
+     resets. Frozen (reduced motion) leaves a static, legible flow diagram:
+     the dashes rest as a solid dashed link and the tile rings collapse to
+     nothing. --- */
+  .flow-link-h {
+    background-image: repeating-linear-gradient(90deg, rgba(68, 140, 116, 0.6) 0 5px, transparent 5px 11px);
+    background-size: 11px 100%;
+    background-repeat: repeat-x;
+    background-position: 0 0;
+    animation: flow-move-x 0.8s linear infinite;
+  }
+  @keyframes flow-move-x {
+    to { background-position-x: 11px; }
+  }
+  .flow-link-v {
+    background-image: repeating-linear-gradient(180deg, rgba(68, 140, 116, 0.6) 0 5px, transparent 5px 11px);
+    background-size: 100% 11px;
+    background-repeat: repeat-y;
+    background-position: 0 0;
+    animation: flow-move-y 0.8s linear infinite;
+  }
+  @keyframes flow-move-y {
+    to { background-position-y: 11px; }
+  }
+  .flow-tile {
+    animation: flow-tile-pulse 3.2s ease-in-out infinite;
+  }
+  @keyframes flow-tile-pulse {
+    0%, 12%, 100% { box-shadow: 0 0 0 0 rgba(68, 140, 116, 0); }
+    22% { box-shadow: 0 0 0 4px rgba(68, 140, 116, 0.16); }
+    34% { box-shadow: 0 0 0 0 rgba(68, 140, 116, 0); }
+  }
+
+  /* --- Sync pipeline scene. Two dashed lanes flow in opposite directions
+     (ERP data out, customer queries back) for a continuous two-way sync
+     signal. Frozen (reduced motion) leaves two static, legible dashed
+     lanes; the reused flow-move-x drives the outbound lane. --- */
+  .sync-out,
+  .sync-in {
+    background-image: repeating-linear-gradient(90deg, rgba(68, 140, 116, 0.55) 0 5px, transparent 5px 11px);
+    background-size: 11px 100%;
+    background-repeat: repeat-x;
+    background-position: 0 0;
+  }
+  .sync-out {
+    animation: flow-move-x 0.85s linear infinite;
+  }
+  .sync-in {
+    opacity: 0.55;
+    animation: flow-move-x-rev 1.15s linear infinite;
+  }
+  @keyframes flow-move-x-rev {
+    to { background-position-x: -11px; }
+  }
+
+  /* --- Webhook event stream (10s) --- */
+  @keyframes es-line-1 { 0%, 4% { opacity: 0; } 8%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
+  @keyframes es-line-2 { 0%, 18% { opacity: 0; } 22%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
+  @keyframes es-line-3 { 0%, 34% { opacity: 0; } 38%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
+  @keyframes es-line-4 { 0%, 50% { opacity: 0; } 54%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
+  @keyframes es-line-5 { 0%, 66% { opacity: 0; } 70%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
+  @keyframes caret-blink { 0%, 45% { opacity: 1; } 50%, 95% { opacity: 0; } 100% { opacity: 1; } }
+
+  /* --- Bento micro-visuals --- */
+  @keyframes wave-bar {
+    0%, 100% { transform: scaleY(0.35); }
+    50% { transform: scaleY(1); }
+  }
+  @keyframes mini-bar-grow {
+    0%, 8% { transform: scaleY(0.1); }
+    35%, 88% { transform: scaleY(1); }
+    96%, 100% { transform: scaleY(0.1); }
+  }
+  @keyframes bell-ring {
+    0%, 82%, 100% { transform: rotate(0deg); }
+    86% { transform: rotate(12deg); }
+    90% { transform: rotate(-10deg); }
+    94% { transform: rotate(6deg); }
+    98% { transform: rotate(-3deg); }
+  }
+  @keyframes chip-type {
+    0%, 8% { width: 1ch; }
+    40%, 82% { width: 9ch; }
+    94%, 100% { width: 1ch; }
+  }
+  @keyframes swap-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.12); opacity: 1; }
+  }
+
+}

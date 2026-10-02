@@ -1,3 +1,4 @@
+import { noMarkupPolicy } from "@/lib/meta-pricing";
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, MapPin, Phone, Tag } from "lucide-react";
@@ -40,6 +41,7 @@ const footerLinks = {
     { label: "Volume Discounts", href: "/pricing#volume" },
   ],
   resources: [
+    { label: "Features", href: "/features" },
     { label: "Whats91 MCP", href: "/mcp", featured: true },
     { label: "Chat Shortcuts", href: "/features/chat-shortcuts-conversation-automation", featured: true },
     { label: "WhatsApp Templates", href: "/whatsapp-templates" },
@@ -73,7 +75,7 @@ const footerLinks = {
 function FeaturedTag() {
   return (
     <span className="inline-flex items-center rounded bg-brand-primary/10 px-1.5 py-0.5 text-[9px] font-medium text-brand-primary">
-      Popular
+      Explore
     </span>
   );
 }
@@ -93,7 +95,7 @@ export function Footer() {
 
           {/* Brand Column */}
           <div className="md:col-span-3 lg:col-span-2 text-center sm:text-left">
-            <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
+            <Link prefetch={false} href="/" className="inline-flex items-center gap-2 mb-4 group">
               <Image
                 src="/whats91_logo.svg"
                 alt="Whats91 Logo"
@@ -135,12 +137,14 @@ export function Footer() {
               </div>
             </div>
 
-            {/* Book a Demo Button */}
+            <p className="text-caption mt-4 max-w-xs mx-auto sm:mx-0">Confirm support channels and staffed hours in your written offer. Uptime, response targets and credits require a signed agreement. <Link prefetch={false} href="/sla" className="link-inline">Support policy</Link>.</p>
+
+            {/* Demo enquiry */}
             <div className="mt-5 flex justify-center sm:justify-start">
               <BookDemoPopup
                 triggerVariant="default"
                 triggerSize="sm"
-                triggerLabel="Book a Demo"
+                triggerLabel="Request a demo"
                 source="footer"
                 triggerClassName="cursor-pointer"
               />
@@ -156,9 +160,9 @@ export function Footer() {
             <ul className="space-y-2">
               {footerLinks.solutions.map((link) => (
                 <li key={link.href}>
-                  <Link
+                  <Link prefetch={false}
                     href={link.href}
-                    className="text-xs sm:text-sm text-text-secondary hover:text-brand-primary transition-colors inline-flex items-center gap-1.5"
+                    className="text-xs sm:text-sm text-text-secondary hover:text-brand-primary transition-colors inline-flex flex-wrap justify-center sm:justify-start items-center gap-1.5"
                   >
                     {link.label}
                     {link.featured && <FeaturedTag />}
@@ -170,11 +174,11 @@ export function Footer() {
 
           {/* Pricing */}
           <div className="text-center sm:text-left">
-            <h4 className="text-xs sm:text-sm font-semibold text-text-primary mb-4">Pricing</h4>
+            <h4 className="text-xs sm:text-sm font-semibold text-text-primary mb-4">Pricing</h4><p className="text-xs text-text-secondary mb-4">{noMarkupPolicy}</p>
             <ul className="space-y-2">
               {footerLinks.pricing.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-xs sm:text-sm text-text-secondary hover:text-brand-primary transition-colors">
+                  <Link prefetch={false} href={link.href} className="text-xs sm:text-sm text-text-secondary hover:text-brand-primary transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -193,15 +197,15 @@ export function Footer() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs sm:text-sm text-text-secondary hover:text-brand-primary transition-colors inline-flex items-center gap-1.5"
+                      className="text-xs sm:text-sm text-text-secondary hover:text-brand-primary transition-colors inline-flex flex-wrap justify-center sm:justify-start items-center gap-1.5"
                     >
                       {link.label}
                       {link.featured && <FeaturedTag />}
                     </a>
                   ) : (
-                    <Link
+                    <Link prefetch={false}
                       href={link.href}
-                      className="text-xs sm:text-sm text-text-secondary hover:text-brand-primary transition-colors inline-flex items-center gap-1.5"
+                      className="text-xs sm:text-sm text-text-secondary hover:text-brand-primary transition-colors inline-flex flex-wrap justify-center sm:justify-start items-center gap-1.5"
                     >
                       {link.label}
                       {link.featured && <FeaturedTag />}
@@ -218,7 +222,7 @@ export function Footer() {
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-xs sm:text-sm text-text-secondary hover:text-brand-primary transition-colors">
+                  <Link prefetch={false} href={link.href} className="text-xs sm:text-sm text-text-secondary hover:text-brand-primary transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -242,7 +246,7 @@ export function Footer() {
           </div>
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
             {footerLinks.legal.map((link) => (
-              <Link
+              <Link prefetch={false}
                 key={link.href}
                 href={link.href}
                 className="text-xs sm:text-sm text-text-muted hover:text-text-primary transition-colors"

@@ -1,3 +1,5 @@
+import { PlatformConditions } from "@/components/shared/PlatformConditions";
+import { compatibilityFAQs, compatibilityQualification, historyQualification } from "@/lib/platform-compatibility";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/landing/Header";
@@ -7,7 +9,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { generatePageMetadata, siteConfig } from "@/lib/seo/config";
 import {
   Smartphone,
@@ -20,14 +21,13 @@ import {
   Home,
   ShoppingCart,
   Briefcase,
-  Clock,
 } from "lucide-react";
 
 const pagePath = "/whatsapp-coexistence";
 const pageUrl = `${siteConfig.url}${pagePath}`;
 const seoTitle = "WhatsApp Coexistence Guide 2026 | App + Cloud API on One Number";
 const seoDescription =
-  "Run WhatsApp Business App and Cloud API simultaneously on a single phone number. Technical mechanics, throughput limits, feature compatibility, and regional availability.";
+  "Assess Business App and Cloud API coexistence for your account. Compare standard and hybrid workflows, eligibility, migration, device support and billing conditions.";
 
 export const metadata: Metadata = {
   ...generatePageMetadata({
@@ -45,32 +45,7 @@ export const metadata: Metadata = {
   alternates: { canonical: pageUrl },
 };
 
-const coexistenceFaqs = [
-  {
-    q: "Can I use Coexistence with an existing API number?",
-    a: "No, you cannot directly migrate from standalone API to Coexistence. You must delete the number from Meta WhatsApp Manager, reinstall the Business App, complete a 7-day warm-up, then initiate Coexistence onboarding.",
-  },
-  {
-    q: "Why is MM Lite API incompatible with Coexistence?",
-    a: "MM Lite is optimized for high-speed bulk marketing by stripping away synchronization overhead. Coexistence requires heavy bidirectional sync for webhook events, making the two architectures fundamentally incompatible on the same number.",
-  },
-  {
-    q: "Can I get the Official Business Account (Green Tick) with Coexistence?",
-    a: "Currently, the Green Tick is not natively supported for Coexistence accounts. You can use Partner-Led Business Verification or Meta Verified for Business program as alternatives.",
-  },
-  {
-    q: "What happens if I don't open my phone for 14 days?",
-    a: "The Coexistence connection expires automatically. API workflows, chatbots, and CRM routing will halt until you manually re-authenticate via the mobile app.",
-  },
-  {
-    q: "Are messages sent from the mobile app free?",
-    a: "Yes. All manual messages sent directly from the WhatsApp Business App remain free, even when connected to the API. Only API template messages are charged.",
-  },
-  {
-    q: "Why are disappearing messages and View Once disabled?",
-    a: "These features are disabled because the API requires persistent, auditable communication records for CRM logging and compliance. Ephemeral content would break webhook synchronization.",
-  },
-];
+const coexistenceFaqs = compatibilityFAQs.map(row => ({ q: row.question, a: row.answer }));
 
 function CoexistenceAIJsonLD() {
   const schema = {
@@ -132,8 +107,7 @@ export default function WhatsAppCoexistencePage() {
                 <span className="text-brand-primary"> The Complete Guide</span>
               </h1>
               <p className="text-lead mb-8 max-w-2xl mx-auto">
-                Run WhatsApp Business App and Cloud API simultaneously on a single phone number.
-                The hybrid architecture for microbusiness scaling without sacrificing human connection.
+                {compatibilityQualification}
               </p>
               <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-text-secondary">
                 <div className="flex items-center gap-2">
@@ -206,9 +180,9 @@ export default function WhatsAppCoexistencePage() {
                         "Enterprise scalability",
                         "Multi-agent team inboxes",
                         "CRM & automation support",
-                        "NO voice or video calls",
-                        "NO mobile app access",
-                        "Lost chat history on migration",
+                        "Check calling API eligibility",
+                        "Choose your API interface",
+                        "Agree migration and history scope",
                       ].map((item, i) => (
                         <li key={item} className="flex items-start gap-2">
                           {i < 3 ? (
@@ -235,8 +209,7 @@ export default function WhatsAppCoexistencePage() {
                 <Badge className="bg-success mb-4 text-white">Solution</Badge>
                 <h2 className="heading-2 mb-4">WhatsApp Coexistence Framework</h2>
                 <p className="text-body">
-                  An official Meta architecture that allows simultaneous operation of WhatsApp Business App
-                  and Cloud API on a <strong className="text-text-primary">single phone number</strong>.
+                  A hybrid setup to assess for a compatible Business App number. App functions and API integrations must each be checked for your account and rollout.
                 </p>
               </div>
 
@@ -274,206 +247,7 @@ export default function WhatsAppCoexistencePage() {
           </div>
         </section>
 
-        {/* Technical Mechanics */}
-        <section className="py-12">
-          <div className="px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="heading-2 mb-8 text-center">Technical Architecture</h2>
-
-              <div className="grid gap-6 md:grid-cols-2 mb-8">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-lg">
-                      <RefreshCw className="h-5 w-5 text-brand-primary" aria-hidden="true" />
-                      Bidirectional Sync
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-sm text-text-secondary">
-                    <p className="mb-3">
-                      Messages sent via Cloud API are instantly mirrored to the mobile app.
-                      Manual responses from the app are captured via <code className="text-brand-primary">smb_message_echoes</code> webhooks.
-                    </p>
-                    <p>
-                      This ensures your CRM always has a complete record of all interactions.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-lg">
-                      <Zap className="h-5 w-5 text-brand-primary" aria-hidden="true" />
-                      Throughput Limits
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-sm text-text-secondary">
-                    <p className="mb-3">
-                      <strong className="text-text-primary">Standard API:</strong> 80-100 messages/second
-                    </p>
-                    <p>
-                      <strong className="text-text-primary">Coexistence:</strong> 5 messages/second (throttled for sync stability)
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Throughput Comparison */}
-              <Card className="mb-8">
-                <CardHeader>
-                  <CardTitle>Throughput Comparison</CardTitle>
-                  <CardDescription>Messages per second capacity</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>Standard Cloud API</span>
-                        <span className="font-medium">80-100 MPS</span>
-                      </div>
-                      <div className="h-3 bg-surface rounded-full overflow-hidden">
-                        <div className="h-full bg-info rounded-full" style={{ width: "100%" }} />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>Coexistence Mode</span>
-                        <span className="font-medium">5 MPS</span>
-                      </div>
-                      <div className="h-3 bg-surface rounded-full overflow-hidden">
-                        <div className="h-full bg-brand-primary rounded-full" style={{ width: "6%" }} />
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-xs text-text-muted mt-4">
-                    * Throttling ensures stable sync between cloud infrastructure and mobile device
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* Data Migration */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Data Migration Limits</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="p-4 bg-surface rounded-lg">
-                      <p className="text-sm font-medium text-text-primary mb-1">Chat History</p>
-                      <p className="text-2xl font-bold text-brand-primary">6 months</p>
-                      <p className="text-xs text-text-muted">of text conversations imported</p>
-                    </div>
-                    <div className="p-4 bg-surface rounded-lg">
-                      <p className="text-sm font-medium text-text-primary mb-1">Media Files</p>
-                      <p className="text-2xl font-bold text-brand-primary">14 days</p>
-                      <p className="text-xs text-text-muted">older media excluded from sync</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Feature Compatibility Matrix */}
-        <section className="py-12 bg-surface/50">
-          <div className="px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="heading-2 mb-4 text-center">Feature Compatibility Matrix</h2>
-              <p className="text-body text-center mb-8">
-                How WhatsApp features behave under Coexistence mode
-              </p>
-
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm border-collapse">
-                  <thead>
-                    <tr className="border-b border-border bg-background">
-                      <th className="text-left py-3 px-4 font-medium">Feature</th>
-                      <th className="text-center py-3 px-4 font-medium">Mobile App</th>
-                      <th className="text-center py-3 px-4 font-medium">Cloud API</th>
-                      <th className="text-left py-3 px-4 font-medium">Notes</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-text-secondary">
-                    {[
-                      { feature: "1:1 Text & Media", app: "full", api: "full", note: "Bidirectional sync" },
-                      { feature: "Voice & Video Calls", app: "full", api: "none", note: "App exclusive" },
-                      { feature: "Status Updates", app: "full", api: "none", note: "App exclusive" },
-                      { feature: "Group Chats", app: "full", api: "none", note: "Not synced to API" },
-                      { feature: "Disappearing Messages", app: "disabled", api: "none", note: "Disabled for compliance" },
-                      { feature: "View Once Media", app: "disabled", api: "none", note: "Disabled for compliance" },
-                      { feature: "Live Location", app: "disabled", api: "none", note: "Disabled for compliance" },
-                      { feature: "Edit/Revoke Messages", app: "disabled", api: "none", note: "Disabled for sync" },
-                      { feature: "Broadcast Lists", app: "readonly", api: "templates", note: "API templates only" },
-                      { feature: "WhatsApp Pay", app: "disabled", api: "full", note: "Use API integrations" },
-                    ].map((row) => (
-                      <tr key={row.feature} className="border-b border-border/40 hover:bg-background/50">
-                        <td className="py-3 px-4 font-medium text-text-primary">{row.feature}</td>
-                        <td className="py-3 px-4 text-center">
-                          {row.app === "full" && <Badge className="bg-success text-white">Supported</Badge>}
-                          {row.app === "readonly" && <Badge variant="outline">Read-only</Badge>}
-                          {row.app === "disabled" && <Badge variant="destructive">Disabled</Badge>}
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          {row.api === "full" && <Badge className="bg-success text-white">Supported</Badge>}
-                          {row.api === "templates" && <Badge className="bg-info text-white">Templates</Badge>}
-                          {row.api === "none" && <Badge variant="outline">Not Available</Badge>}
-                        </td>
-                        <td className="py-3 px-4 text-xs">{row.note}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Comparison Table */}
-        <section className="py-12">
-          <div className="px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="heading-2 mb-8 text-center">Coexistence vs Standard API</h2>
-
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm border-collapse">
-                  <thead>
-                    <tr className="border-b border-border bg-surface">
-                      <th className="text-left py-3 px-4 font-medium">Aspect</th>
-                      <th className="text-center py-3 px-4 font-medium">Standard Cloud API</th>
-                      <th className="text-center py-3 px-4 font-medium">Coexistence</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-text-secondary">
-                    <tr className="border-b border-border/40">
-                      <td className="py-3 px-4 font-medium text-text-primary">Primary Interface</td>
-                      <td className="py-3 px-4 text-center">Desktop CRM only</td>
-                      <td className="py-3 px-4 text-center">Mobile App + CRM</td>
-                    </tr>
-                    <tr className="border-b border-border/40">
-                      <td className="py-3 px-4 font-medium text-text-primary">Throughput</td>
-                      <td className="py-3 px-4 text-center">80-100 MPS</td>
-                      <td className="py-3 px-4 text-center">5 MPS</td>
-                    </tr>
-                    <tr className="border-b border-border/40">
-                      <td className="py-3 px-4 font-medium text-text-primary">Voice/Video</td>
-                      <td className="py-3 px-4 text-center"><X className="h-4 w-4 text-error mx-auto" aria-hidden="true" /></td>
-                      <td className="py-3 px-4 text-center"><Check className="h-4 w-4 text-success mx-auto" aria-hidden="true" /></td>
-                    </tr>
-                    <tr className="border-b border-border/40">
-                      <td className="py-3 px-4 font-medium text-text-primary">Manual Messages</td>
-                      <td className="py-3 px-4 text-center">All paid</td>
-                      <td className="py-3 px-4 text-center">Free via app</td>
-                    </tr>
-                    <tr className="border-b border-border/40">
-                      <td className="py-3 px-4 font-medium text-text-primary">Best For</td>
-                      <td className="py-3 px-4 text-center">Enterprises, 100% automation</td>
-                      <td className="py-3 px-4 text-center">SMBs, hybrid workflows</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </section>
+        <div className="px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto w-full"><PlatformConditions id="coexistence-conditions" examples /></div>
 
         {/* Benefits Section */}
         <section className="py-12 bg-surface/50">
@@ -483,8 +257,8 @@ export default function WhatsAppCoexistencePage() {
             <div className="grid gap-6 md:grid-cols-3">
               {[
                 { icon: RefreshCw, title: "Hybrid Engagement", desc: "Automate lead qualification with chatbots, then seamlessly handoff to human agents for voice calls and personalized follow-ups." },
-                { icon: RefreshCw, title: "Cost Optimization", desc: "Pay only for API template messages. All manual responses from the mobile app remain completely free of charge." },
-                { icon: RefreshCw, title: "Lower CAC", desc: "Click-to-WhatsApp ads get 72-hour free messaging window. Capture leads instantly with API, close with mobile follow-ups." },
+                { icon: RefreshCw, title: "Cost Optimization", desc: "Separate manual app traffic from API traffic and confirm effective rates, eligible categories and account conditions before budgeting." },
+                { icon: RefreshCw, title: "Lower CAC", desc: "Confirm the effective entry-window and category conditions for ad-driven follow-ups; no universal zero-price or acquisition saving is established." },
               ].map((item) => (
                 <Card key={item.title}>
                   <CardHeader>
@@ -505,7 +279,7 @@ export default function WhatsAppCoexistencePage() {
         {/* Industry Blueprints */}
         <section className="py-12">
           <div className="px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
-            <h2 className="heading-2 mb-8 text-center">Industry Use Cases</h2>
+            <h2 className="heading-2 mb-8 text-center">Industry Use Cases</h2><p className="text-body text-center mb-6">Illustrative workflows to discuss after account eligibility and feature support are confirmed. These examples do not establish that every integration is shipped for your account.</p>
 
             <Tabs defaultValue="realestate" className="w-full">
               <TabsList className="grid w-full max-w-lg mx-auto grid-cols-3 mb-8">
@@ -625,115 +399,7 @@ export default function WhatsAppCoexistencePage() {
           </div>
         </section>
 
-        {/* Implementation Requirements */}
-        <section className="py-12 bg-surface/50">
-          <div className="px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="heading-2 mb-8 text-center">Implementation Requirements</h2>
-
-              <div className="space-y-4">
-                <Card>
-                  <CardContent className="pt-6">
-                    <div className="flex items-start gap-4">
-                      <div className="p-2 rounded-lg bg-success-soft">
-                        <Check className="h-5 w-5 text-success" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-text-primary">App Version 2.24.17+</h3>
-                        <p className="text-sm text-text-secondary">WhatsApp Business App must be updated to latest version with camera for QR handshake</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="pt-6">
-                    <div className="flex items-start gap-4">
-                      <div className="p-2 rounded-lg bg-success-soft">
-                        <Check className="h-5 w-5 text-success" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-text-primary">7-Day Warm-up Period</h3>
-                        <p className="text-sm text-text-secondary">Phone number must have active usage history for 7+ days before integration</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="pt-6">
-                    <div className="flex items-start gap-4">
-                      <div className="p-2 rounded-lg bg-success-soft">
-                        <Check className="h-5 w-5 text-success" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-text-primary">Meta Business Verification</h3>
-                        <p className="text-sm text-text-secondary">Business portfolio must be verified with matching display name</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="pt-6">
-                    <div className="flex items-start gap-4">
-                      <div className="p-2 rounded-lg bg-info-soft">
-                        <Clock className="h-5 w-5 text-info" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-text-primary">14-Day Connection Maintenance</h3>
-                        <p className="text-sm text-text-secondary">Primary phone must be opened at least once every 14 days to maintain connection</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Regional Availability */}
-        <section className="py-12">
-          <div className="px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="heading-2 mb-8 text-center">Regional Availability</h2>
-
-              <div className="grid gap-6 md:grid-cols-2">
-                <Card className="border-success-border bg-success-soft">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-success">
-                      <Check className="h-5 w-5" aria-hidden="true" />
-                      Supported Regions
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2">
-                      {["India", "United States", "Brazil", "Indonesia", "Mexico", "UAE", "Saudi Arabia"].map((country) => (
-                        <Badge key={country} variant="secondary" className="bg-success/10 text-success">
-                          {country}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="border-error-border bg-error-soft">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-error">
-                      <X className="h-5 w-5" aria-hidden="true" />
-                      Unsupported Regions
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2">
-                      {["EU/EEA", "UK", "Australia", "Japan", "Russia", "South Korea", "Turkey"].map((country) => (
-                        <Badge key={country} variant="secondary" className="bg-error/10 text-error">
-                          {country}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-        </section>
+        <section className="py-12 bg-surface/50"><div className="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-4"><h2 className="heading-2">Implementation requirements and regional availability</h2><p className="text-body">Check the onboarding flow for the exact number and country, supported app version, provider access and business permissions. Country lists and fixed warm-up or inactivity periods are not confirmed here.</p><p className="text-body">{historyQualification}</p><p className="text-body">Treat linked devices, calls, groups, badges and marketing integrations as separate eligibility checks. Monitor connection state before scheduling automations.</p></div></section>
 
         {/* SEO Benefits */}
         <section className="py-12 bg-surface/50">
@@ -797,18 +463,7 @@ export default function WhatsAppCoexistencePage() {
           <div className="px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
             <div className="max-w-3xl mx-auto">
               <h2 className="heading-2 mb-8 text-center">Frequently Asked Questions</h2>
-              <Accordion type="single" collapsible className="w-full">
-                {coexistenceFaqs.map((faq, i) => (
-                  <AccordionItem key={faq.q} value={`item-${i}`}>
-                    <AccordionTrigger className="text-left font-medium">
-                      {faq.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-text-secondary">
-                      {faq.a}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+              <div className="space-y-3">{coexistenceFaqs.map(faq => <details key={faq.q} className="rounded-xl border border-text-muted"><summary className="p-4 min-h-11 cursor-pointer font-medium">{faq.q}</summary><p className="px-4 pb-4 text-body-sm">{faq.a}</p></details>)}</div>
             </div>
           </div>
         </section>

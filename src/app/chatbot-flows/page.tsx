@@ -22,11 +22,12 @@ import {
 import { flowCategories, flowRegistry } from "@/lib/flows/registry";
 import { Bot, Code, Copy, Zap, Play, BookOpen } from "lucide-react";
 
+import { flowResourceTitle, flowResourceDescription, flowResourceScope } from "@/lib/resource-content";
+
 const pagePath = "/chatbot-flows";
 const pageUrl = `${siteConfig.url}${pagePath}`;
-const seoTitle = "WhatsApp Chatbot Flow Library | Pre-Built BotMaster Templates";
-const seoDescription =
-  "Pre-built WhatsApp chatbot flow templates ready to import into Flow Builder. BotMaster JSON schema v1.0 for support, sales, ERP, and order-tracking automation.";
+const seoTitle = flowResourceTitle;
+const seoDescription = flowResourceDescription;
 
 export const metadata: Metadata = {
   ...generatePageMetadata({
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
     keywords: [
       "WhatsApp Chatbot Templates",
       "WhatsApp Flow JSON Schema",
-      "BotMaster Flow Library",
+      "Chatbot Flow Library",
       "WhatsApp Chatbot Flow Builder",
       "Pre-built WhatsApp Automation",
     ],
@@ -56,9 +57,9 @@ const nodeTypeReference = [
 ];
 
 const usageSteps = [
-  { step: 1, title: "Copy JSON", description: "Click 'Copy JSON' on any flow template to copy the complete flow definition to your clipboard.", icon: Copy },
-  { step: 2, title: "Import to Builder", description: "In Flow Builder, use 'Import Flow JSON' to paste and load the flow into your workspace.", icon: Code },
-  { step: 3, title: "Customize & Deploy", description: "Modify messages, conditions, and actions to match your business needs, then activate.", icon: Play },
+  { step: 1, title: "Download or copy", description: "Download an example JSON file, or use Copy JSON with clipboard permission. Manual selectable JSON is shown after loading.", icon: Copy },
+  { step: 2, title: "Review requirements", description: "Confirm the target builder’s supported schema/version, permissions, variables and connected services.", icon: Code },
+  { step: 3, title: "Test separately", description: "Adapt an example and test it in your authorized environment. This website does not import or activate flows.", icon: BookOpen },
 ];
 
 const schemaData = [
@@ -87,28 +88,27 @@ export default function ChatbotFlowLibraryPage() {
             <div className="text-center max-w-3xl mx-auto">
               <Badge variant="secondary" className="mb-4 px-3 py-1 text-sm font-medium">
                 <Bot className="h-3.5 w-3.5 mr-1.5 text-brand-primary" aria-hidden="true" />
-                Flow Builder Library
+                JSON Example Library
               </Badge>
               <h1 className="heading-1 mb-4">
-                BotMaster Flow
+                Chatbot Flow
                 <span className="text-brand-primary"> Library</span>
               </h1>
               <p className="text-lead mb-8 max-w-2xl mx-auto">
-                Pre-built chatbot flow templates ready to import. Each flow follows the BotMaster JSON schema
-                for seamless integration with Whats91 Flow Builder.
+                {flowResourceDescription}
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-text-secondary">
                 <div className="flex items-center gap-2">
                   <Code className="h-4 w-4 text-brand-primary" aria-hidden="true" />
-                  <span>JSON Schema v1.0</span>
+                  <span>Example JSON</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Copy className="h-4 w-4 text-brand-primary" aria-hidden="true" />
-                  <span>Copy & Import</span>
+                  <span>Copy & Download</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Zap className="h-4 w-4 text-brand-primary" aria-hidden="true" />
-                  <span>Ready to Use</span>
+                  <span>Review Before Use</span>
                 </div>
               </div>
             </div>
@@ -120,20 +120,20 @@ export default function ChatbotFlowLibraryPage() {
           <Container>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center">
-                <p className="text-3xl font-bold text-brand-primary">{flowRegistry.length}+</p>
-                <p className="text-sm text-text-secondary">Flow Templates</p>
+                <p className="text-2xl sm:text-3xl font-bold text-brand-primary">{flowRegistry.length}</p>
+                <p className="text-sm text-text-secondary">JSON Examples</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-brand-primary">{flowCategories.length}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-brand-primary">{flowCategories.length}</p>
                 <p className="text-sm text-text-secondary">Categories</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-brand-primary">v1.0</p>
-                <p className="text-sm text-text-secondary">Schema Version</p>
+                <p className="text-2xl sm:text-3xl font-bold text-brand-primary">JSON</p>
+                <p className="text-sm text-text-secondary">Download Original Files</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-brand-primary">24/7</p>
-                <p className="text-sm text-text-secondary">Automation Ready</p>
+                <p className="text-2xl sm:text-3xl font-bold text-brand-primary">Review</p>
+                <p className="text-sm text-text-secondary">Before Separate Testing</p>
               </div>
             </div>
           </Container>
@@ -142,7 +142,15 @@ export default function ChatbotFlowLibraryPage() {
         {/* Interactive Flow Library */}
         <Section>
           <Container>
+            <p className="mb-6 text-body-sm">{flowResourceScope}</p>
             <ChatbotFlowLibrary />
+            <section aria-labelledby="flow-downloads-heading" className="mt-10">
+              <h2 id="flow-downloads-heading" className="heading-3 mb-3">All {flowRegistry.length} JSON downloads</h2>
+              <p className="mb-3 text-caption">These links work without JavaScript. A download requests a file; it does not import a flow.</p>
+              <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {flowRegistry.map(flow => <li key={flow.id}><a href={`/api/flows/${flow.id}`} download={`${flow.id}.json`} className="block min-h-11 rounded-lg border border-border p-3 text-sm font-medium text-brand-700">{flow.name} · {flow.id}.json</a></li>)}
+              </ul>
+            </section>
           </Container>
         </Section>
 
@@ -152,7 +160,7 @@ export default function ChatbotFlowLibraryPage() {
             <SectionHeader
               id="usage-heading"
               title="How to Use Flow Templates"
-              description="Each flow template follows the BotMaster JSON schema and can be imported directly into the Flow Builder."
+              description="Review an example before considering it for your target environment. Import and activation are unavailable here."
             />
             <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
               {usageSteps.map((item) => (
@@ -176,10 +184,10 @@ export default function ChatbotFlowLibraryPage() {
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Code className="h-5 w-5 text-brand-primary" aria-hidden="true" />
-                  BotMaster Flow JSON Schema
+                  Chatbot Flow JSON Schema
                 </CardTitle>
                 <CardDescription>
-                  All flows follow the v1.0.0 schema with proper node types and Meta WhatsApp API compliance
+                  These node labels describe the source examples. They do not certify Meta approval or compatibility with a connected builder.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -201,14 +209,14 @@ export default function ChatbotFlowLibraryPage() {
         <section className="py-16 bg-gradient-to-r from-brand-primary/10 to-brand-primary/5">
           <Container>
             <div className="text-center">
-              <h2 className="heading-2 mb-4">Ready to Build Your First Flow?</h2>
+              <h2 className="heading-2 mb-4">Review Your Flow Requirements</h2>
               <p className="text-body mb-8 max-w-xl mx-auto">
-                Start with a template or create your own custom flow from scratch using our visual Flow Builder.
+                Read the Flow Builder overview and confirm the requirements for your account before using a JSON example.
               </p>
               <CTAGroup align="center" className="justify-center">
                 <PrimaryCTA href="/flow-builder" noArrow>
                   <Play className="h-4 w-4 mr-1" aria-hidden="true" />
-                  Open Flow Builder
+                  Read Flow Builder Overview
                 </PrimaryCTA>
                 <SecondaryCTA href="https://developers.whats91.com/overview">
                   <BookOpen className="h-4 w-4 mr-1" aria-hidden="true" />

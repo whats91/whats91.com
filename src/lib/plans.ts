@@ -1,3 +1,5 @@
+import type { ContentDates } from "@/lib/content/dates";
+import type { EditorialRecord } from "@/lib/content/review";
 /**
  * Whats91 platform plan catalogue.
  *
@@ -24,7 +26,9 @@ export const BILLING_CYCLES: readonly BillingCycle[] = ["monthly", "annual"] as 
 export const DEFAULT_PLAN_ID: PlanId = "coexistence";
 export const DEFAULT_BILLING_CYCLE: BillingCycle = "annual";
 
-export interface Plan {
+export interface Plan extends ContentDates {
+  /** Internal provenance; omitted from public metadata. No human review is inferred. */
+  editorial?: EditorialRecord;
   id: PlanId;
   name: string;
   /** One-line positioning shown under the plan name */
@@ -47,6 +51,15 @@ export interface Plan {
 export const plans: Record<PlanId, Plan> = {
   coexistence: {
     id: "coexistence",
+    editorial: { stage: "pending-human-review", history: [], claims: [{
+      id: "plan:coexistence", meaning: "Coexistence platform subscription amounts, monthly setup inclusion and 18% GST calculation",
+      source: ["src/lib/plans.ts", "Owner approval recorded 30 September 2026 in docs/legal-policy-inputs.md#platform-plan-price-approval--30-september-2026"],
+      conditions: ["Subscription and monthly setup amounts exclude 18% GST; annual setup is included", "Meta messages are separate; renewal, invoice treatment, account eligibility and activation remain unconfirmed"],
+      publicUse: "approved", status: "VERIFIED",
+      consumers: ["src/app/plans/page.tsx", "src/app/plans/PlansSelector.tsx", "src/app/checkout/page.tsx"],
+      recheck: ["Owner price/setup/GST change", "Invoice or renewal decision", "Account availability change"],
+      adverseEvidence: ["F006/F011/F014 still govern unapproved capability, invoice and activation claims"],
+    }] },
     name: "WhatsApp Coexistence",
     tagline: "WhatsApp Business App + Cloud API on one number",
     description:
@@ -65,16 +78,25 @@ export const plans: Record<PlanId, Plan> = {
   },
   standard: {
     id: "standard",
+    editorial: { stage: "pending-human-review", history: [], claims: [{
+      id: "plan:standard", meaning: "Standard platform subscription amounts, monthly setup inclusion and 18% GST calculation",
+      source: ["src/lib/plans.ts", "Owner approval recorded 30 September 2026 in docs/legal-policy-inputs.md#platform-plan-price-approval--30-september-2026"],
+      conditions: ["Subscription and monthly setup amounts exclude 18% GST; annual setup is included", "Meta messages are separate; renewal, invoice treatment, account eligibility and activation remain unconfirmed"],
+      publicUse: "approved", status: "VERIFIED",
+      consumers: ["src/app/plans/page.tsx", "src/app/plans/PlansSelector.tsx", "src/app/checkout/page.tsx"],
+      recheck: ["Owner price/setup/GST change", "Invoice or renewal decision", "Account availability change"],
+      adverseEvidence: ["F006/F011/F014 still govern unapproved capability, invoice and activation claims"],
+    }] },
     name: "WhatsApp Standard",
-    tagline: "The complete Whats91 platform, chat inbox and MCP included",
+    tagline: "Whats91 platform and chat inbox; confirm MCP access",
     description:
-      "Everything in Coexistence, plus the full Whats91 chat application for viewing and managing conversations, and MCP access for AI assistants.",
+      "Everything in Coexistence, plus the full Whats91 chat application for viewing and managing conversations, and source-listed MCP access subject to current account, provider and plan confirmation.",
     annualPrice: 7000,
     monthlyPrice: 949,
     monthlySetupFee: 2000,
     highlights: [
       "Everything in WhatsApp Coexistence",
-      "MCP access",
+      "MCP access subject to confirmation",
       "Full Chat Application access to view and manage conversations",
       "Template Management",
       "Contact Book Management",
@@ -157,8 +179,8 @@ export const featureGroups: PlanFeatureGroup[] = [
     title: "Standard additions",
     features: [
       {
-        label: "MCP access",
-        detail: "Connect AI assistants to your WhatsApp workspace",
+        label: "MCP access subject to confirmation",
+        detail: "Source-listed with Standard; confirm current account, provider, tools and plan entitlement before subscribing",
         coexistence: false,
         standard: true,
       },

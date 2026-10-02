@@ -1,0 +1,14 @@
+import { readdirSync, readFileSync } from 'node:fs';
+import { resolve, relative } from 'node:path';
+import { createHash } from 'node:crypto';
+const root=process.cwd();
+const baseline=JSON.parse(readFileSync(resolve(root,'docs/evidence/b11-2026-09-28/baseline.json'),'utf8'));
+const walk=directory=>readdirSync(directory,{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?walk(resolve(directory,entry.name)):[resolve(directory,entry.name)]);
+const files=walk(resolve(root,'src')).filter(file=>/\.(tsx?|css)$/.test(file)&&!file.includes('/components/ui/'));
+const palette=files.flatMap(file=>readFileSync(file,'utf8').split('\n').flatMap((line,index)=>/\b(?:blue|indigo)-\d|#(?:3b82f6|2563eb|1d4ed8|60a5fa|6366f1|4f46e5|4338ca|93c5fd)\b/i.test(line)?[{path:relative(root,file),line:index+1,text:line.trim()}]:[]));
+const imports=files.flatMap(file=>readFileSync(file,'utf8').split('\n').flatMap((line,index)=>/from ["'][^"']*(?:ui\/|shared\/|@radix-ui\/)/.test(line)?[{path:relative(root,file),line:index+1,import:line.trim()}]:[]));
+const mains=baseline.mainCandidates.map(path=>{const source=readFileSync(resolve(root,path),'utf8');const tags=source.match(/<main\b[^>]*>/g)||[];return {path,designPreview:path==='src/app/design-system/page.tsx',tags,ok:tags.length===1&&tags[0].includes('id="main-content"')&&tags[0].includes('tabIndex={-1}'),newClientWrapper:!readFileSync(resolve('/private/tmp/whats91-b11-baseline',path),'utf8').startsWith('"use client"')&&source.startsWith('"use client"')};});
+const protectedFiles=Object.entries(baseline.files).filter(([path])=>path.startsWith('src/components/ui/')||path.startsWith('src/components/legal/')||path==='src/components/shared/CTAGroup.tsx'||['package.json','package-lock.json','bun.lock','AGENTS.md'].includes(path)).map(([path,hash])=>({path,unchanged:createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex')===hash}));
+const result={contract:'Read-only B11 source/import/palette audit; no writes or approvals',mainCandidates:mains,sourceFilesScanned:files.length,palette,initialPaletteCount:baseline.palette.length,imports,protectedFiles,semanticColorRule:'Existing brand ramp for ERP/brand consumers, existing info/info-soft/info-border for informational and Support consumers; literal blue shirt is content, not styling; vendor/protected UI excluded'};
+console.log(JSON.stringify(result,null,2));
+if(palette.length||mains.some(r=>!r.ok||r.newClientWrapper)||protectedFiles.some(r=>!r.unchanged))process.exitCode=1;

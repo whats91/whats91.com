@@ -21,8 +21,8 @@ export const flowCategories = [
     name: "Support",
     icon: "MessageCircle",
     description: "Customer support and ticket routing flows",
-    color: "text-blue-600",
-    bgColor: "bg-blue-50",
+    color: "text-info",
+    bgColor: "bg-info-soft",
   },
   {
     id: "ecommerce",

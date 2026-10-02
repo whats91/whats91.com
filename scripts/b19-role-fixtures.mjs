@@ -1,0 +1,10 @@
+import { writeFileSync } from 'node:fs';
+import ts from 'typescript';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { createElement } from 'react';
+import { projectLoader } from '../tests/helpers/load-project-module.mjs';
+const transform=(filename,source)=>ts.transpileModule(source,{fileName:filename,compilerOptions:{jsx:ts.JsxEmit.ReactJSX,module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText;
+const load=projectLoader(new Map(),transform);const ui=new Map(['button','card','badge'].map(n=>['@/components/ui/'+n,load('src/components/ui/'+n+'.tsx')]));
+const {OpenPositionsClient}=projectLoader(ui,transform)('src/app/careers/OpenPositionsClient.tsx');
+const fixtures=[{name:'empty-role-categories',roles:[]},{name:'long-role-label',roles:[{id:99,title:'Synthetic long role label for future text expansion '.repeat(12),department:'engineering'}]}].map(({name,roles})=>({name,html:renderToStaticMarkup(createElement(OpenPositionsClient,{roles}))}));
+writeFileSync('output/playwright/b19/role-fixtures.json',JSON.stringify({fixtures,scope:'Actual component SSR with synthetic props; no job/person fact or public route added; empty status and text expansion only.'},null,2)+'\n');console.log(fixtures.map(f=>({name:f.name,bytes:f.html.length})));

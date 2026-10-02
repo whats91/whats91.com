@@ -1,21 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
 import { CookieConsent } from "@/components/landing/CookieConsent";
 import { SEOJsonLD } from "@/components/seo/JsonLD";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://whats91.com"),
   title: "Whats91 | WhatsApp Cloud API Platform for ERP & Automation",
   description: "Whats91 is a WhatsApp Cloud API platform for Indian businesses using ERP, Busy Accounting, chatbots, automation, templates, webhooks, and consent-based customer messaging.",
   keywords: ["WhatsApp Business API", "WhatsApp Cloud API", "Busy Accounting", "WhatsApp Integration", "Enterprise Messaging", "WhatsApp Business Platform", "India", "Chatbot", "Webhook", "CRM Integration"],
-  authors: [{ name: "Whats91 Team" }],
   icons: {
     icon: "/logo.svg",
   },
@@ -24,7 +16,7 @@ export const metadata: Metadata = {
   // pages canonicalize to the homepage. Each page declares its own canonical.
   openGraph: {
     title: "Whats91 | WhatsApp Cloud API Platform",
-    description: "Enterprise WhatsApp Cloud API platform for ERP, Busy Accounting, AI automation, templates, webhooks, and compliant messaging in India.",
+    description: "Enterprise WhatsApp Cloud API platform for ERP, Busy Accounting, AI automation, templates, webhooks, and customer messaging in India.",
     url: "https://whats91.com",
     siteName: "Whats91",
     type: "website",
@@ -49,11 +41,8 @@ export default function RootLayout({
         <SEOJsonLD />
         <link rel="alternate" type="application/rss+xml" title="Whats91 Blog RSS Feed" href="/feed.xml" />
       </head>
-      <body
-        className={`${inter.variable} font-sans antialiased bg-background text-foreground`}
-      >
+      <body className="font-sans antialiased bg-background text-foreground">
         {children}
-        <Toaster />
         <CookieConsent />
       </body>
     </html>

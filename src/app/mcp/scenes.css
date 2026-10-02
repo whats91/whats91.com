@@ -1,0 +1,53 @@
+/* ============================================================
+   /mcp hero scene — the "approved scope" lock badge gets a slow,
+   subtle pulse to draw the eye to the consent checkpoint. The
+   global prefers-reduced-motion rule above freezes it to its
+   resting (fully legible) frame, same as every other animation
+   on the site.
+   ============================================================ */
+@keyframes mcp-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(68, 140, 116, 0.25); }
+  50% { box-shadow: 0 0 0 6px rgba(68, 140, 116, 0); }
+}
+
+.mcp-pulse {
+  animation: mcp-pulse 2.4s ease-in-out infinite;
+}
+
+/* ============================================================
+   /mcp architecture diagram (dark `ink` band) — a slow light sweep
+   crosses the panel and each pipeline node/arrow glows in sequence,
+   left to right, so the diagram reads as data actively flowing
+   through the connection rather than a static graphic. Every effect
+   is opacity/box-shadow/background-position/transform on a wrapper
+   that carries no other transform, so nothing fights the arrow
+   rotation utility used on mobile. Frozen to a legible resting frame
+   by the global prefers-reduced-motion rule above.
+   ============================================================ */
+@keyframes mcp-node-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(84, 160, 132, 0); }
+  50% { box-shadow: 0 0 0 5px rgba(84, 160, 132, 0.16), 0 0 16px 2px rgba(84, 160, 132, 0.28); }
+}
+
+.mcp-node-badge {
+  animation: mcp-node-glow 3.2s ease-in-out infinite;
+}
+
+@keyframes mcp-arrow-flow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.mcp-arrow-flow {
+  animation: mcp-arrow-flow 2.6s ease-in-out infinite;
+}
+
+@keyframes mcp-scan {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(320%); }
+}
+
+.mcp-scan-line {
+  animation: mcp-scan 5.5s linear infinite;
+}
+

@@ -1,4 +1,5 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import { contentDates } from "@/lib/content/dates";
 
 // Base site configuration
 export const siteConfig = {
@@ -20,7 +21,7 @@ export const siteConfig = {
 export const siteNavigation = {
   main: [
     { name: "Home", href: "/" },
-    { name: "Solutions", href: "#solutions" },
+    { name: "Solutions", href: "/#solutions" },
     { name: "Busy ERP Integration", href: "/solutions/busy-erp" },
     { name: "Terms", href: "/terms" },
     { name: "Privacy", href: "/privacy" },
@@ -71,8 +72,8 @@ export const pageSeoConfigs = {
     path: "/",
   },
   busyErp: {
-    title: "Busy Accounting WhatsApp Integration | Auto Invoices & 24/7 Chatbot - Whats91",
-    description: "Automate Busy Accounting reports & vouchers on WhatsApp. 24/7 ERP chatbot for balance inquiry, bill-by-bill ledger, receipts & bilty status. Reduce support calls by 50% with WhatsApp Cloud API integration.",
+    title: "Busy Accounting WhatsApp Workflows | Whats91",
+    description: "Explore Busy Accounting messaging workflows, invoice documents and ledger requests. Confirm interface, account, permission and setup conditions before a pilot.",
     keywords: [...seoKeywords.busy, ...seoKeywords.primary],
     path: "/solutions/busy-erp",
   },
@@ -84,7 +85,7 @@ export const pageSeoConfigs = {
   },
   privacy: {
     title: "Privacy Policy | Whats91 - WhatsApp Cloud API Platform",
-    description: "Learn how Whats91 protects your data and privacy. Our privacy policy explains data collection, usage, security measures, and your rights under applicable laws.",
+    description: "Read the Whats91 privacy notice for processing roles, information uses, integrations, retention limits and ways to request help with your data.",
     keywords: ["Whats91 privacy", "data protection", "privacy policy", "WhatsApp data security"],
     path: "/privacy",
   },
@@ -97,10 +98,11 @@ export function generatePageMetadata(config: {
   keywords?: string[];
   path: string;
   image?: string;
-  type?: "website" | "article" | "product";
+  type?: "website" | "article";
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
+  authorPublicUse?: "approved";
 }): Metadata {
   const {
     title,
@@ -115,14 +117,15 @@ export function generatePageMetadata(config: {
   } = config;
 
   const url = `${siteConfig.url}${path}`;
+  const dates = contentDates({ publishedAt: publishedTime, updatedAt: modifiedTime });
 
   return {
     title,
     description,
     keywords: keywords?.join(", "),
-    authors: [{ name: author || siteConfig.author }],
-    creator: siteConfig.author,
-    publisher: siteConfig.publisher,
+    authors: author && config.authorPublicUse === "approved" ? [{ name: author }] : [],
+
+    publisher: siteConfig.name,
     
     // Alternates for canonical URLs
     alternates: {
@@ -145,8 +148,8 @@ export function generatePageMetadata(config: {
           alt: title,
         },
       ],
-      ...(publishedTime && { publishedTime }),
-      ...(modifiedTime && { modifiedTime }),
+      ...(type === "article" && dates.published && { publishedTime: dates.published }),
+      ...(type === "article" && dates.modified && { modifiedTime: dates.modified }),
     },
     
     // Twitter
@@ -155,8 +158,6 @@ export function generatePageMetadata(config: {
       title,
       description,
       images: [image],
-      creator: siteConfig.twitterHandle,
-      site: siteConfig.twitterHandle,
     },
     
     // Robots directives
@@ -181,39 +182,18 @@ export function generatePageMetadata(config: {
 // Generate JSON-LD structured data
 export function generateOrganizationSchema() {
   return {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: siteConfig.name,
-    description: siteConfig.description,
-    url: siteConfig.url,
-    logo: `${siteConfig.url}/logo.svg`,
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: siteConfig.phone,
-      contactType: "customer support",
-      email: siteConfig.email,
-      availableLanguage: ["English", "Hindi"],
-    },
-    sameAs: [
-      `https://twitter.com/${siteConfig.twitterHandle.replace("@", "")}`,
-    ],
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "IN",
-      addressLocality: "India",
-    },
+    "@context": "https://schema.org", "@type": "Organization",
+    "@id": `${siteConfig.url}/#organization`, name: siteConfig.name,
+    url: siteConfig.url, logo: `${siteConfig.url}/logo.svg`,
   };
 }
 
 export function generateWebSiteSchema() {
-  // No SearchAction: the site has no /search route and Google retired the
-  // sitelinks-searchbox feature; a SearchAction pointing at a 404 is invalid.
   return {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: siteConfig.name,
-    url: siteConfig.url,
-    description: siteConfig.description,
+    "@context": "https://schema.org", "@type": "WebSite",
+    "@id": `${siteConfig.url}/#website`, name: siteConfig.name,
+    url: siteConfig.url, inLanguage: siteConfig.language,
+    publisher: { "@id": `${siteConfig.url}/#organization` },
   };
 }
 
@@ -235,16 +215,13 @@ export function generateSoftwareApplicationSchema(config: {
     description: config.description,
     url: config.url,
     applicationCategory: config.applicationCategory || "BusinessApplication",
-    operatingSystem: config.operatingSystem || "Web, Cloud API",
-    offers: {
+    ...(config.operatingSystem && { operatingSystem: config.operatingSystem }),
+    ...(config.offers && { offers: {
       "@type": "Offer",
-      price: config.offers?.price || "0",
-      priceCurrency: config.offers?.priceCurrency || "INR",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: siteConfig.publisher,
-    },
+      price: config.offers.price,
+      priceCurrency: config.offers.priceCurrency,
+    } }),
+    publisher: { "@id": `${siteConfig.url}/#organization` },
   };
 }
 
@@ -289,14 +266,8 @@ export function generateServiceSchema(config: {
     name: config.name,
     description: config.description,
     url: config.url,
-    provider: {
-      "@type": "Organization",
-      name: config.provider || siteConfig.name,
-    },
-    areaServed: {
-      "@type": "Country",
-      name: config.areaServed || "India",
-    },
+    provider: config.provider ? { "@type": "Organization", name: config.provider } : { "@id": `${siteConfig.url}/#organization` },
+    ...(config.areaServed && { areaServed: { "@type": "Country", name: config.areaServed } }),
     serviceType: "Business Communication Platform",
   };
 }

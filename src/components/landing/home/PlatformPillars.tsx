@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { illustrationScope } from "@/lib/home-content";
 import {
   ArrowRight,
   BarChart3,
@@ -8,18 +9,13 @@ import {
   CheckCircle2,
   CheckCheck,
   Database,
-  Eye,
   FileSpreadsheet,
   Headset,
-  Mail,
   MessageSquare,
-  MousePointerClick,
   Phone,
-  Send,
   ShoppingBag,
   Smartphone,
   Sparkles,
-  X,
 } from "lucide-react";
 import {
   Container,
@@ -29,162 +25,20 @@ import {
   BrandLogo,
 } from "@/components/shared";
 
-/* ================================================================== */
-/* Scene 1 — Campaign report (Reach). An approved Marketing broadcast   */
-/* reports itself: the funnel bars fill (Delivered → Read → Clicked)    */
-/* and an honest WhatsApp-vs-email read comparison lands.               */
-/*                                                                       */
-/* Data note: illustrative figures for one opted-in Marketing broadcast, */
-/* kept internally consistent (each funnel stage ≤ the previous) and to  */
-/* defensible ranges — WhatsApp read rates run several times higher than */
-/* the ~21% average email open (Mailchimp all-industry benchmark),       */
-/* not the blanket "98%" that only transactional utility templates near. */
-/* ================================================================== */
-
-function MetricBar({ tone, barW, delay = 0 }: { tone: string; barW: string; delay?: number }) {
-  // Bar sits at its target width at all times (always legible, reduced-motion
-  // safe); a soft highlight sweeps across it for continuous, non-resetting
-  // motion in the spirit of the connector scene.
-  return (
-    <div className="h-1.5 rounded-full bg-surface-subtle overflow-hidden">
-      <div
-        className={`camp-bar-flow h-full rounded-full ${tone} ${barW}`}
-        style={{ animationDelay: `${delay}s` }}
-      />
-    </div>
-  );
-}
-
-function FunnelRow({
-  icon: Icon,
-  label,
-  value,
-  pct,
-  barW,
-  tone,
-  delay = 0,
-  emphasize = false,
-}: {
-  icon: React.ElementType;
-  label: string;
-  value: string;
-  pct: string;
-  /** Target width utility, e.g. "w-[80%]" — the always-on, reduced-motion state */
-  barW: string;
-  tone: string;
-  delay?: number;
-  emphasize?: boolean;
-}) {
-  return (
-    <div>
-      <div className="flex items-center justify-between text-xs mb-1">
-        <span className="flex items-center gap-1.5 text-text-muted">
-          <Icon className="h-3 w-3" aria-hidden="true" />
-          {label}
-        </span>
-        <span className={`font-semibold tabular-nums ${emphasize ? "text-brand-primary" : "text-text-primary"}`}>
-          {value}
-          <span className="ml-1 font-normal text-text-muted">· {pct}</span>
-        </span>
-      </div>
-      <MetricBar tone={tone} barW={barW} delay={delay} />
-    </div>
-  );
-}
-
-function CompareRow({
-  icon: Icon,
-  label,
-  pct,
-  barW,
-  tone,
-  delay = 0,
-  strong = false,
-}: {
-  icon: React.ElementType;
-  label: string;
-  pct: string;
-  barW: string;
-  tone: string;
-  delay?: number;
-  strong?: boolean;
-}) {
-  return (
-    <div className="flex items-center gap-2">
-      <span className="flex w-[92px] shrink-0 items-center gap-1 text-[10px] text-text-muted">
-        <Icon className="h-3 w-3" aria-hidden="true" />
-        {label}
-      </span>
-      <div className="h-1.5 flex-1 rounded-full bg-surface-subtle overflow-hidden">
-        <div className={`camp-bar-flow h-full rounded-full ${tone} ${barW}`} style={{ animationDelay: `${delay}s` }} />
-      </div>
-      <span className={`w-8 text-right text-[10px] font-semibold tabular-nums ${strong ? "text-brand-primary" : "text-text-muted"}`}>
-        {pct}
-      </span>
-    </div>
-  );
-}
-
+/** Conceptual campaign path; no customer metrics or benchmark comparison. */
 function CampaignJourneyScene() {
-  return (
-    <div aria-hidden="true" className="relative select-none">
-      <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-tr from-brand-50 via-brand-50/40 to-transparent" />
-      <div className="relative surface-card p-5 shadow-lg max-w-md mx-auto">
-        {/* Header: campaign + category */}
-        <div className="flex items-center justify-between gap-3 mb-4">
-          <div className="flex min-w-0 items-center gap-2.5">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
-              <ShoppingBag className="h-[18px] w-[18px]" aria-hidden="true" />
-            </span>
-            <div className="min-w-0">
-              <p className="truncate text-sm font-semibold leading-tight text-text-primary">Diwali Sale</p>
-              <p className="text-[11px] leading-tight text-text-muted">Broadcast · 12,480 recipients</p>
-            </div>
-          </div>
-          <span className="shrink-0 rounded-full bg-brand-primary/10 px-2 py-0.5 text-[10px] font-semibold text-brand-primary">
-            Marketing
-          </span>
-        </div>
-
-        {/* Approved status */}
-        <div className="mb-3 flex items-center gap-1.5 text-[11px] font-medium text-success">
-          <span className="flex h-4 w-4 items-center justify-center rounded-full border border-success-border bg-success-soft">
-            <Check className="h-2.5 w-2.5" aria-hidden="true" />
-          </span>
-          Template approved by Meta
-        </div>
-
-        {/* Message preview */}
-        <div className="mb-4 rounded-xl border border-border/50 bg-surface/60 p-3">
-          <div className="max-w-[280px] rounded-2xl rounded-bl-md border border-border/60 bg-card px-3.5 py-2.5 text-xs text-text-primary shadow-sm">
-            <p className="leading-relaxed">
-              Hi <span className="font-mono text-brand-primary">{"{{1}}"}</span> 🪔 Diwali Sale is live — flat{" "}
-              <span className="font-mono text-brand-primary">{"{{2}}"}</span> off everything. Ends tonight.
-            </p>
-            <div className="mt-2 border-t border-border/60 pt-2 text-center text-[11px] font-semibold text-brand-primary">
-              Shop Diwali Sale
-            </div>
-          </div>
-        </div>
-
-        {/* Delivery funnel (of the 12,480 sent; read & tap rates are of delivered) */}
-        <div className="space-y-2.5">
-          <FunnelRow icon={Send} label="Delivered" value="12,240" pct="98%" barW="w-[98%]" tone="bg-brand-300" delay={0} />
-          <FunnelRow icon={Eye} label="Read" value="9,790" pct="80%" barW="w-[80%]" tone="bg-brand-primary" delay={0.4} emphasize />
-          <FunnelRow icon={MousePointerClick} label="Tapped ‘Shop’" value="1,840" pct="15%" barW="w-[15%]" tone="bg-brand-500" delay={0.8} />
-        </div>
-
-        {/* Honest read-rate comparison */}
-        <div className="mt-4 border-t border-border/50 pt-3">
-          <p className="mb-2 text-[10px] font-medium uppercase tracking-wide text-text-muted">Read rate vs email</p>
-          <div className="space-y-1.5">
-            <CompareRow icon={MessageSquare} label="WhatsApp" pct="80%" barW="w-[80%]" tone="bg-brand-primary" delay={1.1} strong />
-            <CompareRow icon={Mail} label="Email avg" pct="21%" barW="w-[21%]" tone="bg-text-muted/40" delay={1.3} />
-          </div>
-        </div>
-      </div>
+  return <figure className="surface-card p-5 sm:p-6 max-w-md mx-auto">
+    <div aria-hidden="true">
+      <h4 className="heading-4 mb-4">Example campaign path</h4>
+      <ol className="space-y-3 text-body-sm">
+        <li className="rounded-lg border border-border/60 p-3">Prepare an opted-in audience</li>
+        <li className="rounded-lg border border-border/60 p-3">Submit the intended template for review</li>
+        <li className="rounded-lg border border-border/60 p-3">Check approval and account conditions before sending</li>
+        <li className="rounded-lg border border-border/60 p-3">Review delivery events, replies and opt-outs</li>
+      </ol>
     </div>
-  );
+    <figcaption className="text-caption mt-4">{illustrationScope}</figcaption>
+  </figure>;
 }
 
 /* ================================================================== */
@@ -260,7 +114,7 @@ function FlowExecutionScene() {
         <FlowConnector />
         <FlowNode icon={Sparkles} step="Understand" label="AI intent" sub="ledger_inquiry" delay={0.5} />
         <FlowConnector />
-        <FlowNode icon={Database} step="Act" label="Busy ERP lookup" sub="live ledger" delay={1} />
+        <FlowNode icon={Database} step="Act" label="Busy ERP lookup" sub="authorised ledger" delay={1} />
         <FlowConnector />
         <FlowNode icon={CheckCheck} step="Reply" label="Balance sent" sub="with pay link" delay={1.5} />
       </div>
@@ -270,13 +124,13 @@ function FlowExecutionScene() {
         <svg viewBox="0 0 28 26" className="h-6 w-7 shrink-0 text-border" aria-hidden="true">
           <path d="M4 0v14a8 8 0 0 0 8 8h14" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" fill="none" />
         </svg>
-        <FlowNode icon={Headset} label="Human handoff" sub="if sentiment drops" dim />
+        <FlowNode icon={Headset} label="Human handoff" sub="on an exception" dim />
       </div>
 
       {/* Outcome (always visible) */}
       <div className="mx-auto mt-5 flex max-w-3xl items-center justify-between gap-3">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-success-border bg-success-soft px-3 py-1.5 text-[11px] font-semibold text-success">
-          <CheckCheck className="h-3.5 w-3.5" aria-hidden="true" /> Auto-replied in ~3s — no agent needed
+          <CheckCheck className="h-3.5 w-3.5" aria-hidden="true" /> Example reply path; confirm timing and exceptions
         </span>
         <span className="hidden font-mono text-[10px] text-text-muted sm:block">Flow Builder canvas</span>
       </div>
@@ -360,11 +214,11 @@ function SyncPipelineScene() {
 
         <div className="mt-5 flex items-center justify-center gap-2 text-[11px] text-text-secondary">
           <FileSpreadsheet className="h-3.5 w-3.5 text-brand-primary" aria-hidden="true" />
-          <span>Google Sheets &amp; Miracle sync included</span>
+          <span>Explore Google Sheets and Miracle integration paths</span>
         </div>
 
         <p className="mt-2 text-center text-[10px] font-medium uppercase tracking-wider text-text-muted">
-          Syncs every 10 minutes — no PC uptime required
+          Confirm connector, freshness and hosting requirements
         </p>
       </div>
     </div>
@@ -375,88 +229,20 @@ function SyncPipelineScene() {
 /* Comparison table (content preserved verbatim)                       */
 /* ================================================================== */
 
-const comparisonData = [
-  { feature: "Hosting model", standard: "Depends on PC uptime", whats91: "Cloud-hosted workflow" },
-  { feature: "Media Handling", standard: "15-day link expiry", whats91: "Direct secure PDF" },
-  { feature: "Interactivity", standard: "Broadcast-only", whats91: "Full chatbot support" },
-  { feature: "Scalability", standard: "256 contacts max", whats91: "500 msgs/second" },
+const workflowChecks = [
+  { task: "Send an ERP document", check: "Document fields, authorised recipient and connector", exception: "Missing or stale data; failed document delivery" },
+  { task: "Answer a customer request", check: "Trigger, permissions, lookup and reply", exception: "Unknown request; route to a human" },
+  { task: "Plan a campaign", check: "Opt-in audience, template review and account conditions", exception: "Rejections, opt-outs and delivery failures" },
 ];
-
 function ComparisonBlock() {
-  return (
-    <Reveal>
-      <div className="md:hidden space-y-3">
-        <h4 className="heading-4 text-center mb-5">Standard vs Whats91 Enterprise</h4>
-        {comparisonData.map((row) => (
-          <div key={row.feature} className="surface-card p-4">
-            <p className="text-sm font-semibold text-text-primary mb-3 pb-2.5 border-b border-border/60">
-              {row.feature}
-            </p>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex items-start gap-2">
-                <span className="mt-0.5 h-4 w-4 rounded-full bg-error-soft flex items-center justify-center shrink-0">
-                  <X className="h-2.5 w-2.5 text-error" aria-hidden="true" />
-                </span>
-                <div>
-                  <p className="text-caption mb-0.5">Standard</p>
-                  <p className="text-body-sm">{row.standard}</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="mt-0.5 h-4 w-4 rounded-full bg-success-soft flex items-center justify-center shrink-0">
-                  <Check className="h-2.5 w-2.5 text-success" aria-hidden="true" />
-                </span>
-                <div>
-                  <p className="text-caption mb-0.5">Whats91</p>
-                  <p className="text-sm text-text-primary font-medium">{row.whats91}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="hidden md:block surface-card overflow-hidden">
-        <div className="px-6 py-4 bg-surface/50 border-b border-border/60">
-          <h4 className="heading-4">Standard Notifications vs. Whats91 Enterprise Cloud API</h4>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px]">
-            <thead>
-              <tr className="border-b border-border/60 bg-surface/30">
-                <th className="px-6 py-4 text-left text-sm font-semibold text-text-primary">Feature</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-text-secondary">Standard Notification</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-brand-primary">Whats91 Enterprise</th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparisonData.map((row) => (
-                <tr key={row.feature} className="border-b border-border/40 last:border-b-0 hover:bg-surface/30 transition-colors">
-                  <td className="px-6 py-4 text-sm font-medium text-text-primary">{row.feature}</td>
-                  <td className="px-6 py-4 text-sm text-text-secondary">
-                    <div className="flex items-center gap-2">
-                      <span className="h-4 w-4 rounded-full bg-error-soft flex items-center justify-center shrink-0">
-                        <X className="h-2.5 w-2.5 text-error" aria-hidden="true" />
-                      </span>
-                      <span>{row.standard}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-text-primary">
-                    <div className="flex items-center gap-2">
-                      <span className="h-4 w-4 rounded-full bg-success-soft flex items-center justify-center shrink-0">
-                        <Check className="h-2.5 w-2.5 text-success" aria-hidden="true" />
-                      </span>
-                      <span className="font-medium">{row.whats91}</span>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </Reveal>
-  );
+  return <div className="surface-card p-5 sm:p-6">
+    <h3 className="heading-3 mb-5">Agree on the workflow and its exceptions</h3>
+    <div className="grid gap-5 md:grid-cols-3">{workflowChecks.map(row => <article key={row.task} className="min-w-0">
+      <h4 className="heading-4 mb-3">{row.task}</h4>
+      <p className="text-body-sm mb-2"><strong>Check:</strong> {row.check}.</p>
+      <p className="text-body-sm"><strong>Plan for:</strong> {row.exception}.</p>
+    </article>)}</div>
+  </div>;
 }
 
 /* ================================================================== */
@@ -471,7 +257,7 @@ function BentoCapabilities() {
     <div>
       <Reveal>
         <h3 className="heading-3 text-center mb-8 sm:mb-10">
-          …and everything around the conversation
+          Related workflow paths
         </h3>
       </Reveal>
 
@@ -483,7 +269,7 @@ function BentoCapabilities() {
               <div>
                 <p className="heading-4 mb-1.5">WhatsApp Business Calling</p>
                 <p className="text-body-sm">
-                  Verified branded voice calls over the Cloud API — replace toll-free spend.
+                  Voice calls over the Cloud API — confirm eligibility and effective charges before budgeting.
                 </p>
               </div>
               <span className="icon-tile h-10 w-10 shrink-0"><Phone className="h-5 w-5" /></span>
@@ -510,7 +296,7 @@ function BentoCapabilities() {
               <div>
                 <p className="heading-4 mb-1.5">Coexistence Mode</p>
                 <p className="text-body-sm">
-                  Keep the WhatsApp Business app on your phone while the API runs alongside.
+                  Assess an eligible Business App number for hybrid API use; confirm account and rollout conditions.
                 </p>
               </div>
               <span className="icon-tile h-10 w-10 shrink-0"><Smartphone className="h-5 w-5" /></span>
@@ -532,7 +318,7 @@ function BentoCapabilities() {
             <div>
               <span className="icon-tile h-9 w-9 mb-3"><BarChart3 className="h-4 w-4" /></span>
               <p className="heading-4 mb-1.5">Busy Reports</p>
-              <p className="text-body-sm">Daily sales &amp; outstanding reports, delivered to owners.</p>
+              <p className="text-body-sm">Explore scheduled sales and outstanding reports; confirm source data and recipients.</p>
             </div>
             <div className="mt-4 flex items-end gap-1.5 h-10" aria-hidden="true">
               {[0.35, 0.55, 0.45, 0.7, 0.6, 0.9].map((h, i) => (
@@ -555,10 +341,10 @@ function BentoCapabilities() {
                 <span className="absolute -top-1 -right-1 h-3.5 w-3.5 rounded-full bg-brand-600 text-white text-[8px] font-bold flex items-center justify-center">3</span>
               </span>
               <p className="heading-4 mb-1.5">Payment Reminders</p>
-              <p className="text-body-sm">Automated follow-ups with PDF statements and pay links.</p>
+              <p className="text-body-sm">Explore follow-ups with statements and payment links; confirm permissions and triggers.</p>
             </div>
             <p className="mt-4 text-[11px] text-text-muted" aria-hidden="true">
-              Next run: <span className="font-mono text-text-secondary">daily 10:00</span>
+              Example schedule: <span className="font-mono text-text-secondary">daily 10:00</span>
             </p>
           </Link>
         </Reveal>
@@ -569,12 +355,12 @@ function BentoCapabilities() {
             <div>
               <span className="icon-tile h-9 w-9 mb-3"><ShoppingBag className="h-4 w-4" /></span>
               <p className="heading-4 mb-1.5">B2B/B2C Storefront</p>
-              <p className="text-body-sm">White-label e-commerce synced to Busy stock and rates.</p>
+              <p className="text-body-sm">Explore a storefront connected to Busy stock and rates; confirm sync and order handling.</p>
             </div>
             <div className="mt-4 flex items-center gap-2" aria-hidden="true">
               <span className="rounded-full bg-surface px-2.5 py-1 text-[10px] font-medium text-text-muted border border-border/50">Stock ✓</span>
               <span className="rounded-full bg-surface px-2.5 py-1 text-[10px] font-medium text-text-muted border border-border/50">Rates ✓</span>
-              <span className="rounded-full bg-brand-primary/10 px-2.5 py-1 text-[10px] font-medium text-brand-700">10-min sync</span>
+              <span className="rounded-full bg-brand-primary/10 px-2.5 py-1 text-[10px] font-medium text-brand-700">Confirm sync schedule</span>
             </div>
           </Link>
         </Reveal>
@@ -587,7 +373,7 @@ function BentoCapabilities() {
           >
             <div className="flex-1 min-w-0">
               <p className="heading-4 mb-1">Chat Shortcuts</p>
-              <p className="text-body-sm">Slash-command canned replies — your agents answer in two keystrokes.</p>
+              <p className="text-body-sm">Explore ice breakers and slash commands as entry points to workflows.</p>
             </div>
             <div className="flex items-center gap-3 shrink-0" aria-hidden="true">
               <span className="ink-panel px-3 py-2 font-mono text-xs text-ink-text flex items-center">
@@ -659,8 +445,8 @@ export function PlatformPillars() {
           eyebrow="The Whats91 Platform"
           eyebrowIcon={Bot}
           id="pillars-heading"
-          title="One platform for every WhatsApp conversation"
-          description="Marketing, automation, and ERP data working together on one official Cloud API number — not three disconnected tools."
+          title="Choose a campaign, request or ERP workflow"
+          description="Explore the messaging and integration paths below. Confirm the enabled features, dependencies and permissions for your account."
         />
 
         <div className="flex flex-col gap-16 sm:gap-20 lg:gap-24">
@@ -669,13 +455,13 @@ export function PlatformPillars() {
             <Reveal delay={1} className="min-w-0 order-2 lg:order-1">
               <PillarCopy
                 overline="Reach"
-                title="Campaigns your customers actually open"
-                lead="Send approved utility and marketing templates to opted-in audiences that get read far more often than email — and recover carts, run Click-to-WhatsApp ads, and schedule broadcasts at Meta's exact rates."
+                title="Plan campaigns for an opted-in audience"
+                lead="Prepare the audience, message purpose and template. Review account conditions and delivery signals; response and conversion depend on your audience and offer."
                 bullets={[
-                  "Broadcasts read several times more than the average email open",
-                  "Click-to-WhatsApp ads that route buyers straight into chat",
-                  "Abandoned-cart recovery nudges 15–30 minutes after drop",
-                  "Ready-made approved template library with variables",
+                  "Define recipient permissions and an opt-out process",
+                  "Explore Click-to-WhatsApp entry paths",
+                  "Agree on follow-up triggers and frequency",
+                  "Use template examples; approval is specific to your submission",
                 ]}
                 links={[
                   { label: "Marketing & Engagement", href: "/solutions/marketing" },
@@ -693,19 +479,17 @@ export function PlatformPillars() {
             <div className="grid gap-8 lg:grid-cols-5 items-end mb-8">
               <Reveal className="lg:col-span-3 min-w-0">
                 <p className="text-overline mb-3">Automate</p>
-                <h3 className="heading-2 mb-4">Flows that work while you sleep</h3>
+                <h3 className="heading-2 mb-4">Map a request through to a reply or handoff</h3>
                 <p className="text-body">
-                  Design chatbots on a visual N8N-style canvas — branching, loops, agentic AI
-                  with your own knowledge base, and clean human handoff when the conversation
-                  needs a person.
+                  Explore triggers, conditions and actions in Flow Builder. Confirm the available nodes, connected systems and permissions, then plan the exception path when a request needs a person.
                 </p>
               </Reveal>
               <Reveal delay={1} className="lg:col-span-2 min-w-0">
                 <ul className="space-y-2.5">
                   {[
-                    "Multi-path branching and loops",
-                    "NLU intents + knowledge base from your documents",
-                    "Sentiment-aware human handoff",
+                    "Map the trigger and decision path",
+                    "Confirm required data and connected actions",
+                    "Define when and how a person takes over",
                   ].map((b) => (
                     <li key={b} className="flex items-start gap-3">
                       <CheckCircle2 className="h-5 w-5 text-brand-primary shrink-0 mt-0.5" aria-hidden="true" />
@@ -717,6 +501,7 @@ export function PlatformPillars() {
             </div>
             <Reveal>
               <FlowExecutionScene />
+              <p className="text-caption mt-4">{illustrationScope}</p>
             </Reveal>
             <Reveal delay={1}>
               <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2">
@@ -736,17 +521,18 @@ export function PlatformPillars() {
           <div id="busy-erp" className="grid gap-10 lg:gap-14 lg:grid-cols-2 items-center scroll-mt-24">
             <Reveal className="min-w-0 order-1">
               <SyncPipelineScene />
+              <p className="text-caption mt-4">{illustrationScope}</p>
             </Reveal>
             <Reveal delay={1} className="min-w-0 order-2">
               <PillarCopy
                 overline="Integrate"
                 title="Your ERP, speaking WhatsApp"
-                lead="The 10-minute sync engine connects Busy Accounting (and Miracle, and Google Sheets) to WhatsApp — invoices go out as PDFs the moment they're saved, and customers ask 'Balance' to get live ledger replies."
+                lead="Explore how an ERP document or authorised customer request can move through a connector and a WhatsApp workflow. Confirm the source fields, sync schedule, hosting and failure handling for your setup."
                 bullets={[
-                  "Invoice PDFs sent automatically when saved in Busy",
-                  "Real-time ledger inquiry: type 'Balance' for outstanding + pay link",
-                  "Automated payment reminders that reduce call-center load 40–50%",
-                  "Google Sheets sync and Miracle WhatsApp API support",
+                  "Confirm the invoice event and PDF fields",
+                  "Define authorised ledger requests and data freshness",
+                  "Agree on reminder triggers, recipient permissions and exceptions",
+                  "Review separate Google Sheets and Miracle requirements",
                 ]}
                 links={[
                   { label: "Busy ERP Integration", href: "/solutions/busy-erp" },

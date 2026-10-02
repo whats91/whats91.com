@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,73 +22,46 @@ import {
   MessageSquare,
   Share2
 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { whatsappPayload } from "@/lib/tool-inputs";
 
 export function WhatsAppLinkGeneratorClient() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
   const [generatedLink, setGeneratedLink] = useState("");
   const [copied, setCopied] = useState(false);
-  const { toast } = useToast();
-
-  // Clean phone number to E.164 format
-  const cleanPhoneNumber = useCallback((number: string) => {
-    // Remove all non-numeric characters except +
-    let cleaned = number.replace(/[^\d+]/g, "");
-    // Remove leading + if present (wa.me format doesn't need it)
-    if (cleaned.startsWith("+")) {
-      cleaned = cleaned.substring(1);
-    }
-    return cleaned;
-  }, []);
-
-  // Generate WhatsApp link
-  const generateLink = useCallback(() => {
-    const cleanedNumber = cleanPhoneNumber(phoneNumber);
-
-    if (!cleanedNumber) {
-      toast({
-        title: "Invalid Phone Number",
-        description: "Please enter a valid phone number with country code",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    let link = `https://wa.me/${cleanedNumber}`;
-
-    if (message.trim()) {
-      const encodedMessage = encodeURIComponent(message.trim());
-      link += `?text=${encodedMessage}`;
-    }
-
-    setGeneratedLink(link);
-  }, [phoneNumber, message, cleanPhoneNumber, toast]);
-
-  // Copy to clipboard
+  const [status, setStatus] = useState("Enter an international number to generate a link.");
+  const version = useRef(0);
+  const invalidate = () => { version.current += 1; setGeneratedLink(""); setCopied(false); setStatus("Input changed. Generate a new link."); };
+  const generateLink = () => {
+    invalidate();
+    const payload = whatsappPayload(phoneNumber, message);
+    if (!payload.ok) { setStatus(payload.error); return; }
+    setGeneratedLink(payload.value); setStatus("Current link ready. The number’s WhatsApp availability has not been checked.");
+  };
   const copyToClipboard = async () => {
+    if (!generatedLink) return;
+    const current = version.current;
     try {
       await navigator.clipboard.writeText(generatedLink);
-      setCopied(true);
-      toast({
-        title: "Copied!",
-        description: "Link copied to clipboard",
-      });
-      setTimeout(() => setCopied(false), 2000);
+      if (version.current !== current) return;
+      setCopied(true); setStatus("Current link copied.");
     } catch {
-      toast({
-        title: "Failed to copy",
-        description: "Please copy the link manually",
-        variant: "destructive",
-      });
+      if (version.current === current) { setCopied(false); setStatus("Copy unavailable or permission denied. Select the link field and copy it manually."); }
     }
   };
-
-  // Test the link
   const testLink = () => {
-    if (generatedLink) {
-      window.open(generatedLink, "_blank");
-    }
+    if (!generatedLink) return;
+    const opened = window.open(generatedLink, "_blank", "noopener,noreferrer");
+    // noopener can return null even when opened, so do not infer failure or delivery.
+    void opened; setStatus("Opening WhatsApp requested. If no tab opens, copy the link manually. This does not send a message.");
+  };
+  const shareLink = async () => {
+    const current = version.current;
+    try {
+      if (!navigator.share) { await copyToClipboard(); return; }
+      await navigator.share({ title: "WhatsApp Link", url: generatedLink });
+      if (version.current === current) setStatus("Share dialog completed. Recipient delivery is not confirmed.");
+    } catch { if (version.current === current) setStatus("Share cancelled or unavailable. Copy the link manually from the field."); }
   };
 
   return (
@@ -150,12 +123,12 @@ export function WhatsAppLinkGeneratorClient() {
                         type="tel"
                         placeholder="919876543210"
                         value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        onChange={(e) => { invalidate(); setPhoneNumber(e.target.value); }}
                         className="pl-10"
                       />
                     </div>
                     <p className="text-xs text-text-muted">
-                      Enter number with country code, no spaces or special characters needed
+                      Enter 7–15 digits with country code, optionally starting with +; no spaces or punctuation.
                     </p>
                   </div>
 
@@ -168,7 +141,7 @@ export function WhatsAppLinkGeneratorClient() {
                       id="message"
                       placeholder="Hi! I'm interested in your services..."
                       value={message}
-                      onChange={(e) => setMessage(e.target.value)}
+                      onChange={(e) => { invalidate(); setMessage(e.target.value); }}
                       rows={3}
                     />
                     <p className="text-xs text-text-muted">
@@ -179,29 +152,30 @@ export function WhatsAppLinkGeneratorClient() {
                   {/* Generate Button */}
                   <Button
                     onClick={generateLink}
-                    className="w-full bg-brand-600 hover:bg-brand-700 text-white"
+                    className="w-full bg-primary text-primary-foreground hover:bg-brand-700 hover:text-white text-white"
                     size="lg"
                   >
                     <Sparkles className="mr-2 h-4 w-4" />
                     Generate WhatsApp Link
                   </Button>
 
+                  <p role="status" aria-live="polite" aria-atomic="true" className="text-sm break-words">{status}</p>
                   {/* Generated Link */}
                   {generatedLink && (
                     <div className="space-y-3 p-4 bg-success-soft rounded-lg border border-success-border">
-                      <Label className="text-sm font-medium text-success">
+                      <Label htmlFor="generated-link" className="text-sm font-medium text-success">
                         Your WhatsApp Link
                       </Label>
                       <div className="flex items-center gap-2">
                         <Input
-                          value={generatedLink}
+                          id="generated-link" value={generatedLink}
                           readOnly
                           className="bg-background"
                         />
                         <Button
                           variant="outline"
                           size="icon"
-                          onClick={copyToClipboard}
+                          onClick={copyToClipboard} aria-label="Copy current link"
                           className="shrink-0"
                         >
                           {copied ? (
@@ -213,7 +187,7 @@ export function WhatsAppLinkGeneratorClient() {
                         <Button
                           variant="outline"
                           size="icon"
-                          onClick={testLink}
+                          onClick={testLink} aria-label="Open current link in WhatsApp"
                           className="shrink-0"
                         >
                           <ExternalLink className="h-4 w-4" />
@@ -223,26 +197,17 @@ export function WhatsAppLinkGeneratorClient() {
                         <Button
                           variant="secondary"
                           size="sm"
-                          onClick={() => {
-                            if (navigator.share) {
-                              navigator.share({
-                                title: "WhatsApp Link",
-                                url: generatedLink,
-                              });
-                            } else {
-                              copyToClipboard();
-                            }
-                          }}
+                          onClick={shareLink}
                         >
                           <Share2 className="mr-2 h-3.5 w-3.5" />
                           Share Link
                         </Button>
-                        <Link href={`/tools/qr-code-generator?url=${encodeURIComponent(generatedLink)}`}>
-                          <Button variant="outline" size="sm">
+                        <Button asChild variant="outline" size="sm">
+                          <Link href={`/tools/qr-code-generator?url=${encodeURIComponent(generatedLink)}`}>
                             <QrCode className="mr-2 h-3.5 w-3.5" />
                             Generate QR Code
-                          </Button>
-                        </Link>
+                          </Link>
+                        </Button>
                       </div>
                     </div>
                   )}
@@ -299,7 +264,7 @@ export function WhatsAppLinkGeneratorClient() {
                   <p className="text-sm text-text-secondary mb-3">
                     Need bulk WhatsApp messaging?
                   </p>
-                  <Button asChild className="bg-brand-primary hover:bg-brand-primary-hover">
+                  <Button asChild className="bg-primary text-primary-foreground hover:bg-brand-700 hover:text-white">
                     <Link href="/contact">
                       Explore WhatsApp API
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -370,8 +335,7 @@ export function WhatsAppLinkGeneratorClient() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-text-secondary">
-                      Yes, this tool is 100% free with no limits. Your data is processed locally in your
-                      browser and never stored on our servers.
+                      Link generation runs locally. Opening or sharing a destination, and carrying a link to the QR page, puts the number and message in its URL. Avoid sensitive text; page requests and site preferences are covered by our privacy policy.
                     </p>
                   </CardContent>
                 </Card>

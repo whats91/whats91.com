@@ -1,3 +1,6 @@
+import { noMarkupPolicy } from "@/lib/meta-pricing";
+import type { ContentDates } from "@/lib/content/dates";
+import type { EditorialRecord } from "@/lib/content/review";
 export type LegalLink = {
   label: string;
   href: string;
@@ -12,7 +15,9 @@ export type LegalSection = {
   note?: string;
 };
 
-export type LegalDocument = {
+export type LegalDocument = ContentDates & {
+  /** Effective/version labels are not publication or approval evidence. */
+  editorial?: EditorialRecord;
   title: string;
   eyebrow: string;
   summary: string;
@@ -33,6 +38,7 @@ const commonRelated: LegalLink[] = [
 ];
 
 export const privacyDocument: LegalDocument = {
+  editorial: { stage: "pending-human-review", history: [] },
   title: "Privacy Notice",
   eyebrow: "Privacy and data use",
   summary:
@@ -187,6 +193,7 @@ export const privacyDocument: LegalDocument = {
 };
 
 export const termsDocument: LegalDocument = {
+  editorial: { stage: "pending-human-review", history: [] },
   title: "Terms of Service",
   eyebrow: "Service agreement",
   summary:
@@ -268,7 +275,7 @@ export const termsDocument: LegalDocument = {
       title: "Fees, taxes, and usage charges",
       paragraphs: [
         "Fees and cycles appear in the applicable checkout, proposal, or order. Unless stated otherwise, taxes are additional and subscriptions or prepaid services may require advance payment.",
-        "Meta or network usage charges may be passed through or separately invoiced as disclosed. Whats91 fees and third-party charges should be identifiable. Customers are responsible for authorised usage, subject to correction of verified errors.",
+        noMarkupPolicy + " Other third-party usage charges must be identified in the agreed commercial terms. Customers are responsible for authorised usage, subject to correction of verified errors.",
       ],
     },
     {
@@ -354,6 +361,7 @@ export const termsDocument: LegalDocument = {
 };
 
 export const cookieDocument: LegalDocument = {
+  editorial: { stage: "pending-human-review", history: [] },
   title: "Cookie and Browser Storage Policy",
   eyebrow: "Website storage choices",
   summary: "A factual inventory of the browser storage and third-party security technology currently used on the Whats91 public website.",
@@ -365,7 +373,8 @@ export const cookieDocument: LegalDocument = {
       title: "Current website use",
       paragraphs: [
         "At this policy’s date, whats91.com uses limited first-party browser storage to remember cookie choices. The public website does not intentionally activate Google Analytics, Google Tag Manager, Meta Pixel, LinkedIn Insight Tag, Hotjar, or other advertising trackers.",
-        "The website may use Google reCAPTCHA on forms to reduce spam and abuse. Google may receive technical information and use cookies or similar storage under its own terms when reCAPTCHA loads or a protected form is used.",
+        "Submitting a valid enquiry loads Google reCAPTCHA for form verification; simply opening the demo form does not load it. Google may receive technical information and use cookies or similar storage under its own terms when reCAPTCHA loads or a protected form is used. Optional-category choices do not control this verification.",
+        "Blog and author avatar placeholders use local text rather than requesting an external avatar service. This does not describe every external request made by the website.",
       ],
     },
     {
@@ -393,6 +402,7 @@ export const cookieDocument: LegalDocument = {
       paragraphs: [
         "The banner lets you keep optional categories off, allow them, or save individual category choices. Because analytics and marketing are currently inactive, accepting them does not itself load an analytics or advertising vendor.",
         "You can reopen Cookie Settings from the website footer. Clearing site data removes the saved preference and the banner may appear again.",
+        "If browser storage is blocked or a save cannot be confirmed, the interface explains that choices apply to the current page and may not be remembered after reload. Missing or unreadable saved choices require a new selection. A legacy general acceptance does not establish individual analytics or marketing choices.",
       ],
     },
     {
@@ -420,6 +430,7 @@ export const cookieDocument: LegalDocument = {
 };
 
 export const refundDocument: LegalDocument = {
+  editorial: { stage: "pending-human-review", history: [] },
   title: "Refund and Cancellation Policy",
   eyebrow: "Billing and cancellation",
   summary: "This policy explains subscription cancellation, usage charges, billing corrections, project deposits, and the process for requesting a refund review.",
@@ -443,7 +454,7 @@ export const refundDocument: LegalDocument = {
       id: "usage",
       title: "WhatsApp and usage-based charges",
       paragraphs: [
-        "Usage charges are calculated from the applicable plan, platform pricing, and available billing or delivery records. Meta pass-through charges and Whats91 fees should be distinguishable in the commercial document or invoice.",
+        noMarkupPolicy + " Usage charges are calculated from the applicable plan, effective rate card and available billing or delivery records. These components should be distinguishable in the commercial document or invoice.",
         "A mere send attempt will not be described as a Meta-delivered charge unless the applicable Meta pricing rule or underlying billing record charges that event. Disputed usage will be reviewed against available records.",
       ],
     },
@@ -496,6 +507,7 @@ export const refundDocument: LegalDocument = {
 };
 
 export const complianceDocument: LegalDocument = {
+  editorial: { stage: "pending-human-review", history: [] },
   title: "DPDP Readiness Statement",
   eyebrow: "India data-protection readiness",
   summary: "Whats91’s readiness approach for India’s Digital Personal Data Protection framework without an unverified designation or premature full-compliance claim.",
@@ -577,6 +589,7 @@ export const complianceDocument: LegalDocument = {
 };
 
 export const acceptableUseDocument: LegalDocument = {
+  editorial: { stage: "pending-human-review", history: [] },
   title: "Acceptable Use Policy",
   eyebrow: "Responsible messaging",
   summary: "Rules for lawful, consent-based, secure use of Whats91 and the WhatsApp Business Platform.",
@@ -621,6 +634,7 @@ export const acceptableUseDocument: LegalDocument = {
 };
 
 export const dataRightsDocument: LegalDocument = {
+  editorial: { stage: "pending-human-review", history: [] },
   title: "Data Rights and Grievance Procedure",
   eyebrow: "Privacy requests",
   summary: "How individuals can ask Whats91 about personal data, request correction or erasure, withdraw consent, or raise a privacy grievance.",
@@ -649,6 +663,7 @@ export const dataRightsDocument: LegalDocument = {
 };
 
 export const securityDocument: LegalDocument = {
+  editorial: { stage: "pending-human-review", history: [] },
   title: "Security Statement",
   eyebrow: "Trust and shared responsibility",
   summary: "A conservative description of Whats91’s security approach, customer responsibilities, and incident-reporting channel.",
@@ -688,6 +703,7 @@ export const securityDocument: LegalDocument = {
 };
 
 export const slaDocument: LegalDocument = {
+  editorial: { stage: "pending-human-review", history: [] },
   title: "Service Level and Support Policy",
   eyebrow: "Support expectations",
   summary: "The default support and availability framework for Whats91, with contract-specific SLA commitments kept separate.",
@@ -715,6 +731,7 @@ export const slaDocument: LegalDocument = {
 };
 
 export const dpaStatusDocument: LegalDocument = {
+  editorial: { stage: "pending-human-review", history: [] },
   title: "Data Processing Agreement Status",
   eyebrow: "Contractual data processing",
   summary: "Status information for customers that require contractual processor terms. This page is not itself an executed DPA.",
@@ -730,6 +747,7 @@ export const dpaStatusDocument: LegalDocument = {
 };
 
 export const subprocessorStatusDocument: LegalDocument = {
+  editorial: { stage: "pending-human-review", history: [] },
   title: "Subprocessor Disclosure Status",
   eyebrow: "Service-provider transparency",
   summary: "Status of the public list of providers that may process customer-controlled personal data for Whats91.",

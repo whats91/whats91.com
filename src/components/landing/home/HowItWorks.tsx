@@ -11,21 +11,21 @@ import { BookDemoPopup } from "@/components/landing/BookDemoPopup";
 const steps = [
   {
     icon: Cable,
-    title: "Connect your number",
+    title: "Assess your number",
     description:
-      "We onboard your business onto the official WhatsApp Cloud API — verification, green-tick guidance, and template approvals handled with you.",
+      "Confirm your number, account eligibility and onboarding route. Verification, display name and template decisions depend on the provider review.",
   },
   {
     icon: PlugZap,
-    title: "Plug in your systems",
+    title: "Define the integration",
     description:
-      "Connect Busy, Miracle, or Google Sheets in minutes — or wire your own CRM through webhooks and the Graph API.",
+      "Identify the ERP or CRM fields, connector, hosting and permissions. Agree on setup work and schedule before changing a live system.",
   },
   {
     icon: Rocket,
-    title: "Launch and automate",
+    title: "Pilot one workflow",
     description:
-      "Send your first broadcast, switch on payment reminders, and let chatbot flows handle the routine conversations.",
+      "Test the intended reply, document or campaign path and its exceptions. Review the pilot before expanding to more recipients or actions.",
   },
 ];
 
@@ -36,8 +36,8 @@ export function HowItWorks() {
         <SectionHeader
           eyebrow="Getting Started"
           id="how-heading"
-          title="Live on WhatsApp in three steps"
-          description="No infrastructure to host, no PC that has to stay switched on — everything runs on Meta's cloud."
+          title="Plan the setup before launch"
+          description="The messaging API, your accounting system and any connector have separate dependencies. Confirm who runs each part."
         />
 
         <ol className="grid gap-10 md:gap-6 md:grid-cols-3 mb-12">
@@ -75,7 +75,7 @@ export function HowItWorks() {
             triggerLabel="Walk through it with our team"
             triggerSize="lg"
             source="homepage-how-it-works"
-            triggerClassName="h-11 sm:h-12 px-7 rounded-xl"
+            triggerClassName="min-h-11 h-auto py-3 whitespace-normal px-7 rounded-xl"
           />
         </Reveal>
       </Container>

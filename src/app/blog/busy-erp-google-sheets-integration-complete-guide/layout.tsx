@@ -1,7 +1,6 @@
 import { generateBlogPostMetadata } from "@/lib/blog/metadata";
 
-// The post page is a client component and cannot export metadata; this server
-// layout gives the post its own title/description/canonical/article metadata
+// This server layout keeps the pilot article’s title/description/canonical metadata
 // from the blog registry instead of inheriting the blog-index metadata.
 export const metadata = generateBlogPostMetadata(
   "busy-erp-google-sheets-integration-complete-guide"

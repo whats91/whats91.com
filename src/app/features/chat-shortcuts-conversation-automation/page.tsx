@@ -41,6 +41,8 @@ import {
   Zap,
 } from "lucide-react";
 
+import { setupScope, sceneCaption } from "@/lib/product-media";
+
 const pagePath = "/features/chat-shortcuts-conversation-automation";
 const pageUrl = `${siteConfig.url}${pagePath}`;
 const seoTitle = "WhatsApp Chat Shortcuts, Ice Breakers & Slash Commands | Whats91";
@@ -89,7 +91,7 @@ export const metadata: Metadata = {
         url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: openGraphTitle,
+        alt: "Whats91 brand and messaging graphic",
       },
     ],
   },
@@ -177,7 +179,7 @@ const featureCards = [
   {
     icon: ClipboardCheck,
     title: "Validation",
-    description: "Prevent duplicate prompts, emoji usage, and command values that do not follow Meta limits.",
+    description: "Prevent duplicate prompts, emoji usage, and command values that do not follow the confirmed configuration limits.",
   },
   {
     icon: Sparkles,
@@ -251,7 +253,7 @@ const deepUseCases = [
   {
     title: "Lead Generation",
     content:
-      "Lead generation workflows often fail because the first customer action is unclear. A prospect may send Hi, Price, Details, or a product name, and the team has to infer intent. WhatsApp Chat Shortcuts solve this by exposing direct conversation starters such as View Latest Offers, Request Product Catalog, Talk to Sales, or Book Demo. These prompts make the next step obvious and help Whats91 route the customer into the right lead capture journey. A Flow Builder sequence can collect name, location, product interest, budget, timeline, and preferred callback time. The same journey can tag the contact, send a catalog link, notify a sales agent, or push the lead into a CRM system. For campaigns that use WhatsApp templates, shortcuts also give customers a cleaner post-click path after they respond to marketing or utility messages. This matters for AI and search visibility too because the page can describe a complete path from conversation starter to lead workflow. For the business, every shortcut becomes a measurable intent source. Teams can compare demo requests, catalog requests, sales chats, and offer clicks without relying only on manual notes. This makes WhatsApp lead quality easier to analyze after campaigns, website visits, and referral conversations.",
+      "Lead generation workflows often fail because the first customer action is unclear. A prospect may send Hi, Price, Details, or a product name, and the team has to infer intent. WhatsApp Chat Shortcuts solve this by exposing direct conversation starters such as View Latest Offers, Request Product Catalog, Talk to Sales, or Book Demo. These prompts make the next step obvious and help Whats91 route the customer into the right lead capture journey. A Flow Builder sequence can collect name, location, product interest, budget, timeline, and preferred callback time. The same journey can tag the contact, send a catalog link, notify a sales agent, or push the lead into a CRM system. For campaigns that use WhatsApp templates, shortcuts also give customers a cleaner post-click path after they respond to marketing or utility messages. For the business, every shortcut becomes a measurable intent source. Teams can compare demo requests, catalog requests, sales chats, and offer clicks without relying only on manual notes. This makes WhatsApp lead quality easier to analyze after campaigns, website visits, and referral conversations.",
   },
   {
     title: "Sales Automation",
@@ -261,7 +263,7 @@ const deepUseCases = [
   {
     title: "Demo Booking",
     content:
-      "Demo booking is a strong fit for Chat Shortcuts because it is a high-intent action that should not be buried in a long menu. A visible Book Demo prompt or /demo command can start a focused booking workflow. Whats91 can ask for the customer name, company, phone number, product interest, preferred time, and location. The workflow can then notify the sales team, create a CRM entry, or send a confirmation message. For product pages, solution pages, and template-driven campaigns, this creates a direct path from interest to scheduled action. It also improves AI search and user experience because the page clearly shows that Chat Shortcuts are not just a display feature; they can start measurable business workflows. For visitors evaluating WhatsApp Conversational Automation, demo booking is a simple example of a shortcut becoming a conversion event. The workflow can remain simple or become advanced over time. A first version may notify a salesperson, while a later version can check availability, assign a territory owner, sync the lead to a CRM, and send a reminder before the scheduled call. The shortcut stays the same while the automation behind it matures. This keeps the public WhatsApp entry point consistent even when the internal sales process changes.",
+      "Demo booking is a strong fit for Chat Shortcuts because it is a high-intent action that should not be buried in a long menu. A visible Book Demo prompt or /demo command can start a focused booking workflow. Whats91 can ask for the customer name, company, phone number, product interest, preferred time, and location. The workflow can then notify the sales team, create a CRM entry, or send a confirmation message. For product pages, solution pages, and template-driven campaigns, this creates a direct path from interest to scheduled action. For visitors evaluating WhatsApp Conversational Automation, demo booking is a simple example of a shortcut becoming a conversion event. The workflow can remain simple or become advanced over time. A first version may notify a salesperson. Scheduling requires a separately configured availability and confirmation workflow; a demo request alone does not reserve an appointment. The shortcut stays the same while the automation behind it matures. This keeps the public WhatsApp entry point consistent even when the internal sales process changes.",
   },
 ];
 
@@ -282,7 +284,7 @@ const rules = [
   { item: "Slash commands", limit: "Maximum 30 commands", note: "Use commands for frequent business actions." },
   { item: "Command name", limit: "Maximum 32 characters", note: "Whats91 stores names without the / prefix." },
   { item: "Command description", limit: "Maximum 256 characters", note: "Explain what the command does in plain language." },
-  { item: "Emojis", limit: "Rejected", note: "Keep prompts and command fields text-only for Meta compliance." },
+  { item: "Emojis", limit: "Rejected", note: "Keep prompts and command fields text-only in this example; confirm provider requirements." },
   { item: "Duplicates", limit: "Rejected", note: "Prompt text and command names must be unique." },
 ];
 
@@ -303,7 +305,7 @@ const securityNotes = [
   "Chat Shortcuts is separate from AI MetaBot and does not require an AI runtime.",
   "Meta displays the prompts and commands; Whats91 handles the real automation after webhook text arrives.",
   "The feature does not use WABA Bot ID APIs.",
-  "Access tokens are not shown to customers, returned in the public UI, or written into public page content.",
+  "Keep access tokens private when configuring integrations; do not include them in customer prompts or replies.",
   "Shortcut configuration is scoped to the selected WhatsApp phone number.",
 ];
 
@@ -381,12 +383,12 @@ const faqs = [
   {
     question: "How many Ice Breakers does WhatsApp allow?",
     answer:
-      "WhatsApp allows up to 4 ice breaker prompts for conversational automation. Whats91 validates the prompts before publishing so teams stay within Meta's limits.",
+      "The existing example uses up to 4 prompts. Confirm the current provider and account limits before configuring your number.",
   },
   {
     question: "How many Slash Commands can WhatsApp support?",
     answer:
-      "WhatsApp supports up to 30 slash commands. Whats91 also validates command names, descriptions, duplicate values, and formatting before publishing to Meta.",
+      "The existing example uses up to 30 commands. Confirm the current provider and account limits before configuring your number. Review command names, descriptions, duplicate values and formatting against the confirmed setup.",
   },
   {
     question: "Can WhatsApp Chat Shortcuts work with CRM systems?",
@@ -407,7 +409,6 @@ const howToSchema = {
   name: "How to Configure WhatsApp Chat Shortcuts",
   description:
     "Configure WhatsApp Chat Shortcuts in Whats91 by adding prompts and commands, saving a draft, publishing to Meta, receiving incoming text, and routing the workflow.",
-  totalTime: "PT10M",
   tool: [
     {
       "@type": "HowToTool",
@@ -478,11 +479,7 @@ const structuredData = [
     description:
       "Learn how Whats91 lets businesses configure WhatsApp ice breakers and slash commands, then route customer taps into automation workflows.",
     inLanguage: "en-IN",
-    isPartOf: {
-      "@type": "WebSite",
-      name: siteConfig.name,
-      url: siteConfig.url,
-    },
+    isPartOf: { "@id": `${siteConfig.url}/#website` },
     about: [
       "WhatsApp conversation automation",
       "WhatsApp ice breakers",
@@ -525,11 +522,11 @@ function ChatShortcutsPreview() {
         <div className="rounded-2xl border border-border/70 bg-surface/70 p-4">
           <div className="mb-4 flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">Whats91 dashboard</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">Illustrative dashboard</p>
               <h2 className="text-lg font-semibold text-text-primary">Chat Shortcuts</h2>
             </div>
             <span className="rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-semibold text-brand-primary">
-              Synced
+              Sample
             </span>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -561,7 +558,7 @@ function ChatShortcutsPreview() {
               </div>
               <div>
                 <p className="text-sm font-semibold">Whats91 Business</p>
-                <p className="text-xs text-white/80">Online</p>
+                <p className="text-xs text-white">Online</p>
               </div>
             </div>
             <div className="space-y-3 p-4">
@@ -614,7 +611,7 @@ export default function ChatShortcutsConversationAutomationPage() {
     <div className="min-h-screen bg-background">
       <JsonLd data={structuredData} />
       <Header />
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         <article>
           <header className="relative overflow-hidden bg-gradient-to-b from-surface/80 to-background py-12 sm:py-16 md:py-20">
             <div className="absolute inset-0 gradient-brand-subtle" aria-hidden="true" />
@@ -630,10 +627,11 @@ export default function ChatShortcutsConversationAutomationPage() {
                 <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-text-secondary sm:text-lg lg:mx-0">
                   Configure WhatsApp ice breakers and slash commands directly from Whats91. Customers tap a prompt or type a command, and Whats91 routes that text into chatbots, Flow Builder, support, sales, order tracking, or ERP workflows.
                 </p>
+                <p className="mt-4 text-sm leading-relaxed text-text-secondary">{setupScope}</p>
                 <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
                   <Button asChild className="h-11 bg-brand-primary px-6 text-white hover:bg-brand-primary-hover">
                     <Link href="/contact">
-                      Book a Demo
+                      Request a demo
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
@@ -649,7 +647,10 @@ export default function ChatShortcutsConversationAutomationPage() {
                   ))}
                 </div>
               </div>
-              <ChatShortcutsPreview />
+              <figure className="min-w-0">
+                <ChatShortcutsPreview />
+                <figcaption className="mt-3 text-sm leading-relaxed text-text-secondary">{sceneCaption}</figcaption>
+              </figure>
             </div>
           </header>
 
@@ -701,7 +702,7 @@ export default function ChatShortcutsConversationAutomationPage() {
                 id="features-heading"
                 eyebrow="Feature set"
                 title="Everything needed to manage WhatsApp shortcuts"
-                description="The page is built for business teams that need cleaner customer starts and operations teams that need control before publishing to Meta."
+                description="Review the selected number, prompts and routing before publishing a configuration."
               />
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
                 {featureCards.map((feature) => {
@@ -790,12 +791,12 @@ export default function ChatShortcutsConversationAutomationPage() {
                   ))}
                 </div>
               </div>
-              <div className="rounded-3xl border border-border/70 bg-card p-4 shadow-xl shadow-slate-900/10 sm:p-5">
+              <figure className="min-w-0 rounded-3xl border border-border/70 bg-card p-4 shadow-xl shadow-slate-900/10 sm:p-5">
                 <div className="rounded-2xl border border-border/70 bg-surface/70 p-4">
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                     <div>
                       <p className="text-xs font-semibold text-text-muted">Selected WhatsApp number</p>
-                      <p className="text-lg font-bold text-text-primary">Support Number - +91 96698 23388</p>
+                      <p className="text-lg font-bold text-text-primary">Example support number</p>
                     </div>
                     <span className="rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-semibold text-brand-primary">Draft saved</span>
                   </div>
@@ -831,7 +832,8 @@ export default function ChatShortcutsConversationAutomationPage() {
                     ))}
                   </div>
                 </div>
-              </div>
+                <figcaption className="mt-3 text-sm leading-relaxed text-text-secondary">{sceneCaption}</figcaption>
+              </figure>
             </div>
           </section>
 
@@ -839,9 +841,9 @@ export default function ChatShortcutsConversationAutomationPage() {
             <div className="mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8">
               <SectionHeading
                 id="rules-heading"
-                eyebrow="Meta rules"
-                title="Limits Whats91 enforces before publish"
-                description="Validation keeps the shortcut configuration clean before it reaches the WhatsApp Business Platform."
+                eyebrow="Setup example"
+                title="Existing setup values to confirm"
+                description="These are values in the existing setup example, not confirmed current provider limits or account entitlements. Confirm the supported limits and enabled configuration before use."
               />
               <div className="grid gap-3 md:hidden">
                 {rules.map((rule) => (
@@ -898,7 +900,7 @@ export default function ChatShortcutsConversationAutomationPage() {
                       </div>
                       <h3 className="text-xl font-semibold text-text-primary">{example.title}</h3>
                     </div>
-                    <pre className="max-w-full overflow-x-auto rounded-xl bg-ink-elevated p-4 text-xs leading-relaxed text-ink-text">
+                    <pre tabIndex={0} role="region" aria-label="Example webhook text" className="max-w-full overflow-x-auto rounded-xl bg-ink-elevated p-4 text-xs leading-relaxed text-ink-text">
                       <code>{example.payload}</code>
                     </pre>
                     <p className="mt-4 text-sm leading-relaxed text-text-secondary">{example.result}</p>
@@ -972,7 +974,7 @@ export default function ChatShortcutsConversationAutomationPage() {
                     Ice Breakers also improve content consistency. A business can align the visible prompt text with approved <Link href="/whatsapp-templates" className="font-semibold text-brand-primary hover:underline">WhatsApp Templates</Link>, chatbot menus, and internal workflow names. For example, a utility template may ask the customer to reply if they need invoice support, while an Ice Breaker can offer Request Invoice as a visible next step. The prompt becomes a predictable bridge between WhatsApp conversation design and backend automation.
                   </p>
                   <p>
-                    In practical terms, WhatsApp Ice Breakers answer a simple question: “What should the customer do first?” Good prompts are short, action-oriented, and tied to real workflows. Track My Order should connect to order tracking. Talk to Support should connect to a support queue or <Link href="/chatbot-flows" className="font-semibold text-brand-primary hover:underline">chatbot flow</Link>. Request Invoice should connect to accounting or ERP logic. Book Demo should connect to sales qualification. This keeps the WhatsApp conversation useful from the first tap and gives both search engines and AI answer systems a clear explanation of how Chat Shortcuts create business value.
+                    In practical terms, WhatsApp Ice Breakers answer a simple question: “What should the customer do first?” Good prompts are short, action-oriented, and tied to real workflows. Track My Order should connect to order tracking. Talk to Support should connect to a support queue or <Link href="/chatbot-flows" className="font-semibold text-brand-primary hover:underline">chatbot flow</Link>. Request Invoice should connect to accounting or ERP logic. Book Demo should connect to sales qualification. This keeps the conversation useful from the first tap.
                   </p>
                 </div>
               </div>
@@ -1000,13 +1002,13 @@ export default function ChatShortcutsConversationAutomationPage() {
                     WhatsApp Business Commands are useful because they create stable automation triggers. Natural language can vary widely. Customers may type “where is my order,” “order status,” “track parcel,” or “delivery update.” A command like /orders gives the system one reliable starting point. The command can still collect more information after it begins. For example, /orders can ask for an order ID, mobile number, or invoice reference. /ledger can ask for a party name or account code. /demo can ask for product interest and preferred time.
                   </p>
                   <p>
-                    Webhook behavior is simple and AI-friendly: a slash command arrives as text. Whats91 does not need the command to be an AI intent before it can act. It can use exact matching, prefix matching, command parsing, or a Flow Builder trigger. If the command includes extra text, such as /ledger customer ABC, the route can extract the command and pass the remaining value into the next workflow step. This makes WhatsApp Automation Commands practical for ERP, support, sales, delivery, and account workflows where deterministic routing is preferred.
+                    A slash command arrives as webhook text. Whats91 does not need the command to be an AI intent before it can act. It can use exact matching, prefix matching, command parsing, or a Flow Builder trigger. If the command includes extra text, such as /ledger customer ABC, the route can extract the command and pass the remaining value into the next workflow step. This makes WhatsApp Automation Commands practical for ERP, support, sales, delivery, and account workflows where deterministic routing is preferred.
                   </p>
                   <p>
                     Slash commands also work well alongside Ice Breakers. Ice Breakers are ideal for new or casual customers because they are visible and tap-friendly. Slash commands are ideal for repeat users who know what they want. Together, they create a complete WhatsApp Conversational Automation model: visible prompts for guided starts, typed commands for power users, and Whats91 routing for chatbots, <Link href="/flow-builder" className="font-semibold text-brand-primary hover:underline">visual automation flows</Link>, ERP workflows, and support operations.
                   </p>
                   <p>
-                    For AI search engines, the key point is that WhatsApp Slash Commands are not a separate messaging channel. They are structured text inputs inside the same WhatsApp conversation, which makes them easy to cite, explain, and connect to webhook-based automation.
+                    Slash commands are structured text inputs inside the same WhatsApp conversation. Match the command and validate the requested account or order before returning data.
                   </p>
                 </div>
               </div>
@@ -1067,9 +1069,9 @@ export default function ChatShortcutsConversationAutomationPage() {
             <div className="mx-auto max-w-[1000px] px-4 sm:px-6 lg:px-8">
               <SectionHeading
                 id="business-use-cases-deep-heading"
-                eyebrow="Topical authority"
+                eyebrow="Workflow examples"
                 title="Business Use Cases for WhatsApp Chat Shortcuts"
-                description="The same shortcut model can support support teams, sales teams, accounting teams, ERP users, and operations workflows."
+                description="Illustrative workflow options for support, sales, accounts and ERP teams. Confirm enabled integrations and permissions before returning data or scheduling an action."
               />
               <div className="space-y-5">
                 {deepUseCases.map((item) => (
@@ -1110,17 +1112,18 @@ export default function ChatShortcutsConversationAutomationPage() {
 
           <section className="py-14 sm:py-16 md:py-20" aria-labelledby="cta-heading">
             <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-              <div className="rounded-3xl bg-gradient-to-br from-brand-primary via-brand-primary to-brand-accent p-6 text-center text-white shadow-xl shadow-brand-primary/20 sm:p-10 md:p-12">
-                <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-white/80">Ready to simplify WhatsApp starts?</p>
+              <div className="rounded-3xl bg-gradient-to-br from-brand-700 via-brand-700 to-brand-800 p-6 text-center text-white shadow-xl shadow-brand-primary/20 sm:p-10 md:p-12">
+                <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-white">Ready to simplify WhatsApp starts?</p>
                 <h2 id="cta-heading" className="text-2xl font-bold sm:text-3xl md:text-4xl">
                   Add Chat Shortcuts to your Whats91 automation stack
                 </h2>
-                <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-white/85">
+                <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-white">
                   Configure quick prompts, slash commands, and routing logic for support, sales, accounts, delivery, and ERP use cases.
                 </p>
+                <p className="mt-4 text-sm leading-relaxed text-text-secondary">{setupScope}</p>
                 <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
                   <Button asChild className="h-11 bg-white px-6 text-brand-700 hover:bg-white/90">
-                    <Link href="/contact">Book a Demo</Link>
+                    <Link href="/contact">Request a demo</Link>
                   </Button>
                   <Button asChild variant="outline" className="h-11 border-white/50 bg-white/10 px-6 text-white hover:bg-white/20">
                     <Link href="/flow-builder">Explore Flow Builder</Link>

@@ -1,6 +1,6 @@
 import { Lock } from "lucide-react";
 import { BrandLogo } from "@/components/shared";
-import { mcpClients } from "./mcpContent";
+import { mcpClients, statusLabel } from "./mcpContent";
 
 /* ------------------------------------------------------------------ *
  * Desktop connector geometry. One coordinate space (VB) drives both
@@ -36,7 +36,7 @@ function ConnectorLayer() {
       {mcpClients.map((client, i) => {
         const y = rowY(i);
         const d = connectorPath(y);
-        const active = client.status === "available";
+        const active = client.status !== "confirm";
         return (
           <g key={client.id}>
             <path d={d} className="conn-base" vectorEffect="non-scaling-stroke" pathLength={100} />
@@ -57,7 +57,7 @@ function ConnectorLayer() {
 }
 
 function HeroClientChip({ client }: { client: (typeof mcpClients)[number] }) {
-  const dim = client.status !== "available";
+  const dim = client.status === "confirm";
   return (
     <div
       className={`flex items-center gap-2.5 rounded-xl border bg-background px-3 py-2 shadow-sm transition-colors ${
@@ -74,7 +74,7 @@ function HeroClientChip({ client }: { client: (typeof mcpClients)[number] }) {
       <span className="min-w-0">
         <span className="block truncate text-xs font-semibold text-text-primary">{client.name}</span>
         <span className="block truncate text-[10px] text-text-muted">
-          {client.status === "available" ? "Available now" : client.status === "limited" ? "Limited" : "Rolling out"}
+          {statusLabel[client.status]}
         </span>
       </span>
     </div>
@@ -98,7 +98,7 @@ function LockBadge() {
   return (
     <span className="mcp-pulse inline-flex items-center gap-1.5 rounded-full border border-brand-primary/30 bg-brand-primary/10 px-2.5 py-1 text-[10px] font-semibold text-brand-primary">
       <Lock className="h-3 w-3" aria-hidden="true" />
-      Approved scope
+      Illustrative flow
     </span>
   );
 }
@@ -106,7 +106,7 @@ function LockBadge() {
 function ResultCard() {
   return (
     <div className="w-[168px] rounded-xl border border-border/70 bg-background p-3 shadow-md">
-      <p className="text-[10px] font-medium uppercase tracking-wide text-text-muted">Message report</p>
+      <p className="text-[10px] font-medium uppercase tracking-wide text-text-muted">Example report</p>
       <p className="mt-1 text-sm font-bold tabular-nums text-text-primary">9,540 delivered</p>
       <p className="text-[11px] tabular-nums text-brand-primary">7,890 read · 82%</p>
     </div>
@@ -122,7 +122,9 @@ function ResultCard() {
  */
 export function McpHeroScene() {
   return (
-    <div aria-hidden="true" className="select-none">
+    <div className="select-none">
+      <p className="mb-4 text-center text-caption">Illustrative example · sample numbers, no account connection</p>
+      <div aria-hidden="true">
       {/* Desktop: connector scene */}
       <div
         className="relative mx-auto hidden w-full max-w-[560px] lg:block"
@@ -150,7 +152,7 @@ export function McpHeroScene() {
 
         <div
           className="absolute"
-          style={{ left: pct(HUB.x + HUB_HALF + 30, VB.w), top: pct(HUB.y + 118, VB.h) }}
+          style={{ right: 0, top: pct(HUB.y + 118, VB.h) }}
         >
           <ResultCard />
         </div>
@@ -167,6 +169,7 @@ export function McpHeroScene() {
         </div>
         <span className="conn-spine" />
         <ResultCard />
+      </div>
       </div>
     </div>
   );

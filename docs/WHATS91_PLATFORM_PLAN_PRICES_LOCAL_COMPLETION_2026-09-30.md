@@ -1,0 +1,18 @@
+# Whats91 platform plan prices — local completion (30 September 2026)
+
+The owner-approved Coexistence and Standard subscription prices, one-time monthly setup fees, annual setup inclusion and 18% GST are restored in the public plan display. The numeric source and `buildOrder` arithmetic in `src/lib/plans.ts` were retained. Meta delivered-message charges remain a separate zero-markup pass-through. This is a verified **local candidate**, not a deployment or payment activation.
+
+| Plan and cycle | Subscription excl. GST | One-time setup excl. GST | First-payment GST | First platform payment incl. GST |
+| --- | ---: | ---: | ---: | ---: |
+| Coexistence monthly | ₹699 | ₹1,000 | ₹305.82 | ₹2,004.82 |
+| Coexistence annual | ₹5,000 | Included | ₹900 | ₹5,900 |
+| Standard monthly | ₹949 | ₹2,000 | ₹530.82 | ₹3,479.82 |
+| Standard annual | ₹7,000 | Included | ₹1,260 | ₹8,260 |
+
+Changed source: `src/app/plans/PlansSelector.tsx` and `src/app/plans/page.tsx` now show plan price, setup, GST and first platform payment; `src/app/checkout/page.tsx` shows the selected cycle's full platform first-payment breakdown while keeping noindex and disabled payment. `src/lib/pricing.ts`, `src/app/pricing/page.tsx`, `src/lib/home-content.ts`, `src/components/landing/home/FreeToolsBand.tsx`, `src/components/shared/MessageBudget.tsx` and `src/lib/blog/billing-guides.ts` align the shared qualification, homepage widget, Meta calculator and pricing guide with listed platform prices. `src/app/partners/page.tsx`, `src/lib/website-content.ts` and `src/lib/website-markdown.ts` distinguish public customer plan prices from still-pending Partner/Tech Partner and add-on amounts. `src/lib/plans.ts` narrows claim provenance to the approved amounts; `docs/legal-policy-inputs.md` records the dated, limited approval. `tests/pricing-contracts.test.mjs` adds a public-copy regression check. No plan amount or tax calculation was altered.
+
+Focused verification: **33/33 tests passed** across plan arithmetic, Meta separation, article and MD/MCP parity; touched-file ESLint, TypeScript (`tsc --noEmit --incremental false`) and `git diff --check` passed. One Node **v24.1.0** production build passed and produced a verified standalone package: build ID **`LIt6qMAujxEyIWOaOHmwm`**, candidate ID **`84beb60d5556a09aa8b463a39999e932c20c255c82d30ac1574d34a155b70451`**, source digest **`411177aa03c58e257df06f15def246a0791f8e4300a834b0e30e6dab72ada372`**. [Build log](evidence/plan-prices-2026-09-30/build.txt) and [verification receipt](evidence/plan-prices-2026-09-30/verification.json) are retained.
+
+The new exact-candidate preview is **http://127.0.0.1:4316**. One `/api/ready` GET returned HTTP 200 with matching build/candidate IDs. One `/plans` GET and one `/checkout?plan=standard&billing=monthly` GET passed 8/8 and 10/10 visible server-rendered text assertions respectively, including absence of withheld-price placeholders. The in-app browser blocked the new loopback port, so this display check used parsed server-rendered HTML rather than a visual browser screenshot. Four-cycle monetary totals are independently covered by the focused plan arithmetic test.
+
+Still pending: add-on and Partner/Tech Partner/Coins amounts, account feature eligibility, trial/renewal terms, final invoice and input-tax-credit treatment, payment/activation, provider operations and owner release approval. The inherited dirty worktree was preserved. No commit, push, cloud action, deployment, publication, form submission, private-data inspection or database/schema change occurred. This report and its evidence were written after the build; no runtime source changed afterward.

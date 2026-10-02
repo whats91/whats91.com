@@ -1,154 +1,108 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Check, Cookie, Settings2, ShieldCheck, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const COOKIE_CONSENT_KEY = "whats91_cookie_consent";
-const CONSENT_VERSION = 2;
-const OPEN_SETTINGS_EVENT = "whats91:open-cookie-settings";
-
-type ConsentPreferences = {
-  version: number;
-  analytics: boolean;
-  marketing: boolean;
-  updatedAt: string;
-};
-
-const emptyPreferences = (): ConsentPreferences => ({
-  version: CONSENT_VERSION,
-  analytics: false,
-  marketing: false,
-  updatedAt: new Date().toISOString(),
-});
-
-function readStoredPreferences(): ConsentPreferences | null {
-  const stored = localStorage.getItem(COOKIE_CONSENT_KEY);
-  if (!stored) return null;
-
-  if (stored === "accepted") {
-    return { ...emptyPreferences(), analytics: true, marketing: true };
-  }
-  if (stored === "rejected") return emptyPreferences();
-
-  try {
-    const parsed = JSON.parse(stored) as Partial<ConsentPreferences>;
-    if (parsed.version !== CONSENT_VERSION) return null;
-    return {
-      version: CONSENT_VERSION,
-      analytics: Boolean(parsed.analytics),
-      marketing: Boolean(parsed.marketing),
-      updatedAt: typeof parsed.updatedAt === "string" ? parsed.updatedAt : new Date().toISOString(),
-    };
-  } catch {
-    return null;
-  }
-}
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { optionalOff, openPreferencesEvent, readPreferences, writePreferences, type BrowserPreferences } from "@/lib/browser-preferences";
 
 export function CookieConsent() {
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [hasSavedChoice, setHasSavedChoice] = useState(false);
-  const [preferences, setPreferences] = useState<ConsentPreferences>(emptyPreferences);
+  const [hasChoice, setHasChoice] = useState(false);
+  const [preferences, setPreferences] = useState<BrowserPreferences>(optionalOff);
+  const [draft, setDraft] = useState<BrowserPreferences>(optionalOff);
+  const [notice, setNotice] = useState("");
+  const [saveFailed, setSaveFailed] = useState(false);
+  const invoker = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      const stored = readStoredPreferences();
-      if (stored) {
-        setPreferences(stored);
-        setHasSavedChoice(true);
-      } else {
-        setShowBanner(true);
-      }
-    }, 400);
+      const stored = readPreferences(() => window.localStorage);
+      setPreferences(stored.preferences); setDraft(stored.preferences);
+      setHasChoice(stored.state === "current"); setShowBanner(stored.state !== "current");
+      if (stored.state === "unavailable") setNotice("Browser storage is unavailable. Your choices may not be remembered after this page reloads.");
+      if (stored.state === "invalid") setNotice("Saved choices could not be read. Optional technologies remain inactive; please choose again.");
+      if (stored.state === "legacy") setNotice("A previous general choice does not establish individual category choices. Please review your preferences.");
+    }, 0);
     return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    const openSettings = () => {
-      setShowBanner(false);
-      setShowSettings(true);
+    const openSettings = (event: Event) => {
+      const target = (event as CustomEvent<{ trigger?: HTMLElement }>).detail?.trigger;
+      invoker.current = target instanceof HTMLElement ? target : document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      setDraft(preferences); setSaveFailed(false); setShowBanner(false); setShowSettings(true);
     };
-    window.addEventListener(OPEN_SETTINGS_EVENT, openSettings);
-    return () => window.removeEventListener(OPEN_SETTINGS_EVENT, openSettings);
-  }, []);
+    window.addEventListener(openPreferencesEvent, openSettings);
+    return () => window.removeEventListener(openPreferencesEvent, openSettings);
+  }, [preferences]);
 
-  const savePreferences = (next: ConsentPreferences) => {
-    const saved = { ...next, version: CONSENT_VERSION, updatedAt: new Date().toISOString() };
-    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(saved));
-    setPreferences(saved);
-    setHasSavedChoice(true);
-    setShowBanner(false);
-    setShowSettings(false);
-    window.dispatchEvent(new CustomEvent("whats91:cookie-consent-changed", { detail: saved }));
-  };
+  function openFromBanner(event: React.MouseEvent<HTMLButtonElement>) {
+    invoker.current = event.currentTarget; setDraft(preferences); setSaveFailed(false); setShowBanner(false); setShowSettings(true);
+  }
+  function closeSettings(open: boolean) {
+    setShowSettings(open);
+    if (!open && !hasChoice) setShowBanner(true);
+  }
+  function save(next: BrowserPreferences) {
+    const result = writePreferences(() => window.localStorage, next);
+    setPreferences(result.preferences); setDraft(result.preferences); setHasChoice(true);
+    setSaveFailed(!result.persisted);
+    if (result.persisted) { setNotice(""); setShowBanner(false); setShowSettings(false); }
+    else setNotice("We couldn't confirm a save to this browser. Your choices apply to this page, but may not be remembered after a reload. Optional technologies remain inactive.");
+    window.dispatchEvent(new CustomEvent("whats91:cookie-consent-changed", { detail: { ...result.preferences, persisted: result.persisted } }));
+  }
+  const continueForPage = () => { setShowBanner(false); setShowSettings(false); };
 
-  const keepOptionalOff = () => savePreferences(emptyPreferences());
-  const allowOptional = () => savePreferences({ ...emptyPreferences(), analytics: true, marketing: true });
-
-  return (
-    <>
-      {showBanner ? (
-        <div className="fixed inset-x-0 bottom-0 z-[var(--z-toast)] px-3 pb-3 sm:px-4 sm:pb-4" role="dialog" aria-modal="false" aria-labelledby="cookie-banner-title">
-          <div className="mx-auto max-w-[1200px] rounded-2xl border border-border bg-card/98 p-4 shadow-xl backdrop-blur-sm sm:p-5">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
-              <div className="flex flex-1 items-start gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700"><Cookie className="h-5 w-5" aria-hidden="true" /></span>
-                <div>
-                  <h2 id="cookie-banner-title" className="text-sm font-semibold text-text-primary">Your browser-storage choices</h2>
-                  <p className="mt-1 text-xs leading-5 text-text-secondary sm:text-sm">
-                    We use essential browser storage and Google reCAPTCHA for preference and form security. Analytics and marketing technologies are currently off. Read our <Link href="/cookies" className="font-medium text-brand-700 underline underline-offset-2">Cookie Policy</Link>.
-                  </p>
-                </div>
-              </div>
-              <div className="grid gap-2 sm:grid-cols-3 lg:flex lg:shrink-0">
-                <Button variant="ghost" onClick={() => { setShowBanner(false); setShowSettings(true); }} className="h-11"><Settings2 className="mr-2 h-4 w-4" />Manage</Button>
-                <Button variant="outline" onClick={keepOptionalOff} className="h-11">Keep optional off</Button>
-                <Button onClick={allowOptional} className="h-11 bg-brand-600 text-white hover:bg-brand-700">Allow optional</Button>
-              </div>
-            </div>
+  return <>
+    {showBanner && <div className="fixed inset-x-0 bottom-0 z-[var(--z-toast)] px-3 pb-3 sm:px-4 sm:pb-4 aria-hidden:hidden" role="dialog" aria-modal="false" aria-labelledby="cookie-banner-title">
+      <div className="mx-auto max-h-[calc(100dvh-2rem)] max-w-[1200px] overflow-y-auto rounded-2xl border border-border bg-card/98 p-4 shadow-xl backdrop-blur-sm sm:p-5">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
+          <div className="flex flex-1 items-start gap-3"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700"><Cookie className="h-5 w-5" aria-hidden="true" /></span><div>
+            <h2 id="cookie-banner-title" className="text-sm font-semibold text-text-primary">Your browser-storage choices</h2>
+            <p className="mt-1 text-xs leading-5 text-text-secondary sm:text-sm">We remember preferences in this browser when storage is available. Submitting a form loads Google reCAPTCHA for verification. Analytics and marketing technologies are currently inactive. Read our <Link prefetch={false} href="/cookies" className="link-inline">Cookie Policy</Link>.</p>
+            {notice && <p className="mt-2 text-xs leading-5 text-text-primary" role={saveFailed ? "alert" : "status"}>{notice}</p>}
+          </div></div>
+          <div className="grid gap-2 sm:grid-cols-3 lg:flex lg:shrink-0">
+            <Button variant="ghost" data-cookie-manage onClick={openFromBanner} className="h-11"><Settings2 className="mr-2 h-4 w-4" aria-hidden="true" />Manage</Button>
+            <Button variant="outline" onClick={() => save(optionalOff())} className="h-11">Keep optional off</Button>
+            <Button onClick={() => save({ ...optionalOff(), analytics: true, marketing: true })} className="h-11 bg-brand-600 text-white hover:bg-brand-700">Allow optional</Button>
           </div>
         </div>
-      ) : null}
-
-      {showSettings ? (
-        <div className="fixed inset-0 z-[var(--z-modal)] flex items-end justify-center bg-ink/60 p-3 sm:items-center sm:p-6" role="dialog" aria-modal="true" aria-labelledby="cookie-settings-title">
-          <div className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-border bg-card shadow-2xl">
-            <div className="flex items-start justify-between gap-4 border-b border-border p-5 sm:p-6">
-              <div>
-                <div className="mb-2 flex items-center gap-2 text-brand-700"><ShieldCheck className="h-5 w-5" aria-hidden="true" /><span className="text-xs font-semibold uppercase tracking-[0.12em]">Privacy controls</span></div>
-                <h2 id="cookie-settings-title" className="text-xl font-bold text-text-primary">Cookie settings</h2>
-                <p className="mt-2 text-sm leading-6 text-text-secondary">Optional categories are currently inactive. These choices are saved for this policy version and do not authorise an undisclosed vendor.</p>
-              </div>
-              {hasSavedChoice ? <button type="button" onClick={() => setShowSettings(false)} className="rounded-lg p-2 text-text-muted hover:bg-surface hover:text-text-primary" aria-label="Close cookie settings"><X className="h-5 w-5" /></button> : null}
-            </div>
-
-            <div className="space-y-3 p-5 sm:p-6">
-              <PreferenceRow title="Essential and security" description="Required for consent storage, core operation, and form protection." checked disabled onChange={() => undefined} />
-              <PreferenceRow title="Analytics" description="Currently inactive. Would require an updated inventory before activation." checked={preferences.analytics} onChange={(checked) => setPreferences((current) => ({ ...current, analytics: checked }))} />
-              <PreferenceRow title="Marketing" description="Currently inactive. Would require an updated inventory before activation." checked={preferences.marketing} onChange={(checked) => setPreferences((current) => ({ ...current, marketing: checked }))} />
-            </div>
-
-            <div className="flex flex-col-reverse gap-2 border-t border-border p-5 sm:flex-row sm:justify-end sm:p-6">
-              <Button variant="outline" onClick={keepOptionalOff}>Keep optional off</Button>
-              <Button onClick={() => savePreferences(preferences)} className="bg-brand-600 text-white hover:bg-brand-700"><Check className="mr-2 h-4 w-4" />Save preferences</Button>
-            </div>
-          </div>
+        {saveFailed && <Button type="button" variant="outline" onClick={continueForPage} className="mt-3 min-h-11 h-auto whitespace-normal">Continue for this page</Button>}
+      </div>
+    </div>}
+    <Dialog open={showSettings} onOpenChange={closeSettings}>
+      <DialogContent aria-labelledby="cookie-settings-title" showCloseButton={false} className="z-[var(--z-modal)] max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-2xl bg-card p-5 sm:max-w-xl sm:p-6"
+        onOpenAutoFocus={(event) => { event.preventDefault(); document.getElementById("cookie-settings-title")?.focus(); }}
+        onCloseAutoFocus={(event) => { event.preventDefault(); window.requestAnimationFrame(() => { const target = invoker.current; if (target?.isConnected) target.focus(); else ((document.querySelector("[data-cookie-manage]") ?? document.querySelector("[data-cookie-settings-trigger]")) as HTMLElement | null)?.focus(); }); }}>
+        <DialogHeader className="text-left pr-10">
+          <div className="flex items-center gap-2 text-brand-700"><ShieldCheck className="h-5 w-5" aria-hidden="true" /><span className="text-xs font-semibold uppercase tracking-[0.12em]">Privacy controls</span></div>
+          <DialogTitle id="cookie-settings-title" tabIndex={-1} className="text-xl font-bold">Cookie settings</DialogTitle>
+          <DialogDescription className="text-sm leading-6">Optional categories are currently inactive. Saved choices do not authorise an undisclosed vendor or materially different purpose.</DialogDescription>
+        </DialogHeader>
+        <DialogClose asChild><Button type="button" variant="ghost" className="absolute right-2 top-2 h-11 w-11 p-0" aria-label="Close cookie settings"><X className="h-5 w-5" aria-hidden="true" /></Button></DialogClose>
+        <div className="space-y-3">
+          <PreferenceRow title="Essential and security" description="Browser preferences and form verification; optional categories do not control these functions." checked disabled onChange={() => undefined} />
+          <PreferenceRow title="Analytics" description="Currently inactive. An updated inventory is required before activation." checked={draft.analytics} onChange={(checked) => setDraft((current) => ({ ...current, analytics: checked }))} />
+          <PreferenceRow title="Marketing" description="Currently inactive. An updated inventory is required before activation." checked={draft.marketing} onChange={(checked) => setDraft((current) => ({ ...current, marketing: checked }))} />
         </div>
-      ) : null}
-    </>
-  );
+        {notice && <p className="text-sm leading-6 text-text-primary" role={saveFailed ? "alert" : "status"}>{notice}</p>}
+        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+          <Button variant="outline" onClick={() => save(optionalOff())}>Keep optional off</Button>
+          <Button onClick={() => save(draft)} className="bg-brand-600 text-white hover:bg-brand-700"><Check className="mr-2 h-4 w-4" aria-hidden="true" />Save preferences</Button>
+        </div>
+        {saveFailed && <Button type="button" variant="outline" onClick={continueForPage}>Continue for this page</Button>}
+      </DialogContent>
+    </Dialog>
+  </>;
 }
 
 function PreferenceRow({ title, description, checked, disabled = false, onChange }: { title: string; description: string; checked: boolean; disabled?: boolean; onChange: (checked: boolean) => void }) {
-  return (
-    <label className="flex cursor-pointer items-start justify-between gap-4 rounded-xl border border-border p-4 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-600">
-      <span>
-        <span className="block text-sm font-semibold text-text-primary">{title}</span>
-        <span className="mt-1 block text-xs leading-5 text-text-muted">{description}</span>
-      </span>
-      <input type="checkbox" checked={checked} disabled={disabled} onChange={(event) => onChange(event.target.checked)} className="mt-1 h-5 w-5 accent-brand-600" />
-    </label>
-  );
+  return <label className="flex cursor-pointer items-start justify-between gap-4 rounded-xl border border-border p-4 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-600">
+    <span><span className="block text-sm font-semibold text-text-primary">{title}</span><span className="mt-1 block text-xs leading-5 text-text-muted">{description}</span></span>
+    <input type="checkbox" aria-label={title} checked={checked} disabled={disabled} onChange={(event) => onChange(event.target.checked)} className="mt-1 h-5 w-5 shrink-0 accent-brand-600" />
+  </label>;
 }

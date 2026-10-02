@@ -16,7 +16,7 @@ const monogram: Record<McpClient["id"], string> = {
 export function McpClientCard({ client }: { client: McpClient }) {
   return (
     <div className="surface-card surface-card-hover flex h-full flex-col gap-3 p-5">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <span
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-primary/10 text-xs font-bold text-brand-primary"

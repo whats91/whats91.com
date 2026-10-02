@@ -1,21 +1,22 @@
+import { illustrationScope } from "@/lib/home-content";
 import { Code2, ExternalLink, Shield, Terminal, Webhook } from "lucide-react";
 import { Container, Section, Reveal } from "@/components/shared";
 
 const technicalFeatures = [
   {
     icon: Webhook,
-    title: "Graph API v21.0 support",
-    description: "Full compatibility with Business Calling and WhatsApp Flows.",
+    title: "Version and feature scope",
+    description: "Check the Graph API version, event types and enabled account features for your integration.",
   },
   {
     icon: Shield,
-    title: "SHA256 signature validation",
-    description: "Every payload verified in transit before it touches your systems.",
+    title: "Webhook security review",
+    description: "Confirm signature checks, credential handling, retries and failure logging for the receiving service.",
   },
   {
     icon: Code2,
-    title: "Complete documentation",
-    description: "Endpoints, rate-limit rules, media management, and a public changelog.",
+    title: "Start with the documentation",
+    description: "Review the documented endpoint contract and changelog; confirm current limits and behaviour for the intended flow.",
   },
 ];
 
@@ -42,7 +43,7 @@ function EventStream() {
         </div>
         <div className="flex items-center gap-2 ml-2">
           <Terminal className="h-3.5 w-3.5 text-ink-text-muted" />
-          <span className="text-[11px] sm:text-xs text-ink-text-muted font-mono">webhook · live events</span>
+          <span className="text-[11px] sm:text-xs text-ink-text-muted font-mono">webhook · sample events</span>
         </div>
         <span className="ml-auto relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-60 motion-reduce:hidden" />
@@ -64,7 +65,7 @@ function EventStream() {
         </div>
         <div className={`${line} [animation:es-line-3_10s_linear_infinite]`}>
           <span className="text-ink-text-muted">11:02:04</span>
-          <span className="text-sky-300/90">route</span>
+          <span className="text-brand-300/90">route</span>
           <span className="text-ink-text">type=text → handleTextInquiry(&quot;Balance&quot;)</span>
         </div>
         <div className={`${line} [animation:es-line-4_10s_linear_infinite]`}>
@@ -75,7 +76,7 @@ function EventStream() {
         <div className={`${line} [animation:es-line-5_10s_linear_infinite]`}>
           <span className="text-ink-text-muted">11:02:05</span>
           <span className="text-green-300/90">200 OK</span>
-          <span className="text-ink-text-muted">42ms</span>
+          <span className="text-ink-text-muted">sample response</span>
         </div>
         <div className="flex items-center gap-0.5 mt-1">
           <span className="text-ink-text-muted">$</span>
@@ -95,12 +96,10 @@ export function DeveloperBand() {
           <Reveal className="order-2 lg:order-1 min-w-0">
             <p className="text-overline mb-3 !text-brand-accent">For Developers</p>
             <h2 id="dev-heading" className="heading-2 !text-white mb-4">
-              A webhook environment you can trust
+              Plan the receiving side of your integration
             </h2>
             <p className="text-body !text-ink-text mb-8">
-              Building on a custom CRM? Every user interaction arrives as a
-              signed, structured payload on a high-availability webhook —
-              watch the pipeline handle a ledger inquiry in real time.
+              Building on a custom CRM? Define the events, field mapping, permissions and failure handling before wiring a webhook to your systems. The illustration shows a possible ledger-request path, not a live event stream.
             </p>
 
             <div className="space-y-5 mb-8">
@@ -144,6 +143,7 @@ export function DeveloperBand() {
           {/* Live stream */}
           <Reveal delay={1} className="order-1 lg:order-2 min-w-0">
             <EventStream />
+            <p className="mt-4 text-caption !text-ink-text">{illustrationScope}</p>
             <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               {payloadTypes.map((payload) => (
                 <div

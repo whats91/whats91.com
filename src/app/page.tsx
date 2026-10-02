@@ -1,4 +1,7 @@
-import type { Metadata } from "next";
+import "./home-scenes.css";
+import "./connector-scenes.css";
+import { generatePageMetadata } from "@/lib/seo/config";
+import { homeTitle, homeDescription, homeFaqs } from "@/lib/home-content";
 import { Header } from "@/components/landing/Header";
 import { Footer } from "@/components/landing/Footer";
 import { HomeHero } from "@/components/landing/home/HomeHero";
@@ -13,44 +16,7 @@ import { ResultsBand } from "@/components/landing/home/ResultsBand";
 import { HomeFinalCTA } from "@/components/landing/home/HomeFinalCTA";
 import { Container, Section, SectionHeader } from "@/components/shared";
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "https://whats91.com",
-  },
-};
-
-const homeFaqs = [
-  {
-    question: "What is Whats91?",
-    answer:
-      "Whats91 is a WhatsApp Cloud API platform for Indian businesses that need WhatsApp Business messaging, ERP integration, templates, webhooks, chatbot automation, and consent-based customer communication.",
-  },
-  {
-    question: "What is WhatsApp Cloud API?",
-    answer:
-      "WhatsApp Cloud API is Meta's hosted API for sending and receiving WhatsApp Business Platform messages at scale. It supports templates, webhooks, media, interactive replies, automation, and CRM or ERP integrations.",
-  },
-  {
-    question: "How does Busy Accounting WhatsApp integration work?",
-    answer:
-      "Whats91 connects Busy Accounting workflows with WhatsApp so businesses can automate invoice delivery, ledger balance replies, payment reminders, dispatch updates, reports, and customer self-service chatbot flows.",
-  },
-  {
-    question: "Does Whats91 support chatbot automation?",
-    answer:
-      "Yes. Whats91 supports WhatsApp chatbot automation for FAQs, ledger inquiries, lead qualification, payment reminders, order updates, interactive buttons, and escalation to human support teams.",
-  },
-  {
-    question: "Is Whats91 suitable for DPDP and enterprise compliance?",
-    answer:
-      "Whats91 is built for enterprise messaging workflows with opt-in tracking, webhook security, audit-friendly logs, DPDP-aware data practices, and compliance support for regulated customer communication.",
-  },
-  {
-    question: "How can I estimate WhatsApp API cost in India?",
-    answer:
-      "Use the Whats91 WhatsApp API cost calculator or the WhatsApp Cloud API pricing India guide to estimate marketing, utility, authentication, service, GST, BSP markup, and hidden infrastructure costs.",
-  },
-];
+export const metadata = generatePageMetadata({ title: homeTitle, description: homeDescription, path: "/" });
 
 function HomepageAIJsonLD() {
   const schemas = [
@@ -61,7 +27,7 @@ function HomepageAIJsonLD() {
       url: "https://whats91.com",
       name: "Whats91 - WhatsApp Cloud API Platform for India",
       description:
-        "Enterprise WhatsApp Cloud API platform for Indian businesses, with WhatsApp Business API onboarding, ERP integration, templates, pricing guidance, and automation tools.",
+        homeDescription,
       isPartOf: {
         "@id": "https://whats91.com/#website",
       },
@@ -77,9 +43,6 @@ function HomepageAIJsonLD() {
         { "@type": "SoftwareApplication", name: "Google Sheets" },
         { "@type": "Thing", name: "WhatsApp Business Platform" },
       ],
-      mainEntity: {
-        "@id": "https://whats91.com/#platform",
-      },
       hasPart: [
         {
           "@type": "WebPage",

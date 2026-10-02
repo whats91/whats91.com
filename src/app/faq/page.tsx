@@ -11,7 +11,7 @@ import {
   Mail,
   Sparkles
 } from "lucide-react";
-import { FAQJsonLD, BreadcrumbJsonLD } from "@/components/seo/JsonLD";
+import { BreadcrumbJsonLD } from "@/components/seo/JsonLD";
 import { generatePageMetadata, siteConfig } from "@/lib/seo/config";
 import { faqData } from "./faqData";
 import { FAQBrowser } from "./FAQBrowser";
@@ -33,24 +33,17 @@ export const metadata: Metadata = generatePageMetadata({
   path: pagePath,
 });
 
-// Flatten FAQs for JSON-LD
-const allFaqs = Object.values(faqData).flat().map(faq => ({
-  question: faq.question,
-  answer: faq.answer,
-}));
-
 export default function FAQPage() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* JSON-LD Structured Data */}
-      <FAQJsonLD faqs={allFaqs.slice(0, 20)} />
       <BreadcrumbJsonLD items={[
         { name: "Home", url: siteConfig.url },
         { name: "FAQ", url: pageUrl },
       ]} />
 
       <Header />
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
 
         {/* Hero Section */}
         <section className="relative overflow-hidden py-14 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-surface/80 to-background">
@@ -58,7 +51,7 @@ export default function FAQPage() {
           <div className="relative px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
             <div className="text-center max-w-3xl mx-auto">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 rounded-full bg-brand-primary/10 border border-brand-primary/15 px-4 py-1.5 text-xs sm:text-sm font-medium text-brand-primary mb-5">
+              <div className="inline-flex items-center gap-2 rounded-full bg-brand-primary/10 border border-brand-primary/15 px-4 py-1.5 text-xs sm:text-sm font-medium text-primary mb-5">
                 <HelpCircle className="h-3.5 w-3.5" />
                 Help Center
               </div>
@@ -71,10 +64,11 @@ export default function FAQPage() {
               {/* Subheadline */}
               <p className="text-base sm:text-lg text-text-secondary leading-relaxed mb-8">
                 Find answers to common questions about WhatsApp Business API, pricing, integrations, and more.
-                Can&apos;t find what you&apos;re looking for? <a href="/contact" className="text-brand-primary hover:underline">Contact our support team</a>.
+                Can&apos;t find what you&apos;re looking for? <a href="/contact" className="text-primary hover:underline">Contact our support team</a>.
               </p>
 
               <FAQBrowser />
+              <noscript><div className="text-left space-y-6"><p className="text-body-sm">Search and category controls require JavaScript. Other questions remain readable below.</p>{Object.entries(faqData).filter(([key]) => key !== "getting-started").map(([key, rows]) => <section key={key} aria-label={key} className="space-y-3">{rows.map(row => <details key={row.question} className="rounded-xl border border-text-muted"><summary className="p-4 min-h-11 cursor-pointer font-medium">{row.question}</summary><p className="px-4 pb-4 text-body-sm">{row.answer}</p></details>)}</section>)}</div></noscript>
             </div>
           </div>
         </section>
@@ -83,7 +77,7 @@ export default function FAQPage() {
         <section className="py-12 sm:py-16 md:py-20 bg-surface/50">
           <div className="px-4 sm:px-6 lg:px-8 max-w-[900px] mx-auto">
             <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 rounded-full bg-brand-primary/10 border border-brand-primary/10 px-4 py-1.5 text-xs sm:text-sm font-medium text-brand-primary mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-brand-primary/10 border border-brand-primary/10 px-4 py-1.5 text-xs sm:text-sm font-medium text-primary mb-4">
                 <Sparkles className="h-3.5 w-3.5" />
                 Need More Help?
               </div>
@@ -107,7 +101,7 @@ export default function FAQPage() {
                   <MessageCircle className="h-6 w-6" />
                 </div>
                 <h3 className="text-base font-semibold text-text-primary mb-1">WhatsApp Us</h3>
-                <p className="text-sm text-text-secondary text-center">Fastest response for quick queries</p>
+                <p className="text-sm text-text-secondary text-center">Confirm response availability</p>
                 <p className="text-xs text-green-600 mt-2">+91 96698 23388</p>
               </a>
 
@@ -116,12 +110,12 @@ export default function FAQPage() {
                 href="mailto:support@whats91.com"
                 className="group flex flex-col items-center p-6 rounded-2xl border border-border/60 bg-card transition-all duration-300 hover:shadow-lg hover:border-brand-primary/20"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary mb-4 transition-transform duration-300 group-hover:scale-110">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-primary/10 text-primary mb-4 transition-transform duration-300 group-hover:scale-110">
                   <Mail className="h-6 w-6" />
                 </div>
                 <h3 className="text-base font-semibold text-text-primary mb-1">Email Support</h3>
                 <p className="text-sm text-text-secondary text-center">Detailed queries & documentation</p>
-                <p className="text-xs text-brand-primary mt-2">support@whats91.com</p>
+                <p className="text-xs text-primary mt-2">support@whats91.com</p>
               </a>
 
               {/* Phone Support */}
@@ -133,7 +127,7 @@ export default function FAQPage() {
                   <Phone className="h-6 w-6" />
                 </div>
                 <h3 className="text-base font-semibold text-text-primary mb-1">Call Us</h3>
-                <p className="text-sm text-text-secondary text-center">Mon-Sat, 10AM-7PM IST</p>
+                <p className="text-sm text-text-secondary text-center">Confirm staffed hours</p>
                 <p className="text-xs text-info mt-2">+91 96698 23388</p>
               </a>
             </div>
@@ -143,7 +137,7 @@ export default function FAQPage() {
         {/* CTA Section */}
         <section className="py-14 sm:py-16 md:py-20">
           <div className="px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
-            <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-brand-primary via-brand-primary to-brand-accent p-7 sm:p-8 md:p-12 shadow-xl">
+            <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-brand-700 via-brand-700 to-brand-800 p-7 sm:p-8 md:p-12 shadow-xl">
 
               {/* Background Decorations */}
               <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -157,7 +151,7 @@ export default function FAQPage() {
                   Ready to Transform Your Communication?
                 </h2>
                 <p className="text-base sm:text-lg text-white/90 mb-8">
-                  Get started with India&apos;s leading WhatsApp Cloud API platform. Zero markup, full transparency.
+                  Get started with India&apos;s leading WhatsApp Cloud API platform. Review platform and message charges separately.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
@@ -167,7 +161,7 @@ export default function FAQPage() {
                     asChild
                   >
                     <a href="https://chat.whats91.com">
-                      Start Free Trial
+                      Discuss availability
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-0.5" />
                     </a>
                   </Button>

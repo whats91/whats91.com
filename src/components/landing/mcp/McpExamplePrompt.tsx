@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useResourceCopy } from "@/components/shared/useResourceCopy";
 import { Check, Copy } from "lucide-react";
 import { McpStatusPill } from "./McpStatusPill";
 import type { McpPrompt } from "./mcpContent";
@@ -11,17 +11,7 @@ import type { McpPrompt } from "./mcpContent";
  * stay server-rendered.
  */
 export function McpExamplePrompt({ prompt }: { prompt: McpPrompt }) {
-  const [copied, setCopied] = useState(false);
-
-  async function handleCopy() {
-    try {
-      await navigator.clipboard.writeText(prompt.text);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
-    } catch {
-      // Clipboard API unavailable — the prompt text is still selectable.
-    }
-  }
+  const copy = useResourceCopy(prompt.text);
 
   return (
     <div className="surface-card p-4 sm:p-5">
@@ -30,14 +20,15 @@ export function McpExamplePrompt({ prompt }: { prompt: McpPrompt }) {
       </div>
 
       <div className="flex items-start justify-between gap-3 rounded-xl bg-brand-primary/[0.06] px-3.5 py-2.5">
-        <p className="text-sm text-text-primary">&ldquo;{prompt.text}&rdquo;</p>
-        <button
+        <p className="min-w-0 break-words text-sm text-text-primary">&ldquo;{prompt.text}&rdquo;</p>
+        {copy.hydrated && <button
           type="button"
-          onClick={handleCopy}
+          onClick={() => copy.copy(() => prompt.text)}
+          disabled={copy.pending}
           className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border/60 bg-background px-2.5 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:border-brand-primary/40 hover:text-brand-primary"
           aria-label={`Copy prompt: ${prompt.text}`}
         >
-          {copied ? (
+          {copy.copied ? (
             <>
               <Check className="h-3.5 w-3.5 text-brand-primary" aria-hidden="true" />
               Copied
@@ -48,11 +39,15 @@ export function McpExamplePrompt({ prompt }: { prompt: McpPrompt }) {
               Copy
             </>
           )}
-        </button>
+        </button>}
       </div>
 
+      <p role="status" className="mt-2 text-caption">{copy.status}</p>
+      <p className="mt-2 text-caption">Select the prompt for manual copy. Example only; no tool runs here.</p>
+      <noscript><p className="mt-2 text-caption">Select the prompt text to copy it. Example only; no tool runs here.</p></noscript>
       {prompt.answer && (
         <div className="mt-2.5 rounded-xl bg-surface px-3.5 py-2.5">
+          <p className="mb-1 text-xs font-semibold text-text-muted">Illustrative answer · sample data</p>
           <p className="text-sm text-text-secondary">{prompt.answer}</p>
         </div>
       )}

@@ -1,3 +1,4 @@
+import { contentDates } from "@/lib/content/dates";
 /**
  * SEO 2.0 Schema Definitions for Whats91
  * Optimized for AI agents, LLMs, and Generative Engine Optimization
@@ -9,124 +10,15 @@
  * - Content attribution schemas
  */
 
-import { siteConfig } from "./config";
+import { siteConfig, generateOrganizationSchema, generateWebSiteSchema } from "./config";
 
 // ============================================
 // ENTITY DEFINITIONS
 // ============================================
 
 export const entityDefinitions = {
-  organization: {
-    "@type": "Organization",
-    "@id": `${siteConfig.url}/#organization`,
-    name: siteConfig.name,
-    alternateName: "Whats91 WhatsApp API Platform",
-    description: siteConfig.description,
-    url: siteConfig.url,
-    logo: {
-      "@type": "ImageObject",
-      url: `${siteConfig.url}/logo.svg`,
-      width: 200,
-      height: 60,
-    },
-    image: `${siteConfig.url}/og-image.png`,
-    foundingDate: "2024",
-    founders: [
-      {
-        "@type": "Organization",
-        name: siteConfig.publisher,
-      },
-    ],
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "IN",
-      addressLocality: "India",
-    },
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: siteConfig.phone,
-      contactType: "customer support",
-      email: siteConfig.email,
-      availableLanguage: ["English", "Hindi"],
-    },
-    sameAs: [
-      `https://twitter.com/${siteConfig.twitterHandle.replace("@", "")}`,
-      "https://www.linkedin.com/company/whats91",
-    ],
-    // Entity relationships
-    parentOrganization: {
-      "@type": "Organization",
-      name: siteConfig.publisher,
-    },
-    // Business credentials
-    knowsAbout: [
-      "WhatsApp Cloud API",
-      "WhatsApp Business API",
-      "Enterprise Messaging",
-      "Business Communication",
-      "ERP Integration",
-      "Busy Accounting Software",
-      "Chatbot Development",
-      "Marketing Automation",
-    ],
-  },
-
-  website: {
-    "@type": "WebSite",
-    "@id": `${siteConfig.url}/#website`,
-    name: siteConfig.name,
-    url: siteConfig.url,
-    description: siteConfig.description,
-    publisher: {
-      "@id": `${siteConfig.url}/#organization`,
-    },
-    inLanguage: siteConfig.language,
-  },
-
-  service: {
-    "@type": "Service",
-    "@id": `${siteConfig.url}/#service`,
-    name: "WhatsApp Cloud API Platform",
-    description: "Enterprise WhatsApp messaging platform with Cloud API integration, ERP connectivity, and automation solutions.",
-    provider: {
-      "@id": `${siteConfig.url}/#organization`,
-    },
-    serviceType: "Business Communication Platform",
-    areaServed: {
-      "@type": "Country",
-      name: "India",
-    },
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: "WhatsApp Business Services",
-      itemListElement: [
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "WhatsApp Cloud API Integration",
-            description: "Official Meta Cloud API integration for enterprise messaging",
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "Busy ERP Integration",
-            description: "WhatsApp integration with Busy Accounting Software",
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "WhatsApp Chatbot",
-            description: "AI-powered WhatsApp chatbot for customer support",
-          },
-        },
-      ],
-    },
-  },
+  organization: generateOrganizationSchema(),
+  website: generateWebSiteSchema(),
 };
 
 // ============================================
@@ -134,6 +26,7 @@ export const entityDefinitions = {
 // ============================================
 
 export function generateAuthorSchema(author: {
+  publicUse?: "approved";
   name: string;
   role?: string;
   bio?: string;
@@ -142,19 +35,12 @@ export function generateAuthorSchema(author: {
     linkedin?: string;
   };
 }) {
+  if (author.publicUse !== "approved") return undefined;
   return {
     "@type": "Person",
     name: author.name,
     jobTitle: author.role,
     description: author.bio,
-    worksFor: {
-      "@id": `${siteConfig.url}/#organization`,
-    },
-    knowsAbout: [
-      "WhatsApp Business API",
-      "Enterprise Messaging",
-      "Business Automation",
-    ],
     sameAs: [
       author.social?.twitter && `https://twitter.com/${author.social.twitter.replace("@", "")}`,
       author.social?.linkedin,
@@ -170,9 +56,10 @@ export function generateArticleSchema(config: {
   title: string;
   description: string;
   url: string;
-  publishedTime: string;
+  publishedTime?: string;
   modifiedTime?: string;
   author: {
+    publicUse?: "approved";
     name: string;
     role?: string;
     bio?: string;
@@ -189,16 +76,11 @@ export function generateArticleSchema(config: {
     headline: config.title,
     description: config.description,
     image: config.image || siteConfig.ogImage,
-    datePublished: config.publishedTime,
-    dateModified: config.modifiedTime || config.publishedTime,
-    author: {
-      "@type": "Person",
-      name: config.author.name,
-      jobTitle: config.author.role,
-      worksFor: {
-        "@id": `${siteConfig.url}/#organization`,
-      },
-    },
+    ...(contentDates({ publishedAt: config.publishedTime, updatedAt: config.modifiedTime }).published && { datePublished: contentDates({ publishedAt: config.publishedTime, updatedAt: config.modifiedTime }).published }),
+    ...(contentDates({ publishedAt: config.publishedTime, updatedAt: config.modifiedTime }).modified && { dateModified: contentDates({ publishedAt: config.publishedTime, updatedAt: config.modifiedTime }).modified }),
+    ...(config.author.publicUse === "approved" ? { author: {
+      "@type": "Person", name: config.author.name, jobTitle: config.author.role,
+    } } : {}),
     publisher: {
       "@id": `${siteConfig.url}/#organization`,
     },
@@ -209,9 +91,6 @@ export function generateArticleSchema(config: {
     inLanguage: siteConfig.language,
     articleSection: config.category,
     keywords: config.keywords?.join(", "),
-    // AI-optimized fields
-    wordCount: config.description.split(" ").length * 10, // Estimate
-    isAccessibleForFree: true,
   };
 }
 
@@ -280,19 +159,16 @@ export function generateSoftwareAppSchema(config: {
     description: config.description,
     url: config.url,
     applicationCategory: config.applicationCategory || "BusinessApplication",
-    operatingSystem: config.operatingSystem || "Web, Cloud API",
-    offers: {
+    ...(config.operatingSystem && { operatingSystem: config.operatingSystem }),
+    offers: config.offers ? {
       "@type": "Offer",
-      price: config.offers?.price || "0",
-      priceCurrency: config.offers?.priceCurrency || "INR",
-    },
+      price: config.offers.price,
+      priceCurrency: config.offers.priceCurrency,
+    } : undefined,
     publisher: {
       "@id": `${siteConfig.url}/#organization`,
     },
     featureList: config.features?.join(", "),
-    // AI-optimized
-    softwareVersion: "2.0",
-    releaseNotes: "Enterprise WhatsApp Cloud API Platform",
   };
 }
 
@@ -319,6 +195,7 @@ export function generateProductSchema(config: {
   return {
     "@context": "https://schema.org",
     "@type": "Product",
+    url: config.url,
     name: config.name,
     description: config.description,
     image: config.image || siteConfig.ogImage,
@@ -326,17 +203,16 @@ export function generateProductSchema(config: {
       "@type": "Brand",
       name: config.brand || siteConfig.name,
     },
-    offers: {
+    offers: config.offers ? {
       "@type": "Offer",
       url: config.url,
-      priceCurrency: config.offers?.priceCurrency || "INR",
-      price: config.offers?.price || "0",
-      priceValidUntil: config.offers?.priceValidUntil || "2026-12-31",
-      availability: "https://schema.org/InStock",
+      priceCurrency: config.offers.priceCurrency,
+      price: config.offers.price,
+      priceValidUntil: config.offers.priceValidUntil,
       seller: {
         "@id": `${siteConfig.url}/#organization`,
       },
-    },
+    } : undefined,
     aggregateRating: config.aggregateRating && {
       "@type": "AggregateRating",
       ratingValue: config.aggregateRating.ratingValue,
@@ -358,11 +234,8 @@ export function generateSpeakableSchema(config: {
     "@context": "https://schema.org",
     "@type": "SpeakableSpecification",
     url: config.url,
-    cssSelector: config.cssSelector || [".speakable-content", "h1", ".hero-description"],
-    xpath: config.xpath || [
-      "/html/body/main/article/header/h1",
-      "/html/body/main/article/section[@class='speakable-content']",
-    ],
+    cssSelector: config.cssSelector,
+    xpath: config.xpath,
   };
 }
 
@@ -375,24 +248,25 @@ export function generatePageSchemas(config: {
   title: string;
   description: string;
   url: string;
-  author?: { name: string; role?: string; bio?: string; social?: { twitter?: string; linkedin?: string } };
+  author?: { publicUse?: "approved"; name: string; role?: string; bio?: string; social?: { twitter?: string; linkedin?: string } };
   publishedTime?: string;
   modifiedTime?: string;
   image?: string;
   keywords?: string[];
   category?: string;
 }) {
-  const schemas: object[] = [
-    entityDefinitions.organization,
-    entityDefinitions.website,
-  ];
+  const schemas: object[] = [{
+    "@context": "https://schema.org", "@type": "WebPage", "@id": config.url,
+    name: config.title, description: config.description, url: config.url,
+    isPartOf: { "@id": `${siteConfig.url}/#website` },
+  }];
 
   switch (config.type) {
     case "home":
-      schemas.push(entityDefinitions.service);
+
       break;
     case "service":
-      schemas.push(entityDefinitions.service);
+
       break;
     case "blog":
       if (config.author) {
@@ -401,7 +275,7 @@ export function generatePageSchemas(config: {
             title: config.title,
             description: config.description,
             url: config.url,
-            publishedTime: config.publishedTime || new Date().toISOString(),
+            publishedTime: config.publishedTime,
             modifiedTime: config.modifiedTime,
             author: config.author,
             image: config.image,
@@ -418,12 +292,11 @@ export function generatePageSchemas(config: {
           description: config.description,
           url: config.url,
           applicationCategory: "UtilityApplication",
-          offers: { price: "0", priceCurrency: "INR" },
         })
       );
       break;
     case "landing":
-      schemas.push(entityDefinitions.service);
+
       break;
   }
 

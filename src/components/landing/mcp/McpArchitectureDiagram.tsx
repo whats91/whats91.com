@@ -3,7 +3,7 @@ import { ArrowRight, Bot, CheckCircle2, KeySquare, ServerCog, ShieldCheck, Wrenc
 const nodes = [
   { icon: Bot, label: "AI client", sub: "ChatGPT · Claude · Grok · Gemini" },
   { icon: KeySquare, label: "Secure MCP connection", sub: "OAuth 2.1 · Streamable HTTP" },
-  { icon: ServerCog, label: "Whats91 MCP Gateway", sub: "mcp.whats91.com/mcp" },
+  { icon: ServerCog, label: "Whats91 MCP Gateway", sub: "separate product service" },
   { icon: ShieldCheck, label: "Permission & scope check", sub: "per-request" },
   { icon: Wrench, label: "Approved tool", sub: "schema-validated" },
   { icon: CheckCircle2, label: "Scoped result", sub: "bound to your account" },
@@ -25,7 +25,7 @@ const STEP = 0.4;
 export function McpArchitectureDiagram() {
   return (
     <div
-      aria-label="AI client connects through a secure MCP connection to the Whats91 MCP Gateway, passes a permission and scope check, runs an approved tool, and returns a result scoped to your account."
+      aria-label="Illustrative documented architecture: AI client, authorised connection, product gateway, permission check, approved tool and account-scoped result. Current operation requires verification."
       className="relative overflow-hidden rounded-2xl border border-ink-border bg-ink-elevated p-5 sm:p-7"
     >
       <span

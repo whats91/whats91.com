@@ -1,6 +1,7 @@
-# Robots.txt for Whats91.com - SEO 2.0 Optimized
-# https://whats91.com
-# Optimized for both traditional search engines and AI agents
+# Whats91 public crawl directives; source review 2026-09-29.
+# Existing named permissions are preserved pending explicit owner purpose choices.
+# Search, training/grounding, requested retrieval and social previews are distinct.
+# Robots is not authentication; local requests with bot-like UA are diagnostics only.
 
 # ============================================
 # SITEMAP LOCATION (Google Search Console)
@@ -16,7 +17,7 @@ Sitemap: https://whats91.com/feed.xml
 # ============================================
 
 # GPTBot (OpenAI) - Trains future GPT models
-# Allow public content for broad brand inclusion in model knowledge
+# Existing permission preserved; it does not document an owner training decision.
 # /api/md/ (markdown twins) and /api/mcp (MCP discovery) are intentionally
 # open to AI agents; the rest of /api/ stays blocked
 User-agent: GPTBot
@@ -27,12 +28,13 @@ Disallow: /api/
 Disallow: /admin/
 Disallow: /dashboard/
 
-# ChatGPT-User - Real-time ChatGPT browsing
+# ChatGPT-User - user-requested retrieval, separate from search and training.
+# Provider notes that robots rules may not apply to user actions.
 User-agent: ChatGPT-User
 Allow: /
 
-# Google-Extended - Trains Gemini and AI Overviews
-# CRITICAL: Must be allowed for AI Overview visibility
+# Google-Extended - Gemini training and specified Gemini/Vertex grounding control.
+# It does not control Google Search inclusion or ranking. Choice PENDING.
 User-agent: Google-Extended
 Allow: /
 
@@ -40,20 +42,19 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
-# Claude-Web - Real-time Claude browsing
+# Claude-Web - legacy token; current provider purpose/control not verified here.
 User-agent: Claude-Web
 Allow: /
 
-# PerplexityBot - Real-time cited answers
-# Highly encouraged for immediate, cited answers
+# PerplexityBot - search/discovery, not foundation-model training.
 User-agent: PerplexityBot
 Allow: /
 
-# Perplexity-User - Perplexity AI search
+# Perplexity-User - user-requested retrieval; provider says it generally ignores robots.
 User-agent: Perplexity-User
 Allow: /
 
-# Anthropic-AI - Anthropic's general crawler
+# anthropic-ai - legacy token; no current purpose/permission inferred.
 User-agent: anthropic-ai
 Allow: /
 
@@ -109,16 +110,16 @@ Allow: /
 # AI SEARCH & DISCOVERY
 # ============================================
 
-# You.com AI
+# YouBot - inherited token; current official purpose/control PENDING.
 User-agent: YouBot
 Allow: /
 
-# Neeva AI
+# Neevabot - inherited legacy token; current official purpose/control PENDING.
 User-agent: Neevabot
 Allow: /
 
 # ============================================
-# GENERAL ACCESS CONTROL
+# GENERAL CRAWL DIRECTIVES (NOT ACCESS CONTROL)
 # ============================================
 
 User-agent: *
@@ -129,11 +130,14 @@ Allow: /
 Allow: /api/md/
 Allow: /api/mcp
 
-# Protected routes - never allow public crawling
+# Crawl exclusions do not protect private endpoints; handlers must enforce access.
 Disallow: /api/
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /_next/
+# Essential public rendering assets remain crawlable; other framework paths stay excluded.
+Allow: /_next/static/
+Allow: /_next/image
 Disallow: /private/
 Disallow: /services/
 Disallow: /projects/
@@ -142,8 +146,8 @@ Disallow: /projects/
 # CRAWL SETTINGS
 # ============================================
 
-# Respectful crawl delay (1 second between requests)
+# Inherited delay hint; support is provider-specific, not an enforced request rate.
 Crawl-delay: 1
 
-# Host directive
+# Inherited Host hint; no effect or canonical selection is guaranteed.
 Host: https://whats91.com
