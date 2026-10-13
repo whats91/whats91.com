@@ -229,9 +229,7 @@ export function Header() {
                 asChild
                 className="bg-primary text-primary-foreground hover:bg-brand-700 hover:text-white text-sm font-medium shadow-md shadow-brand-primary/20 hover:shadow-lg hover:shadow-brand-primary/25 transition-all duration-300"
               >
-                <a href="https://chat.whats91.com" target="_blank" rel="noopener noreferrer">
-                  Open Whats91 app
-                </a>
+                <a href="https://app.whats91.com/login">Login</a>
               </Button>
             </div>
 
@@ -334,7 +332,7 @@ export function Header() {
                       </Button>
                     </SheetClose>
                     <Button asChild className="w-full h-11 bg-primary text-primary-foreground hover:bg-brand-700 hover:text-white font-medium shadow-md shadow-brand-primary/20">
-                      <a href="https://chat.whats91.com" target="_blank" rel="noopener noreferrer">Open Whats91 app</a>
+                      <a href="https://app.whats91.com/login">Login</a>
                     </Button>
                   </div>
                   <div className="flex items-center justify-center gap-2 mt-4">
