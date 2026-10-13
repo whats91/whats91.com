@@ -7,11 +7,11 @@ const statePath = path.join(root, "docs/blog-news-research/state.json");
 const lockPath = path.join(root, "docs/blog-news-research/.run-lock");
 const timezone = "Asia/Kolkata";
 
-function indiaNow() {
+function indiaNow(date = new Date()) {
   const parts = Object.fromEntries(new Intl.DateTimeFormat("en-GB", {
     timeZone: timezone, year: "numeric", month: "2-digit", day: "2-digit",
     hour: "2-digit", minute: "2-digit", hourCycle: "h23",
-  }).formatToParts(new Date()).map(({ type, value }) => [type, value]));
+  }).formatToParts(date).map(({ type, value }) => [type, value]));
   return { date: `${parts.year}-${parts.month}-${parts.day}`, minute: Number(parts.hour) * 60 + Number(parts.minute) };
 }
 
@@ -73,6 +73,11 @@ const [command, ...args] = process.argv.slice(2);
 if (command === "self-test") {
   const base = { nextDueDate: "2026-10-02", attempts: [], lastCycle: null };
   const at = (date, hour, minute = 30) => ({ date, minute: hour * 60 + minute });
+  assert.deepEqual(indiaNow(new Date("2026-10-05T06:00:00Z")), at("2026-10-05", 11, 30));
+  assert.deepEqual(indiaNow(new Date("2026-10-05T11:00:00Z")), at("2026-10-05", 16, 30));
+  assert.deepEqual(indiaNow(new Date("2026-10-05T13:00:00Z")), at("2026-10-05", 18, 30));
+  assert.equal(slotFor({ ...base, nextDueDate: "2026-10-05" }, indiaNow(new Date("2026-10-05T11:31:48Z")), false), null);
+  assert.equal(slotFor({ ...base, nextDueDate: "2026-10-05" }, indiaNow(new Date("2026-10-06T10:00:00Z")), false), "pending-catchup");
   assert.equal(slotFor(base, at("2026-10-02", 11), false), "primary");
   assert.equal(slotFor(base, at("2026-10-02", 16), false), "fallback");
   assert.equal(slotFor(base, at("2026-10-02", 18), false), "missed-attempt-catchup");
