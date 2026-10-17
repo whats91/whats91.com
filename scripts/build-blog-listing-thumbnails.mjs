@@ -12,6 +12,22 @@ const root = path.resolve("public/images/blog");
 const logoPath = path.resolve("public/logo.svg");
 const jobs = [
   {
+    dir: "whatsapp-account-model-messaging-accounts-october-2026",
+    source: "cover-hero-square-editorial-2026-10-watermarked.webp",
+    title: ["Account", "Model"],
+    detail: "Numbers · Messaging",
+    background: "#EAF3E9",
+    titleSizes: [96, 110],
+  },
+  {
+    dir: "whatsapp-direct-send-utility-eligibility-2026",
+    source: "cover-hero-square-editorial-2026-10-watermarked.webp",
+    title: ["Direct Send", "Utility"],
+    detail: "Eligibility · Cloud API",
+    background: "#EAF3E9",
+    titleSizes: [82, 104],
+  },
+  {
     dir: "whatsapp-business-tools-mcp-onboarding-2026",
     source: "cover-hero-square-editorial-2026-10-watermarked.webp",
     title: ["Business", "Tools MCP"],

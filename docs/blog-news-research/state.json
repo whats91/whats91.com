@@ -1,19 +1,30 @@
 {
   "timezone": "Asia/Kolkata",
-  "nextDueDate": "2026-10-13",
+  "nextDueDate": "2026-10-19",
   "status": "pending",
   "attempts": [],
   "lastCycle": {
-    "dueDate": "2026-10-09",
-    "finishedAt": "2026-10-10T06:28:59.915Z",
-    "status": "skipped",
-    "log": "docs/blog-news-research/2026-10-10.md"
+    "dueDate": "2026-10-16",
+    "finishedAt": "2026-10-16T15:36:26.547Z",
+    "status": "completed",
+    "log": "docs/blog-news-research/2026-10-16.md",
+    "slug": "whatsapp-account-model-messaging-accounts-october-2026"
   },
   "coverage": [
     {
       "slug": "whatsapp-business-tools-mcp-onboarding-2026",
       "dueDate": "2026-10-02",
       "log": "docs/blog-news-research/2026-10-02.md"
+    },
+    {
+      "slug": "whatsapp-direct-send-utility-eligibility-2026",
+      "dueDate": "2026-10-13",
+      "log": "docs/blog-news-research/2026-10-13.md"
+    },
+    {
+      "slug": "whatsapp-account-model-messaging-accounts-october-2026",
+      "dueDate": "2026-10-16",
+      "log": "docs/blog-news-research/2026-10-16.md"
     }
   ]
 }

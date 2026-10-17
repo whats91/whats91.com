@@ -1,5 +1,7 @@
 import { cloudGuide, migrationGuide, indiaPricingGuide } from "./billing-guides";
 import { octoberPricingGuide, octoberPricingImages } from "./october-pricing-guide";
+import { directSendGuide } from "./direct-send-guide";
+import { accountModelGuide } from "./account-model-guide";
 import { mcpNewsGuide } from "./mcp-news-guide";
 import { sheetsGuide, benefitsGuide, guideMarkdown } from "./erp-guides";
 import { rolloutGuides } from "./rollout-guides";
@@ -47,6 +49,52 @@ export interface BlogPostMeta {
 
 // All posts metadata - lightweight for listing page
 export const blogPosts: BlogPostMeta[] = [
+  {
+    id: "14",
+    editorial: { stage: "pending-human-review", evidenceCheckedAt: "2026-10-16", mediaCapturedAt: "2026-10-16", history: [] },
+    slug: accountModelGuide.slug,
+    title: accountModelGuide.title,
+    excerpt: accountModelGuide.description,
+    category: "WhatsApp API",
+    tags: ["WhatsApp API", "Cloud API", "Messaging accounts", "Account model", "2026"],
+    authorId: "1",
+    publishedAt: "2026-10-16",
+    readingTime: 8,
+    isFeatured: false,
+    coverImage: accountModelGuide.cover?.src,
+    thumbnailImage: "/images/blog/whatsapp-account-model-messaging-accounts-october-2026/listing-thumbnail-v3-2026-10.webp",
+    coverAlt: accountModelGuide.cover?.alt,
+    coverCaption: accountModelGuide.cover?.caption,
+    content: guideMarkdown(accountModelGuide),
+    seo: {
+      title: "WhatsApp Account Model in October 2026: Cloud API Checklist",
+      description: accountModelGuide.description,
+      keywords: ["WhatsApp account model evolution", "WhatsApp Messaging Account", "Cloud API account structure"],
+    },
+  },
+  {
+    id: "13",
+    editorial: { stage: "pending-human-review", evidenceCheckedAt: "2026-10-13", mediaCapturedAt: "2026-10-13", history: [] },
+    slug: directSendGuide.slug,
+    title: directSendGuide.title,
+    excerpt: directSendGuide.description,
+    category: "WhatsApp API",
+    tags: ["WhatsApp API", "Cloud API", "Utility", "Direct Send", "2026"],
+    authorId: "1",
+    publishedAt: "2026-10-13",
+    readingTime: 8,
+    isFeatured: false,
+    coverImage: directSendGuide.cover?.src,
+    thumbnailImage: "/images/blog/whatsapp-direct-send-utility-eligibility-2026/listing-thumbnail-v3-2026-10.webp",
+    coverAlt: directSendGuide.cover?.alt,
+    coverCaption: directSendGuide.cover?.caption,
+    content: guideMarkdown(directSendGuide),
+    seo: {
+      title: "WhatsApp Direct Send Utility Eligibility: October 2026 Update",
+      description: directSendGuide.description,
+      keywords: ["WhatsApp Direct Send utility", "Meta Direct Send eligibility", "WhatsApp Cloud API utility messages"],
+    },
+  },
   {
     id: "12",
     editorial: { stage: "pending-human-review", evidenceCheckedAt: "2026-10-02", mediaCapturedAt: "2026-10-02", history: [] },

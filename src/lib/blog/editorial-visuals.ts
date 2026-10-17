@@ -2,6 +2,38 @@ import type { EditorialVisual } from "@/components/blog/EditorialGuideArticle";
 
 const images = "/images/blog";
 
+export const accountModelVisual: EditorialVisual = {
+  eyebrow: "Cloud API account guide",
+  heroSquare: `${images}/whatsapp-account-model-messaging-accounts-october-2026/cover-hero-square-editorial-2026-10-watermarked.webp`,
+  quickLinks: ["timeline-and-scope", "two-account-roles", "safe-review"],
+  focusSectionId: "multiple-integrations",
+  figureEyebrow: "Account and routing map",
+  figureTitle: "One number, separate messaging accounts",
+  figureIntro: "Check the number owner, each integration's templates and billing, and the inbound responder.",
+  mobileFigure: `${images}/whatsapp-account-model-messaging-accounts-october-2026/account-routing-mobile-editorial-2026-10-watermarked.webp`,
+  cards: [
+    { title: "Identity", text: "Confirm the WhatsApp Account that holds the business phone number." },
+    { title: "Messaging", text: "Check each integration's templates, payment method and account ID." },
+    { title: "Routing", text: "Verify who receives and replies to each incoming conversation." },
+  ],
+};
+
+export const directSendVisual: EditorialVisual = {
+  eyebrow: "Cloud API eligibility guide",
+  heroSquare: `${images}/whatsapp-direct-send-utility-eligibility-2026/cover-hero-square-editorial-2026-10-watermarked.webp`,
+  quickLinks: ["what-changed", "eligibility-check", "pilot-checklist"],
+  focusSectionId: "pilot-checklist",
+  figureEyebrow: "Direct Send pilot",
+  figureTitle: "Check access, category and outcome",
+  figureIntro: "A messaging limit is only a starting signal. Confirm the account banner and test one suitable utility message.",
+  mobileFigure: `${images}/whatsapp-direct-send-utility-eligibility-2026/eligibility-check-mobile-editorial-2026-10-watermarked.webp`,
+  cards: [
+    { title: "Eligibility", text: "Confirm the intended account's Direct Send banner in WhatsApp Manager." },
+    { title: "Content", text: "Use a permitted, genuinely transactional Utility message and supported format." },
+    { title: "Outcome", text: "Check the API response and later delivery evidence separately." },
+  ],
+};
+
 export const mcpNewsVisual: EditorialVisual = {
   eyebrow: "Cloud API setup guide",
   heroSquare: `${images}/whatsapp-business-tools-mcp-onboarding-2026/cover-hero-square-editorial-2026-10-watermarked.webp`,
