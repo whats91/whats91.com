@@ -2,6 +2,22 @@ import type { EditorialVisual } from "@/components/blog/EditorialGuideArticle";
 
 const images = "/images/blog";
 
+export const marketingMessagesMigrationVisual: EditorialVisual = {
+  eyebrow: "Cloud API migration guide",
+  heroSquare: `${images}/whatsapp-cloud-api-marketing-messages-sunset-2027/cover-hero-square-editorial-2026-10-watermarked.webp`,
+  quickLinks: ["announcement-and-dates", "scope-by-category", "migration-plan"],
+  focusSectionId: "migration-plan",
+  figureEyebrow: "Marketing send migration",
+  figureTitle: "Inventory, pilot, then move campaigns",
+  figureIntro: "Keep the two 2027 dates, template category and observed delivery outcome visible in one plan.",
+  mobileFigure: `${images}/whatsapp-cloud-api-marketing-messages-sunset-2027/migration-path-mobile-editorial-2026-10-watermarked.webp`,
+  cards: [
+    { title: "Inventory", text: "Locate each account and marketing sender that still uses Cloud API." },
+    { title: "Route", text: "Use Meta's latest template category to choose the send endpoint." },
+    { title: "Verify", text: "Compare API response, delivery events and billing before rollout." },
+  ],
+};
+
 export const accountModelVisual: EditorialVisual = {
   eyebrow: "Cloud API account guide",
   heroSquare: `${images}/whatsapp-account-model-messaging-accounts-october-2026/cover-hero-square-editorial-2026-10-watermarked.webp`,

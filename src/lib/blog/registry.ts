@@ -2,6 +2,7 @@ import { cloudGuide, migrationGuide, indiaPricingGuide } from "./billing-guides"
 import { octoberPricingGuide, octoberPricingImages } from "./october-pricing-guide";
 import { directSendGuide } from "./direct-send-guide";
 import { accountModelGuide } from "./account-model-guide";
+import { marketingMessagesMigrationGuide } from "./marketing-messages-migration-guide";
 import { mcpNewsGuide } from "./mcp-news-guide";
 import { sheetsGuide, benefitsGuide, guideMarkdown } from "./erp-guides";
 import { rolloutGuides } from "./rollout-guides";
@@ -49,6 +50,29 @@ export interface BlogPostMeta {
 
 // All posts metadata - lightweight for listing page
 export const blogPosts: BlogPostMeta[] = [
+  {
+    id: "15",
+    editorial: { stage: "pending-human-review", evidenceCheckedAt: "2026-10-22", mediaCapturedAt: "2026-10-22", history: [] },
+    slug: marketingMessagesMigrationGuide.slug,
+    title: marketingMessagesMigrationGuide.title,
+    excerpt: marketingMessagesMigrationGuide.description,
+    category: "WhatsApp API",
+    tags: ["WhatsApp API", "Cloud API", "Marketing Messages API", "Migration", "2027"],
+    authorId: "1",
+    publishedAt: "2026-10-22",
+    readingTime: 8,
+    isFeatured: false,
+    coverImage: marketingMessagesMigrationGuide.cover?.src,
+    thumbnailImage: "/images/blog/whatsapp-cloud-api-marketing-messages-sunset-2027/listing-thumbnail-v3-2026-10.webp",
+    coverAlt: marketingMessagesMigrationGuide.cover?.alt,
+    coverCaption: marketingMessagesMigrationGuide.cover?.caption,
+    content: guideMarkdown(marketingMessagesMigrationGuide),
+    seo: {
+      title: "WhatsApp Cloud API Marketing Sunset: 2027 Migration Dates",
+      description: marketingMessagesMigrationGuide.description,
+      keywords: ["WhatsApp Cloud API marketing sunset", "Marketing Messages API migration", "WhatsApp marketing messages 2027", "Meta marketing API deadline"],
+    },
+  },
   {
     id: "14",
     editorial: { stage: "pending-human-review", evidenceCheckedAt: "2026-10-16", mediaCapturedAt: "2026-10-16", history: [] },

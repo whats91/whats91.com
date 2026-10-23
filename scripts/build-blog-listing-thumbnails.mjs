@@ -12,6 +12,14 @@ const root = path.resolve("public/images/blog");
 const logoPath = path.resolve("public/logo.svg");
 const jobs = [
   {
+    dir: "whatsapp-cloud-api-marketing-messages-sunset-2027",
+    source: "cover-hero-square-editorial-2026-10-watermarked.webp",
+    title: ["Marketing", "Messages"],
+    detail: "Cloud API · 2027",
+    background: "#EAF3E9",
+    titleSizes: [88, 83],
+  },
+  {
     dir: "whatsapp-account-model-messaging-accounts-october-2026",
     source: "cover-hero-square-editorial-2026-10-watermarked.webp",
     title: ["Account", "Model"],
